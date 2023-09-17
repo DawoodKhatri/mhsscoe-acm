@@ -21,10 +21,10 @@ const AppNavbar = () => {
           <Col className="h-full">
             <img src="/logo.png" className="py-2 h-full" />
           </Col>
-          <Col span={8} className="text-center">
+          <Col span={12} className="text-center">
             <Menu
               mode="horizontal"
-              className="w-full"
+              className="w-full bg-transparent"
               selectedKeys={getSelectedMenuItemKey()}
             >
               {NAV_ITEMS.map(({ label, href }, index) => (
@@ -38,7 +38,7 @@ const AppNavbar = () => {
           </Col>
           <Col>
             <Button className="mr-2">Login</Button>
-            <Button className="ml-2" type="primary">
+            <Button className="ml-2 bg-[#1677ff]" type="primary">
               Signup
             </Button>
           </Col>

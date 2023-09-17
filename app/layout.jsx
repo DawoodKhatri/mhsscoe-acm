@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
       <body>
         <AppProviders>
           <AppNavbar />
-          {children}
+          <div className="my-5">{children}</div>
           <AppFooter />
         </AppProviders>
       </body>
