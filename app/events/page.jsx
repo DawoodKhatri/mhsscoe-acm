@@ -51,15 +51,20 @@ const EventsPage = () => {
   return (
     <>
       <div className="relative">
-        <img className="w-full h-80 object-cover" src="/images/EventsBanner.jpg" />
+        <img
+          className="w-full h-96 object-cover align-middle"
+          src="/images/EventsBanner.jpg"
+        />
         <div className="absolute bg-blue-600 top-0 h-full w-full bg-opacity-50 flex justify-center items-center">
-          <h2 className="text-7xl font-bold text-left text-white">Our Events</h2>
+          <h2 className="text-7xl font-bold text-left text-white">
+            Our Events
+          </h2>
         </div>
       </div>
 
       <Row className="max-w-screen-xl mx-auto my-6">
         {EVENTS.map((event) => (
-          <Col span={8}>
+          <Col span={24} sm={{ span: 12 }} md={{ span: 8 }}>
             <EventCard {...event} />
           </Col>
         ))}
