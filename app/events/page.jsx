@@ -63,8 +63,8 @@ const EventsPage = () => {
       </div>
 
       <Row className="max-w-screen-xl mx-auto my-6">
-        {EVENTS.map((event) => (
-          <Col span={24} sm={{ span: 12 }} md={{ span: 8 }}>
+        {EVENTS.map((event,index) => (
+          <Col key={`events_page_event_${index}`} span={24} sm={{ span: 12 }} md={{ span: 8 }}>
             <EventCard {...event} />
           </Col>
         ))}
