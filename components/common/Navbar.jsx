@@ -30,8 +30,8 @@ const AppNavbar = () => {
               {NAV_ITEMS.map(({ label, href }, index) => (
                 <li
                   key={`navbar_manu_item_${index}`}
-                  className={`mx-4 border-b-primary hover:border-b-2 hover:cursor-pointer${
-                    href === pathname ? " text-primary border-b-2" : ""
+                  className={`mx-4 border-b-2 hover:border-b-primary hover:cursor-pointer ${
+                    href === pathname ? "text-primary border-b-primary" : "border-b-transparent"
                   }`}
                 >
                   <Link

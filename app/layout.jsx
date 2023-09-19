@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import AppProviders from "./providers";
+import AppProviders from "@/providers/providers";
 import AppNavbar from "@/components/common/Navbar";
 import AppFooter from "@/components/common/Footer";
 import BackgroundAnimation from "@/components/common/animation";
