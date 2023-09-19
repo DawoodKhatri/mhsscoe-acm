@@ -7,13 +7,13 @@ import Link from "next/link";
 const EventsPage = () => {
   return (
     <>
-      <Glassmorphism className="relative m-5">
+      <Glassmorphism className="relative">
         <img
-          className="w-full h-96 object-cover align-middle opacity-50"
+          className="w-full h-44 md:h-96 object-cover align-middle opacity-50"
           src="/images/EventsBanner.jpg"
         />
-        <div className="absolute bg-blue-500 top-0 h-full w-full bg-opacity-40 flex justify-center items-center">
-          <h2 className="text-7xl font-bold text-left text-white">
+        <div className="absolute bg-primary top-0 h-full w-full bg-opacity-40 flex justify-center items-center">
+          <h2 className="text-6xl md:text-7xl font-bold italic text-left text-white">
             Our Events
           </h2>
         </div>

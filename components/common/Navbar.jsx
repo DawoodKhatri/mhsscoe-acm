@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MenuOutlined } from "@ant-design/icons";
 import Glassmorphism from "./glassmorphism";
+import { colorPrimary } from "@/constants/colors";
 import { useState } from "react";
 
 const AppNavbar = () => {
@@ -19,8 +20,8 @@ const AppNavbar = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
-    <>
-      <Glassmorphism className="m-5 mb-0">
+    <div className="p-5 pb-0">
+      <Glassmorphism>
         <Layout.Header className="bg-transparent">
           <Row className="w-full h-full" justify="space-between">
             <Col className="h-full">
@@ -52,7 +53,7 @@ const AppNavbar = () => {
               xl={{ span: 4 }}
             >
               <Button className="mr-2">Login</Button>
-              <Button className="ml-2 bg-[#1677ff]" type="primary">
+              <Button className="ml-2 bg-primary" type="primary">
                 Signup
               </Button>
             </Col>
@@ -70,7 +71,7 @@ const AppNavbar = () => {
 
       <Glassmorphism
         className={`transition-all ease-in-out duration-1000 ${
-          mobileNavOpen ? "m-5" : "mx-5 scale-y-0 h-0"
+          mobileNavOpen ? "my-5" : " scale-y-0 h-0"
         }`}
       >
         <Menu
@@ -85,18 +86,18 @@ const AppNavbar = () => {
               </Link>
             </Menu.Item>
           ))}
-          <Button className="h-10 mx-1 w-[calc(100%-8px)]" type="text">
+          <Button className="h-10 mx-1 w-[calc(100%-8px)] my-1" type="text">
             Login
           </Button>
           <Button
-            className="h-10 mx-1 w-[calc(100%-8px)] bg-[] hover:bg-[] mb-1"
+            className="h-10 mx-1 w-[calc(100%-8px)] bg-primary hover:!bg-primary-light !text-white mb-1"
             type="text"
           >
             Signup
           </Button>
         </Menu>
       </Glassmorphism>
-    </>
+    </div>
   );
 };
 
