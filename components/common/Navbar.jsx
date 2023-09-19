@@ -1,21 +1,14 @@
 "use client";
 import { NAV_ITEMS } from "@/constants/navbar";
-import { Button, Col, Layout, Menu, Row } from "antd";
+import { Button, Menu } from "antd";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MenuOutlined } from "@ant-design/icons";
 import Glassmorphism from "./glassmorphism";
-import { colorPrimary } from "@/constants/colors";
 import { useState } from "react";
 
 const AppNavbar = () => {
   const pathname = usePathname();
-
-  const getSelectedMenuItemKey = () => {
-    return `navbar_manu_item_${NAV_ITEMS.indexOf(
-      NAV_ITEMS.filter(({ href }) => href === pathname)[0]
-    )}`;
-  };
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
