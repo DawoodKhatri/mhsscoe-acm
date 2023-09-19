@@ -1,7 +1,7 @@
 export const EVENT_DATA = [
   {
     title: "Code Loop",
-    details: {
+    info: {
       start_date: new Date(),
       end_date: new Date(),
       registration_end_date: new Date(),
