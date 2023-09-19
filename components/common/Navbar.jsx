@@ -4,6 +4,7 @@ import { Button, Col, Layout, Menu, Row } from "antd";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import Glassmorphism from "./glassmorphism";
 
 const AppNavbar = () => {
   const pathname = usePathname();
@@ -15,7 +16,7 @@ const AppNavbar = () => {
   };
 
   return (
-    <>
+    <Glassmorphism className="m-5">
       <Layout.Header className="bg-transparent">
         <Row className="w-full h-full" justify="space-between">
           <Col className="h-full">
@@ -44,7 +45,7 @@ const AppNavbar = () => {
           </Col>
         </Row>
       </Layout.Header>
-    </>
+    </Glassmorphism>
   );
 };
 
