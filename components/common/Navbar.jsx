@@ -10,6 +10,12 @@ import { useState } from "react";
 const AppNavbar = () => {
   const pathname = usePathname();
 
+  const getSelectedMenuItemKey = () => {
+    return `navbar_manu_item_${NAV_ITEMS.indexOf(
+      NAV_ITEMS.filter(({ href }) => href === pathname)[0]
+    )}`;
+  };
+
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
