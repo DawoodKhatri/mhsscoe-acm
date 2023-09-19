@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import AppProviders from "./providers";
 import AppNavbar from "@/components/common/Navbar";
 import AppFooter from "@/components/common/Footer";
+import BackgroundAnimation from "@/components/common/animation";
 
 export const metadata = {
   title: "MHSSCOE ACM CHAPTER",
@@ -14,17 +15,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <AppProviders>
-          <div className="fixed top-0 h-screen w-full overflow-hidden">
-            <img
-              className="object-cover align-middle absolute h-screen w-screen top-0"
-              src="https://png.pngtree.com/background/20211215/original/pngtree-geometric-gradient-background-with-glassmorphism-effect-and-light-color-picture-image_1472036.jpg"
-            />
+          <BackgroundAnimation />
+          <div className="relative">
+            <AppNavbar />
+            <div className="m-5">{children}</div>
+            {/* <AppFooter /> */}
           </div>
-          <AppNavbar />
-          <div className="m-5">
-          {children}
-          </div>
-          {/* <AppFooter /> */}
         </AppProviders>
       </body>
     </html>
