@@ -6,11 +6,11 @@ const HeroSection = () => {
   return (
     <Glassmorphism className="px-8 md:px-16">
       <div className="w-full h-[calc(100vh-126px)]  justify-center  items-center flex flex-col ">
-        <p className="text-6xl font-bold tracking-wide mt-2 text-primary">
+        <p className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-wide mt-2 text-primary text-center">
           MHSSCOE ACM COMMITTEE
         </p>
         <br />
-        <p className="text-primary-dark">
+        <p className="text-primary-dark text-center">
           MHSSCOE-ACM is a student chapter of ACM(Association for Computing
           Machinery), the world’s largest educational and scientific computing
           society. MHSSCOE-ACM was established in 2014 under the guidance of
