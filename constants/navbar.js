@@ -9,10 +9,10 @@ export const NAV_ITEMS = [
   },
   {
     label: "Gallery",
-    href: "/",
+    href: "/gallery",
   },
   {
     label: "Team",
-    href: "/",
+    href: "/team",
   },
 ];
