@@ -1,10 +1,18 @@
 import Glassmorphism from "@/components/common/glassmorphism";
 import EventCard from "@/components/events/eventCard";
 import { Col, Row } from "antd";
-import { EVENTS } from "@/constants/data";
+// import { EVENTS } from "@/constants/data";
 import Link from "next/link";
 
+// mdx imports here :)
+import { allEvents } from ".contentlayer/generated";
+
 const EventsPage = () => {
+  // Sorting posts by date 😊
+  const events = allEvents.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
   return (
     <>
       <Glassmorphism className="relative">
@@ -20,7 +28,7 @@ const EventsPage = () => {
       </Glassmorphism>
 
       <Row className="max-w-screen-xl mx-auto my-6">
-        {EVENTS.map((event, index) => (
+        {events.map((event, index) => (
           <Col
             key={`events_page_event_${index}`}
             span={24}
