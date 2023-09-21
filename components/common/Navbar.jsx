@@ -1,6 +1,6 @@
 "use client";
 import { NAV_ITEMS } from "@/constants/navbar";
-import { Button, Menu } from "antd";
+import { Button, Menu, Layout, Row, Col } from "antd";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MenuOutlined } from "@ant-design/icons";
@@ -25,8 +25,21 @@ const AppNavbar = () => {
           <div>
             <img src="/logo.png" className="py-2 h-16" />
           </div>
-          <div className="hidden md:block">
-            <ul className="flex">
+          <div className="hidden md:flex flex-1 text-center justify-center">
+            <Menu
+              mode="horizontal"
+              className="w-3/4 lg:w-3/5 !bg-transparent"
+              selectedKeys={getSelectedMenuItemKey()}
+            >
+              {NAV_ITEMS.map(({ label, href }, index) => (
+                <Menu.Item key={`navbar_manu_item_${index}`} className="w-1/4 py-[9px]">
+                  <Link href={href} className="">
+                    {label}
+                  </Link>
+                </Menu.Item>
+              ))}
+            </Menu>
+            {/* <ul className="flex">
               {NAV_ITEMS.map(({ label, href }, index) => (
                 <li
                   key={`navbar_manu_item_${index}`}
@@ -42,7 +55,7 @@ const AppNavbar = () => {
                   </Link>
                 </li>
               ))}
-            </ul>
+            </ul> */}
           </div>
           <div className="hidden md:flex">
             <Button className="mr-2">Login</Button>
@@ -61,13 +74,15 @@ const AppNavbar = () => {
         </nav>
       </Glassmorphism>
 
+      
+
       <Glassmorphism
         className={`transition-all ease-in-out duration-1000 md:hidden ${
           mobileNavOpen ? "my-5" : " scale-y-0 h-0"
         }`}
       >
         <Menu
-          className="w-full bg-transparent text-center"
+          className="w-full !bg-transparent text-center"
           selectedKeys={getSelectedMenuItemKey()}
           onClick={() => setMobileNavOpen(false)}
         >
@@ -82,7 +97,7 @@ const AppNavbar = () => {
             Login
           </Button>
           <Button
-            className="h-10 mx-1 w-[calc(100%-8px)] bg-primary hover:!bg-primary-light !text-white mb-1"
+            className="h-10 mx-1 w-[calc(100%-8px)] !bg-primary hover:!bg-primary-light !text-white mb-1"
             type="text"
           >
             Signup
