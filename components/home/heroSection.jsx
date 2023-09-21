@@ -1,16 +1,24 @@
 import React from "react";
 import Glassmorphism from "../common/glassmorphism";
 import { Button } from "antd";
+import { colorPrimary } from "@/constants/colors";
 
 const HeroSection = () => {
   return (
     <Glassmorphism className="px-8 md:px-16">
       <div className="w-full h-[calc(100vh-126px)]  justify-center  items-center flex flex-col ">
-      <p class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-wider mt-2 text-center">
-  <span class="" style={{"mix-blend-mode": "difference", "-webkit-text-stroke": "3px #4096FF", "text-stroke": "2px black","color":"transparent"}}>
-    MHSSCOE ACM COMMITTEE
-  </span>
-</p>
+        <p class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-wider mt-2 text-center">
+          <span
+            style={{
+              "mix-blend-mode": "difference",
+              "-webkit-text-stroke": `3px ${colorPrimary}`,
+              color: "transparent",
+            }}
+          >
+            MHSSCOE ACM COMMITTEE
+          </span>
+        </p>
+
         <br />
         <p className="text-primary-dark text-center">
           MHSSCOE-ACM is a student chapter of ACM(Association for Computing
