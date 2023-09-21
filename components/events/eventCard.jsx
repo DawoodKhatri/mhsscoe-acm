@@ -20,10 +20,10 @@ const EventCard = ({ title, image, description }) => {
         }
       >
         <Meta
-        className="!text-white"
+          className="!text-white"
           title={title}
           description={
-            <p className="text-ellipsis line-clamp-2">{description}</p>
+            <p className="text-ellipsis line-clamp-2 h-100 min-h-[44px]">{description}</p>
           }
         />
         <div className="flex items-center justify-end mt-3">
