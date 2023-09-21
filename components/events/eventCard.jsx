@@ -9,7 +9,7 @@ const EventCard = ({ title, image, description }) => {
   return (
     <Glassmorphism className="m-5 hover:scale-[1.03] transition-all duration-300">
       <Card
-        className="bg-transparent border-none"
+        className="!bg-transparent border-none"
         hoverable
         cover={
           <img
