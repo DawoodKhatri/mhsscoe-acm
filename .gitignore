@@ -36,3 +36,4 @@ next-env.d.ts
 
 # The files and folder that we have ignored :)
 .contentlayer
+package-lock.json
