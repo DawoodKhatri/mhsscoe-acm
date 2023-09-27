@@ -41,7 +41,6 @@ const HeroSection = () => {
           </Button>
         </div>
       </div>
-      <MailVerification name={"Dawood Khatri"} otp="568925" validity={5} ></MailVerification>
     </Glassmorphism>
   );
 };
