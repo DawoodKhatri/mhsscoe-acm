@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import commonReducer from "./reducers/commonReducer";
-import userReducer from "./reducers/userReducer";
+import authReducer from "./reducers/authReducer";
 
 const store = configureStore({
-  reducer: { common: commonReducer, user: userReducer },
+  reducer: { common: commonReducer, auth: authReducer },
 });
 
 export const dispatch = (action) => store.dispatch(action);

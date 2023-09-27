@@ -2,12 +2,13 @@ import React from "react";
 import Glassmorphism from "../common/glassmorphism";
 import { Button } from "antd";
 import { colorPrimary } from "@/constants/colors";
+import MailVerification from "../mail/verification";
 
 const HeroSection = () => {
   return (
     <Glassmorphism className="px-8 md:px-16">
       <div className="w-full h-[calc(100vh-126px)]  justify-center  items-center flex flex-col ">
-        <p class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-wider mt-2 text-center">
+        <p className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-wider mt-2 text-center">
           <span
             style={{
               "mix-blend-mode": "difference",
@@ -40,6 +41,7 @@ const HeroSection = () => {
           </Button>
         </div>
       </div>
+      <MailVerification name={"Dawood Khatri"} otp="568925" validity={5} ></MailVerification>
     </Glassmorphism>
   );
 };

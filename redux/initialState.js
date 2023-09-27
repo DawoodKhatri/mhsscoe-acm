@@ -2,6 +2,6 @@ export const commonInitialState = {
     isLoading: false
 }
 
-export const userInitialState = {
+export const authInitialState = {
     isLoggedIn: false
 }

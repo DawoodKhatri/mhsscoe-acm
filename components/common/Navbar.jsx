@@ -6,8 +6,11 @@ import { usePathname } from "next/navigation";
 import { MenuOutlined } from "@ant-design/icons";
 import Glassmorphism from "./glassmorphism";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import CommonServices from "@/services/common";
 
 const AppNavbar = () => {
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const pathname = usePathname();
 
   const getSelectedMenuItemKey = () => {
@@ -18,6 +21,12 @@ const AppNavbar = () => {
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
+  const logout = () => {
+    CommonServices.logout(
+      () => {},
+      () => {}
+    );
+  };
   return (
     <div className="p-5 pb-0">
       <Glassmorphism>
@@ -32,7 +41,10 @@ const AppNavbar = () => {
               selectedKeys={getSelectedMenuItemKey()}
             >
               {NAV_ITEMS.map(({ label, href }, index) => (
-                <Menu.Item key={`navbar_manu_item_${index}`} className="w-1/4 py-[9px]">
+                <Menu.Item
+                  key={`navbar_manu_item_${index}`}
+                  className="w-1/4 py-[9px]"
+                >
                   <Link href={href} className="">
                     {label}
                   </Link>
@@ -58,10 +70,27 @@ const AppNavbar = () => {
             </ul> */}
           </div>
           <div className="hidden md:flex">
-            <Button className="mr-2">Login</Button>
-            <Button className="ml-2 bg-primary" type="primary">
-              Signup
-            </Button>
+            {isLoggedIn ? (
+              <>
+                <Link href="/dashboard">
+                  <Button className="mr-2">Dashboard</Button>
+                </Link>
+                <Button className="ml-2 bg-primary" type="primary" onClick={logout}>
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link href="/login">
+                  <Button className="mr-2">Login</Button>
+                </Link>
+                <Link href="/register">
+                  <Button className="ml-2 bg-primary" type="primary">
+                    Register
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
           <div className="md:hidden">
             <Button
@@ -73,8 +102,6 @@ const AppNavbar = () => {
           </div>
         </nav>
       </Glassmorphism>
-
-      
 
       <Glassmorphism
         className={`transition-all ease-in-out duration-1000 md:hidden ${
@@ -93,15 +120,44 @@ const AppNavbar = () => {
               </Link>
             </Menu.Item>
           ))}
-          <Button className="h-10 mx-1 w-[calc(100%-8px)] my-1" type="text">
-            Login
-          </Button>
-          <Button
-            className="h-10 mx-1 w-[calc(100%-8px)] !bg-primary hover:!bg-primary-light !text-white mb-1"
-            type="text"
-          >
-            Signup
-          </Button>
+          {isLoggedIn ? (
+            <>
+              <Link href="/dashboard">
+                <Button
+                  className="h-10 mx-1 w-[calc(100%-8px)] my-1"
+                  type="text"
+                >
+                  Dashboard
+                </Button>
+              </Link>
+              <Button
+                className="h-10 mx-1 w-[calc(100%-8px)] !bg-primary hover:!bg-primary-light !text-white mb-1"
+                type="text"
+                onClick={logout}
+              >
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link href="/login">
+                <Button
+                  className="h-10 mx-1 w-[calc(100%-8px)] my-1"
+                  type="text"
+                >
+                  Login
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button
+                  className="h-10 mx-1 w-[calc(100%-8px)] !bg-primary hover:!bg-primary-light !text-white mb-1"
+                  type="text"
+                >
+                  Register
+                </Button>
+              </Link>
+            </>
+          )}
         </Menu>
       </Glassmorphism>
     </div>
