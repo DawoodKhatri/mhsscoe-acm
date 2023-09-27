@@ -34,7 +34,7 @@ export const MailVerification = ({ name, otp, validity }) => {
           <Row>
             <Text style={styles.subtitle}>Hey {name},</Text>
             <Text style={styles.paragraph}>
-              Thank you for choosing MHSSCOE-ACM. You're almost there, ready to
+              Thank you for choosing MHSSCOE-ACM. You&apos;re almost there, ready to
               embark on an incredible journey with us. To ensure the security of
               your email address, we kindly request you to verify it using the
               following one-time password (OTP):
@@ -47,7 +47,7 @@ export const MailVerification = ({ name, otp, validity }) => {
               .
             </Text>
             <Text style={styles.paragraph}>
-              If you didn't sign up for our service, no worries! You can safely
+              If you didn&apos;t sign up for our service, no worries! You can safely
               ignore this email.
             </Text>
             <Text style={styles.paragraph}>

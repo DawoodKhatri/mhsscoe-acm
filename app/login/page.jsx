@@ -58,7 +58,8 @@ const LoginPage = () => {
             Login
           </Button>
           <p className="text-center my-3">
-            Don't have an account ? <Link href="/register">Register Now</Link>
+            Don&apos;t have an account ?{" "}
+            <Link href="/register">Register Now</Link>
           </p>
         </Form>
       </Glassmorphism>
