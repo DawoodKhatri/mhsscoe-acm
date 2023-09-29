@@ -16,6 +16,10 @@ input * {
   background-color: transparent !important;
 }
 
-.ant-form-item-label>label {
+.ant-form-item-label > label {
   height: auto !important;
+}
+
+.ant-form-item-label {
+  text-align: start !important;
 }

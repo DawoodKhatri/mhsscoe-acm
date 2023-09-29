@@ -4,6 +4,7 @@ import AppNavbar from "@/components/common/Navbar";
 import AppFooter from "@/components/common/Footer";
 import BackgroundAnimation from "@/components/common/animation";
 import AppLoading from "@/components/common/loading";
+import RoutesProtection from "@/components/common/routesProtection";
 
 export const metadata = {
   title: "MHSSCOE ACM CHAPTER",
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <AppProviders>
+          <RoutesProtection />
           <BackgroundAnimation />
           <div className="relative">
             <AppNavbar />
