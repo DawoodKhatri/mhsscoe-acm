@@ -3,5 +3,5 @@ export const commonInitialState = {
 }
 
 export const authInitialState = {
-    isLoggedIn: false
+    isLoggedIn: null
 }

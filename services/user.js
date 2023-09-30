@@ -23,7 +23,7 @@ const UserService = {
       otp,
     }).then((res) => {
       if (res.success) {
-        dispatch(login({isLoggedIn: true}))
+        dispatch(login({ isLoggedIn: true }));
         onSuccess(res.message);
       } else {
         onError(res.message);
@@ -37,8 +37,18 @@ const UserService = {
       password,
     }).then((res) => {
       if (res.success) {
-        dispatch(login({isLoggedIn: true}))
+        dispatch(login({ isLoggedIn: true }));
         onSuccess(res.message);
+      } else {
+        onError(res.message);
+      }
+    });
+  },
+
+  getProfileDetails: (onSuccess, onError) => {
+    httpRequest(`/api/user/profile`, HTTP_METHODS.GET).then((res) => {
+      if (res.success) {
+        onSuccess(res.data);
       } else {
         onError(res.message);
       }

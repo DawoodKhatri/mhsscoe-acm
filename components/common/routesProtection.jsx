@@ -13,10 +13,10 @@ const RoutesProtection = () => {
 
   useEffect(() => {
     if (!isLoading) {
-      if (isLoggedIn) {
+      if (isLoggedIn === true) {
         if (pathname === "/login" || pathname === "/register")
           router.replace("/dashboard");
-      } else {
+      } else if(isLoggedIn === false) {
         if (pathname.includes("/dashboard")) router.replace("/login");
       }
     }

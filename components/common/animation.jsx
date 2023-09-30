@@ -25,7 +25,7 @@ const BackgroundAnimation = () => {
           );
         })}
       </div>
-
+      {/* <img src="/images/bg-3.jpg" className="w-full h-full object-cover"/> */}
       {/* <img
               className="object-cover align-middle absolute h-screen w-screen top-0"
               src="https://png.pngtree.com/background/20211215/original/pngtree-geometric-gradient-background-with-glassmorphism-effect-and-light-color-picture-image_1472036.jpg"
