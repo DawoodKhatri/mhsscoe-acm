@@ -5,7 +5,7 @@ const Glassmorphism = ({ children, className }) => {
     <div
       className={`${
         className ?? ""
-      } bg-white bg-opacity-20 rounded-lg shadow-5xl border border-opacity-30  backdrop-filter backdrop-blur-md overflow-hidden`}
+      } bg-white bg-opacity-10 rounded-lg shadow-5xl border border-opacity-30  backdrop-filter backdrop-blur-md overflow-hidden`}
     >
       {children}
     </div>

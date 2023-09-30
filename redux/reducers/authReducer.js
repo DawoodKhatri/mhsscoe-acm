@@ -10,7 +10,9 @@ const authReducer = createSlice({
       isLoggedIn: true,
       ...details,
     }),
-    logout: () => authInitialState,
+    logout: () => ({
+      isLoggedIn: false,
+    }),
   },
 });
 
