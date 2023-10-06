@@ -16,11 +16,10 @@ const UserService = {
     });
   },
 
-  registerUser: ({ email, password, otp }, onSuccess, onError) => {
+  registerUser: ({ password, token }, onSuccess, onError) => {
     httpRequest(`/api/user/auth/registration`, HTTP_METHODS.POST, {
-      email,
       password,
-      otp,
+      token,
     }).then((res) => {
       if (res.success) {
         dispatch(login({ isLoggedIn: true }));

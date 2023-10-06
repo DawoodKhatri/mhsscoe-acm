@@ -5,10 +5,9 @@ const authReducer = createSlice({
   name: "auth",
   initialState: authInitialState,
   reducers: {
-    login: (state, { payload: details }) => ({
+    login: (state) => ({
       ...state,
       isLoggedIn: true,
-      ...details,
     }),
     logout: () => ({
       isLoggedIn: false,

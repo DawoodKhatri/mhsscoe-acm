@@ -1,31 +1,29 @@
-import nodemailer from "nodemailer";
-import MailVerification from "@/components/mail/verification";
+import Mailjet from "node-mailjet";
 
-export const sendVerificationMail = async (email, otp) => {
-  const from = "ACM OFFICE";
-  const user = process.env.EMAIL_USERNAME;
-  const pass = process.env.EMAIL_PASSWORD;
+export const sendVerificationMail = async (name, email, confirmation_link) => {
+  try {
+    const mailjet = Mailjet.apiConnect(
+      process.env.MJ_API_KEY,
+      process.env.MJ_API_SECRET
+    );
 
-  const date = new Date();
-  date.setHours(date.getHours() + 1);
-
-  let mailTemplate = MailVerification({
-    name: email.split("@")[0],
-    otp: otp,
-    validity: 5
-  });
-
-  const options = {
-    from: `${from} <${user}>`,
-    to: email,
-    subject: "Email Verification",
-    html: mailTemplate,
-  };
-
-  let transpoter = nodemailer.createTransport({
-    service: "Gmail",
-    auth: { user, pass },
-  });
-
-  await transpoter.sendMail(options);
+    await mailjet.post("send", { version: 'v3.1' }).request({
+      Messages: [
+        {
+          
+          From: { Email: "dawood.612027.it@mhssce.ac.in", Name: "ACM OFFICE" },
+          To:[ { Email: email, Name: name }],
+          TemplateID: 5161327,
+          TemplateLanguage: true,
+          Subject: "Verify your email address to create your account",
+          Variables: {
+            name: name,
+            confirmation_link: confirmation_link,
+          },
+        },
+      ],
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };

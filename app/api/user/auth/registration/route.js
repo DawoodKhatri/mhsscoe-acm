@@ -1,26 +1,23 @@
 import { connectDB } from "@/config/database";
 import User from "@/models/user";
-import Verification from "@/models/verification";
+import { getDetailsFromEmail } from "@/utils/detailsFromEmail";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
+import { verifyEmailToken } from "@/utils/verification";
 
 export const POST = async (req) => {
   try {
-    const { email, password, otp } = await req.json();
-
-    if (!email || !password || !otp)
+    const { token: emailToken, password } = await req.json();
+console.log(emailToken,password);
+    if (!emailToken || !password)
       return errorResponse(400, "Please fill all the fields");
+
+    const { email } = verifyEmailToken(emailToken);
+    if (!email) return errorResponse(401, "Invalid token");
 
     await connectDB();
 
-    let verification = await Verification.findOne({ email, otp });
-    if (!verification) return errorResponse(401, "Incorrect OTP");
-
-    let difference =
-      (new Date().getTime() - verification.updatedAt.getTime()) / 1000 / 60;
-    if (difference > 5) return errorResponse(422, "OTP Expired");
-
-    await verification.deleteOne();
-    const user = await User.create({ email, password });
+    const { name, rollno, branch } = getDetailsFromEmail(email);
+    const user = await User.create({ email, password, name, rollno, branch });
 
     const response = successResponse(200, "Registration done successfully");
 

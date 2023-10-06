@@ -2,15 +2,16 @@ import User from "@/models/user";
 import checkAuth from "@/utils/checkAuth";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 
-export const GET = async (req) => {
+export const POST = async (req) => {
   try {
     const authId = await checkAuth(req);
-    if (!authId) return errorResponse(401, "Logged out");
+    if (!authId)
+      return successResponse(200, "Auth Check", { isLoggedIn: false });
 
     let auth = await User.findById(authId);
-    // if(!auth) auth = await
+    if (!auth) return successResponse(200, "Auth Check", { isLoggedIn: false });
 
-    return successResponse(200, "Logged in", auth);
+    return successResponse(200, "Auth Check", { isLoggedIn: true });
   } catch (error) {
     return errorResponse(500, error.message);
   }

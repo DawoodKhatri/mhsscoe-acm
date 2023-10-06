@@ -1,3 +1,13 @@
-export const generateOTP = () => {
-  return Math.floor(100000 + Math.random() * 900000);
+import jwt from "jsonwebtoken";
+
+export const generateEmailToken = (email) => {
+  return jwt.sign({ email }, process.env.JWT_SECRET);
+};
+
+export const verifyEmailToken = (token) => {
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch (error) {
+    return {email: null};
+  }
 };

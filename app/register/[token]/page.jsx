@@ -8,18 +8,19 @@ import RegistrationDetailsVerificationInput from "@/components/register/registra
 import UserService from "@/services/user";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { MailOutlined } from "@ant-design/icons";
+import { LockOutlined } from "@ant-design/icons";
 
-const RegistrationPage = () => {
+const RegistrationFinishPage = ({ params: { token } }) => {
+  const router = useRouter();
   const [form] = useForm();
-  const [step, setStep] = useState(0);
+  const [details, setDetails] = useState({});
 
   const onFormSubmit = (fields) => {
-    const { email } = fields;
-    UserService.getVerificationMail(
-      { email },
+    const { password } = fields;
+    UserService.registerUser(
+      { password, token },
       (message) => {
-        alert(message);
+        router.replace("/dashboard");
       },
       (message) => {
         alert(message);
@@ -37,38 +38,22 @@ const RegistrationPage = () => {
           requiredMark={false}
           onFinish={onFormSubmit}
         >
-          <h2 className="text-center font-bold text-4xl mb-6">Registration</h2>
-          <p className="text-center my-5">
-            A verification email will be sent on your email address to complete your registration
-          </p>
-          <Form.Item
-            name="email"
-            label="Email Address:"
-            rules={[
-              {
-                validator: (_, value) => {
-                  if (!value) return Promise.reject("Email required");
-                  if (!value.endsWith("@mhssce.ac.in"))
-                    return Promise.reject(
-                      "Please enter a valid college domain email"
-                    );
-                  return Promise.resolve();
-                },
-              },
-            ]}
-          >
-            <Input
-              placeholder="Email address (@mhssce.ac.in)"
-              prefix={<MailOutlined />}
+          <h2 className="text-center font-bold text-4xl mb-6">
+            Set Password
+          </h2>
+          <Form.Item name="password" label="Password:">
+            <Input.Password
+              placeholder="Enter Password"
+              prefix={<LockOutlined />}
               size="large"
             />
           </Form.Item>
 
           <Button type="primary" htmlType="submit" block>
-            Get Verification Email
+            Complete Registration
           </Button>
           <p className="text-center my-3">
-            Already have an account ? <Link href="/login">Login</Link>
+            <Link href="/register">Back to registration</Link>
           </p>
         </Form>
       </Glassmorphism>
@@ -76,4 +61,4 @@ const RegistrationPage = () => {
   );
 };
 
-export default RegistrationPage;
+export default RegistrationFinishPage;
