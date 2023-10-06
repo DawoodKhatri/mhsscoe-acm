@@ -1,4 +1,4 @@
-const BackgroundAnimation = () => {
+const AppBackground = () => {
   const randomPosition = () => Math.floor(Math.random() * 100) + "%";
   const randomSize = () => Math.floor(Math.random() * 60) + 20 + "px";
   const randomDuration = () => Math.floor(Math.random() * 3000) + 1000 + "ms";
@@ -34,4 +34,4 @@ const BackgroundAnimation = () => {
   );
 };
 
-export default BackgroundAnimation;
+export default AppBackground;

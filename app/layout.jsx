@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import AppProviders from "@/providers/providers";
 import AppNavbar from "@/components/common/Navbar";
 import AppFooter from "@/components/common/Footer";
-import BackgroundAnimation from "@/components/common/animation";
+import AppBackground from "/components/common/appBackground";
 import AppLoading from "@/components/common/loading";
 import RoutesProtection from "@/components/common/routesProtection";
 
@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
       <body>
         <AppProviders>
           <RoutesProtection />
-          <BackgroundAnimation />
+          <AppBackground />
           <div className="relative">
             <AppNavbar />
             <div className="m-5 min-h-[calc(100vh-86px-40px)]">{children}</div>
