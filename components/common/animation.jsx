@@ -5,7 +5,7 @@ const BackgroundAnimation = () => {
 
   return (
     <div className="fixed top-0 h-screen w-full overflow-hidden">
-      <div className="relative w-full h-screen flex justify-center items-center ">
+      {/* <div className="relative w-full h-screen flex justify-center items-center ">
         <div className="absolute top-[calc(50%-192px)] left-[calc50%-192px] h-80 w-80 rounded-full bg-gradient-to-t from-blue-300  to-cyan-50 animate-pulse duration-200"></div>
 
         {[...Array(10)].map((_, index) => {
@@ -24,8 +24,8 @@ const BackgroundAnimation = () => {
             ></div>
           );
         })}
-      </div>
-      {/* <img src="/images/bg-3.jpg" className="w-full h-full object-cover"/> */}
+      </div> */}
+      <img src="/images/bg-1.jpg" className="w-full h-full object-cover"/>
       {/* <img
               className="object-cover align-middle absolute h-screen w-screen top-0"
               src="https://png.pngtree.com/background/20211215/original/pngtree-geometric-gradient-background-with-glassmorphism-effect-and-light-color-picture-image_1472036.jpg"
