@@ -16,6 +16,7 @@ const userSchema = new Schema(
     isMember: { type: Boolean, default: false },
     events: { type: ObjectId, ref: "Events" },
     achievements: { type: ObjectId, ref: "Achievements" },
+    isProfileIncomplete: { type: Boolean, default: true },
   },
   { versionKey: false }
 );

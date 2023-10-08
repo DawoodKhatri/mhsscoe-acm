@@ -11,11 +11,7 @@ const UserDashboardProfile = () => {
   useEffect(() => {
     UserService.getProfileDetails(
       (details) => {
-        if (!details.profilePicture) {
-          router.push("/dashboard/profile/update");
-        } else {
-          setProfileDetails(details);
-        }
+        setProfileDetails(details);
       },
       (message) => {
         alert(message);

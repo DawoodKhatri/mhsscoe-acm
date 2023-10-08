@@ -23,18 +23,16 @@ const DashboardPageLayout = ({ children }) => {
 
   const getSelectedMenuItemKey = () => {
     return `user_dashboard_side_item_${USER_DASHBOARD_SIDE_ITEMS.indexOf(
-      USER_DASHBOARD_SIDE_ITEMS.filter(({ href }) => href === pathname)[0]
+      USER_DASHBOARD_SIDE_ITEMS.filter(({ href }) => pathname.includes(href))[0]
     )}`;
   };
-
   return (
     <>
       <Layout className="!bg-transparent relative">
         <Layout.Sider
           className="!bg-transparent h-[calc(100vh-86px-40px)] mr-0 md:mr-5"
-          width={md ? 256 : "100%"}
+          width={256}
           collapsedWidth={0}
-          collapsed={isSiderCollapsed}
         >
           <Glassmorphism className="h-full">
             <Menu
@@ -49,12 +47,14 @@ const DashboardPageLayout = ({ children }) => {
             </Menu>
           </Glassmorphism>
         </Layout.Sider>
-        {(md || (!md && isSiderCollapsed)) && (
-          <Layout.Content>
-            <Glassmorphism className="h-full">{children}</Glassmorphism>
-          </Layout.Content>
-        )}
-        <div
+        {/* {(md || (!md && isSiderCollapsed)) && ( */}
+        <Layout.Content>
+          {/* <Glassmorphism className="h-full"> */}
+          {children}
+          {/* </Glassmorphism> */}
+        </Layout.Content>
+        {/* )} */}
+        {/* <div
           className={`h-screen fixed top-0 ${
             isSiderCollapsed ? "left-0" : "right-0"
           } flex items-center md:hidden`}
@@ -70,7 +70,7 @@ const DashboardPageLayout = ({ children }) => {
             }
             onClick={() => setSiderCollapsed(!isSiderCollapsed)}
           />
-        </div>
+        </div> */}
       </Layout>
     </>
   );

@@ -10,7 +10,7 @@ export const POST = async (req) => {
 
     const { name } = getDetailsFromEmail(email);
     const token = generateEmailToken(email);
-    const confirmation_link = `http://localhost:3000/register/${token}`;
+    const confirmation_link = `${process.env.CLIENT_URL}/register/${token}`;
 
     await sendVerificationMail(name, email, confirmation_link);
 

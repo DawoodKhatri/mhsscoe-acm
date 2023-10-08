@@ -1,4 +1,9 @@
-import { login, logout } from "@/redux/reducers/authReducer";
+import {
+  login,
+  logout,
+  profileComplete,
+  profileIncomplete,
+} from "@/redux/reducers/authReducer";
 import { dispatch } from "@/redux/store";
 
 const { HTTP_METHODS } = require("@/constants/httpMethods");
@@ -10,12 +15,25 @@ const CommonServices = {
       if (res.success) {
         if (res.data.isLoggedIn) {
           dispatch(login());
+          CommonServices.getProfileStatus();
         } else {
           dispatch(logout());
         }
       } else {
         dispatch(logout());
       }
+    });
+  },
+
+  getProfileStatus: (onSuccess, onError) => {
+    httpRequest(`/api/user/profile/status`, HTTP_METHODS.GET).then((res) => {
+      if (res.success) {
+        if (res.data.isProfileIncomplete) {
+          dispatch(profileIncomplete());
+        } else {
+          dispatch(profileComplete());
+        }
+      } 
     });
   },
 

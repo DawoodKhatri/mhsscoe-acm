@@ -12,9 +12,18 @@ const authReducer = createSlice({
     logout: () => ({
       isLoggedIn: false,
     }),
+    profileIncomplete: (state) => ({
+      ...state,
+      isProfileIncomplete: true,
+    }),
+    profileComplete: (state) => ({
+      ...state,
+      isProfileIncomplete: undefined,
+    }),
   },
 });
 
-export const { login, logout } = authReducer.actions;
+export const { login, logout, profileIncomplete, profileComplete } =
+  authReducer.actions;
 
 export default authReducer.reducer;

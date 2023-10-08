@@ -7,7 +7,7 @@ const AppLoading = () => {
   const { isLoading } = useSelector((state) => state.common);
   if (isLoading)
     return (
-      <div className="fixed top-0 h-screen w-full overflow-hidden bg-black bg-opacity-20 flex justify-center items-center">
+      <div className="fixed top-0 h-screen w-full overflow-hidden bg-white bg-opacity-40 flex justify-center items-center">
         <PropagateLoader color="#1677ff" size={30}/>
       </div>
     );
