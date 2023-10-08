@@ -1,26 +1,28 @@
 import React from "react";
 import Glassmorphism from "../common/glassmorphism";
 import { Button } from "antd";
+import "../../styles/headingAnimation.css";
 import { colorPrimary } from "@/constants/colors";
 
 const HeroSection = () => {
   return (
     <Glassmorphism className="px-8 md:px-16">
       <div className="w-full h-[calc(100vh-126px)]  justify-center  items-center flex flex-col ">
-        <p class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-wider mt-2 text-center">
-          <span
-            style={{
-              "mix-blend-mode": "difference",
-              "-webkit-text-stroke": `3px ${colorPrimary}`,
-              color: "transparent",
-            }}
+        {/* <p className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-wider mt-2 text-center"> */}
+          <span className="content text-center"
+            // style={{
+            //   "mix-blend-mode": "difference",
+            //   "-webkit-text-stroke": `3px ${colorPrimary}`,
+            //   color: "transparent",
+            // }}
           >
-            MHSSCOE ACM COMMITTEE
+            <h2 className="font-bold">MHSSCOE ACM</h2>
+            <h2 className="font-bold">MHSSCOE ACM</h2>
           </span>
-        </p>
+        {/* </p> */}
 
         <br />
-        <p className="text-primary-dark text-center">
+        <p className="text-primary-dark text-center mt-10 font-semibold uppercase text-sm">
           MHSSCOE-ACM is a student chapter of ACM(Association for Computing
           Machinery), the world’s largest educational and scientific computing
           society. MHSSCOE-ACM was established in 2014 under the guidance of
