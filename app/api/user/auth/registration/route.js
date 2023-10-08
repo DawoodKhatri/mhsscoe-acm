@@ -7,7 +7,6 @@ import { verifyEmailToken } from "@/utils/verification";
 export const POST = async (req) => {
   try {
     const { token: emailToken, password } = await req.json();
-console.log(emailToken,password);
     if (!emailToken || !password)
       return errorResponse(400, "Please fill all the fields");
 
@@ -16,8 +15,11 @@ console.log(emailToken,password);
 
     await connectDB();
 
+    let user = await User.findOne({ email });
+    if (user) return errorResponse(403, "Already registered");
+
     const { name, rollno, branch } = getDetailsFromEmail(email);
-    const user = await User.create({ email, password, name, rollno, branch });
+    user = await User.create({ email, password, name, rollno, branch });
 
     const response = successResponse(200, "Registration done successfully");
 
