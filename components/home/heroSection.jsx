@@ -9,12 +9,12 @@ const HeroSection = () => {
       <div className="w-full min-h-[calc(100vh-126px)]  justify-center  items-center flex flex-col ">
         <div className="relative text-center w-full">
           <h2
-            className="font-bold text-4xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-transparent"
+            className="font-bold text-3xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-transparent"
             style={{ WebkitTextStroke: `2px ${colorPrimary}` }}
           >
             MHSSCOE ACM
           </h2>
-          <h2 className="font-bold text-4xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl w-full absolute top-0 left-[50%] -translate-x-[50%] text-primary animate-[water-flow-animation_4s_ease-in-out_infinite]">
+          <h2 className="font-bold text-3xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl w-full absolute top-0 left-[50%] -translate-x-[50%] text-primary animate-[water-flow-animation_4s_ease-in-out_infinite]">
             MHSSCOE ACM
           </h2>
         </div>
