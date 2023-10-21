@@ -8,29 +8,16 @@ import { Typography } from "antd";
 import Glassmorphism from "@/components/common/glassmorphism";
 import UserService from "@/services/user";
 import { useForm } from "antd/es/form/Form";
-
-const getBase64 = (img, callback) => {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-};
-
-const beforeUpload = (file) => {
-  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-  if (!isJpgOrPng) {
-    message.error("You can only upload JPG/PNG file!");
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error("Image must smaller than 2MB!");
-  }
-  return isJpgOrPng && isLt2M;
-};
+import getBase64 from "@/utils/getBase64";
+import { useRouter } from "next/navigation";
+import CommonServices from "@/services/common";
 
 const UserDashboardProfileUpdate = () => {
+  const router = useRouter();
   const [form] = useForm();
   const [pictureData, setPictureData] = useState();
   const [data, setData] = useState({
+    profilePicture: null,
     name: "",
     email: "",
     branch: "",
@@ -40,7 +27,7 @@ const UserDashboardProfileUpdate = () => {
     github: "",
   });
 
-  const handleChange = (info) => {
+  const handleProfilePictureChange = (info) => {
     getBase64(info.file.originFileObj, (data) => setPictureData(data));
   };
 
@@ -57,6 +44,30 @@ const UserDashboardProfileUpdate = () => {
     );
   }, []);
 
+  const handleSubmit = (fields) => {
+    if (fields.profilePicture.file) {
+      fields.profilePicture = fields.profilePicture.file.originFileObj;
+    } else {
+      delete fields.profilePicture;
+    }
+    console.log(fields);
+    UserService.updateProfileDetails(
+      fields,
+      (message) => {
+        CommonServices.getProfileStatus(
+          (message) => {
+            alert(message);
+            router.replace("/dashboard");
+          },
+          (message) => {}
+        );
+      },
+      (message) => {
+        alert(message);
+      }
+    );
+  };
+
   return (
     <Glassmorphism>
       <div className="flex justify-center items-center">
@@ -64,36 +75,56 @@ const UserDashboardProfileUpdate = () => {
           <h2 className="text-3xl font-bold text-center mb-5">
             Profile Update
           </h2>
-          <Form layout="vertical" size="large" form={form}>
+          <Form
+            layout="vertical"
+            size="large"
+            form={form}
+            initialValues={data ?? {}}
+            onFinish={handleSubmit}
+          >
             <Row gutter={[32]} align="middle">
               <Col span={24} md={{ span: 8 }}>
                 <div className="text-center">
-                  <Upload
-                    listType="picture-card"
-                    accept="image/png, image/jpeg, image/jpg"
-                    className="!w-[124px] !h-[124px] overflow-hidden"
-                    showUploadList={false}
-                    onChange={handleChange}
+                  <Form.Item
+                    className="!mb-0"
+                    name="profilePicture"
+                    valuePropName="file"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please Select Profile Picture",
+                      },
+                    ]}
                   >
-                    {pictureData ? (
-                      <div className="w-full h-full relative">
-                        <img
-                          src={pictureData}
-                          alt="Profile Picture"
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute top-0 w-full h-full flex flex-col justify-center items-center opacity-0 text-white bg-black bg-opacity-50 hover:opacity-100">
+                    <Upload
+                      listType="picture-card"
+                      accept="image/png, image/jpeg, image/jpg"
+                      className="!w-[124px] !h-[124px] overflow-hidden"
+                      customRequest={() => {}}
+                      showUploadList={false}
+                      multiple={false}
+                      onChange={handleProfilePictureChange}
+                    >
+                      {pictureData ? (
+                        <div className="w-full h-full relative">
+                          <img
+                            src={pictureData}
+                            alt="Profile Picture"
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute top-0 w-full h-full flex flex-col justify-center items-center opacity-0 text-white bg-black bg-opacity-50 hover:opacity-100">
+                            <PlusOutlined />
+                            <div className="mt-3">Upload</div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="w-full h-full flex flex-col justify-center items-center">
                           <PlusOutlined />
                           <div className="mt-3">Upload</div>
                         </div>
-                      </div>
-                    ) : (
-                      <div className="w-full h-full flex flex-col justify-center items-center">
-                        <PlusOutlined />
-                        <div className="mt-3">Upload</div>
-                      </div>
-                    )}
-                  </Upload>
+                      )}
+                    </Upload>
+                  </Form.Item>
                 </div>
               </Col>
               <Col span={24} md={{ span: 16 }}>
@@ -153,16 +184,18 @@ const UserDashboardProfileUpdate = () => {
                   rules={[{ required: true }]}
                 >
                   <Select
-                  disabled
-                    defaultValue="IT"
+                    disabled
                     options={[
                       { value: "it", label: "Information Technology" },
-                      { value: "MECH", label: "MECH" },
-                      { value: "COMPS", label: "COMPS" },
-                      { value: "COMPS-AI", label: "COMPS-AI" },
-                      { value: "EXTC", label: "EXTC" },
-                      { value: "CIVIL", label: "CIVIL" },
-                      { value: "AUTO", label: "AUTO" },
+                      { value: "MECH", label: "Computer Science" },
+                      { value: "COMPS", label: "CSE - AI & ML" },
+                      { value: "COMPS-AI", label: "CSE - Blockchain & IOT" },
+                      {
+                        value: "EXTC",
+                        label: "Electronics & Telecommunication",
+                      },
+                      { value: "AUTO", label: "Mechanical" },
+                      { value: "CIVIL", label: "Civil" },
                     ]}
                     onChange={(value) => {
                       setData({ ...data, branch: value });
@@ -177,7 +210,6 @@ const UserDashboardProfileUpdate = () => {
                   rules={[{ required: true }]}
                 >
                   <Select
-                    defaultValue="I"
                     options={[
                       { value: 1, label: "F.E." },
                       { value: 2, label: "S.E." },
@@ -192,28 +224,34 @@ const UserDashboardProfileUpdate = () => {
               </Col>
             </Row>
 
-            <Row gutter={[32]}>
-              <Col span={24} md={{ span: 12 }}>
-                <Form.Item name="linkedin" label="LinkedIn Profile URL">
-                  <Input
-                    onChange={(e) => {
-                      setData({ ...data, linkedin: e.target.value });
-                    }}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={24} md={{ span: 12 }}>
-                <Form.Item name="github" label="Github Profile URL">
-                  <Input
-                    onChange={(e) => {
-                      setData({ ...data, github: e.target.value });
-                    }}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
+            {data?.isMember && (
+              <Row gutter={[32]}>
+                <Col span={24} md={{ span: 12 }}>
+                  <Form.Item name="linkedin" label="LinkedIn Profile URL">
+                    <Input
+                      onChange={(e) => {
+                        setData({ ...data, linkedin: e.target.value });
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={24} md={{ span: 12 }}>
+                  <Form.Item name="github" label="Github Profile URL">
+                    <Input
+                      onChange={(e) => {
+                        setData({ ...data, github: e.target.value });
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+            )}
             <div className="text-center">
-              <Button type="primary" className="w-full md:w-56">
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="w-full md:w-56"
+              >
                 Save
               </Button>
             </div>

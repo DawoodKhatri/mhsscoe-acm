@@ -15,7 +15,10 @@ const CommonServices = {
       if (res.success) {
         if (res.data.isLoggedIn) {
           dispatch(login());
-          CommonServices.getProfileStatus();
+          CommonServices.getProfileStatus(
+            (message) => {},
+            (message) => {}
+          );
         } else {
           dispatch(logout());
         }
@@ -30,10 +33,14 @@ const CommonServices = {
       if (res.success) {
         if (res.data.isProfileIncomplete) {
           dispatch(profileIncomplete());
+          onSuccess(res.message);
         } else {
           dispatch(profileComplete());
+          onSuccess(res.message);
         }
-      } 
+      } else {
+        onError(res.message);
+      }
     });
   },
 

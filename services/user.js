@@ -53,6 +53,19 @@ const UserService = {
       }
     });
   },
+
+  updateProfileDetails: (details, onSuccess, onError) => {
+    let form = new FormData();
+    Object.keys(details).forEach((key) => form.append(key, details[key]));
+
+    httpRequest(`/api/user/profile`, HTTP_METHODS.PUT, form, true).then((res) => {
+      if (res.success) {
+        onSuccess(res.message);
+      } else {
+        onError(res.message);
+      }
+    });
+  },
 };
 
 export default UserService;

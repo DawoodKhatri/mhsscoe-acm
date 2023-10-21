@@ -1,7 +1,7 @@
 import { connectDB } from "@/config/database";
 import User from "@/models/user";
 import checkAuth from "@/utils/checkAuth";
-import { upload } from "@/utils/firebaseStorage";
+import { getUrl, upload } from "@/utils/firebaseStorage";
 import resizeImage from "@/utils/resizeImage";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 
@@ -13,18 +13,20 @@ export const GET = async (req) => {
     const user = await User.findById(userId);
     if (!user) return errorResponse(404, "Account not found");
 
+    user.profilePicture = await getUrl(user.profilePicture);
+
     return successResponse(200, "Profile Details", user);
   } catch (error) {
     return errorResponse(500, error.message);
   }
 };
 
-export const POST = async (req) => {
+export const PUT = async (req) => {
   try {
     const { profilePicture, name, email, rollno, branch, year } =
       Object.fromEntries(await req.formData());
 
-    if (!profilePicture || !name || !email || !rollno || !branch || !year)
+    if (!name || !email || !rollno || !branch || !year)
       return errorResponse(400, "Please fill all the fields");
 
     await connectDB();
@@ -32,18 +34,23 @@ export const POST = async (req) => {
     const user = await User.findOne({ email });
     if (!user) return errorResponse(404, "Account not found");
 
-    const profilePictureBuffer = await resizeImage(
-      await profilePicture.arrayBuffer()
-    );
+    if (!user.profilePicture && !profilePicture) {
+      return errorResponse(400, "Please fill all the fields");
+    } else if (profilePicture) {
+      const profilePictureBuffer = await resizeImage(
+        await profilePicture.arrayBuffer()
+      );
 
-    const profilePicturePath = await upload(
-      "Profile-Pictures",
-      `${user._id}.jpg`,
-      profilePictureBuffer,
-      profilePicture.type
-    );
+      const profilePicturePath = await upload(
+        "Profile-Pictures",
+        `${user._id}.jpg`,
+        profilePictureBuffer,
+        profilePicture.type
+      );
 
-    user.profilePicture = profilePicturePath;
+      user.profilePicture = profilePicturePath;
+    }
+
     user.name = name;
     user.rollno = rollno;
     user.branch = branch;
