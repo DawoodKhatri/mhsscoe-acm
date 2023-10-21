@@ -11,7 +11,7 @@ export const GET = async (req) => {
     if (!user) return errorResponse(404, "Account not found");
 
     return successResponse(200, "Profile Status", {
-      isProfileIncomplete: user.isProfileIncomplete ? true : false,
+      isProfileIncomplete: user.profilePicture && user.year ? false : true,
     });
   } catch (error) {
     return errorResponse(500, error.message);
