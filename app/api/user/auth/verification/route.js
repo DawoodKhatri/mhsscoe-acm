@@ -16,6 +16,6 @@ export const POST = async (req) => {
 
     return successResponse(200, "Verification mail sent");
   } catch (error) {
-    return errorResponse(500, error.message.toString());
+    return errorResponse(500, error.message);
   }
 };

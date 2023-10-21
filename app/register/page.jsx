@@ -58,7 +58,7 @@ const RegistrationPage = () => {
             ]}
           >
             <Input
-              placeholder="Email address (@mhssce.ac.in)"
+              placeholder="Student Email address (@mhssce.ac.in)"
               prefix={<MailOutlined />}
               size="large"
             />
