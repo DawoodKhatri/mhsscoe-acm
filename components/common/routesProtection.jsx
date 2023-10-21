@@ -17,7 +17,6 @@ const RoutesProtection = () => {
     if (!isLoading) {
       if (isLoggedIn === true) {
         if (pathname === "/login" || pathname === "/register") {
-          alert("loggedin");
           router.replace("/dashboard");
         }
 

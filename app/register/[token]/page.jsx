@@ -1,10 +1,8 @@
 "use client";
 import Glassmorphism from "@/components/common/glassmorphism";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message as showMessage } from "antd";
 import React, { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
-import RegistrationDetailsInput from "@/components/register/registrationDetailsInput";
-import RegistrationDetailsVerificationInput from "@/components/register/registrationDetailsVerificationInput";
 import UserService from "@/services/user";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,7 +21,7 @@ const RegistrationFinishPage = ({ params: { token } }) => {
         router.replace("/dashboard");
       },
       (message) => {
-        alert(message);
+        showMessage.error(message);
       }
     );
   };

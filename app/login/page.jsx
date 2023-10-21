@@ -1,6 +1,6 @@
 "use client";
 import Glassmorphism from "@/components/common/glassmorphism";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message as showMessage } from "antd";
 import React from "react";
 import { useForm } from "antd/es/form/Form";
 import UserService from "@/services/user";
@@ -20,7 +20,7 @@ const LoginPage = () => {
         router.replace("/dashboard");
       },
       (message) => {
-        alert(message);
+        showMessage.error(message);
       }
     );
   };

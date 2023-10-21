@@ -1,7 +1,15 @@
 "use client";
 import React, { use, useEffect } from "react";
 import { useState } from "react";
-import { Form, Input, Button, Select, Row, Col } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Select,
+  Row,
+  Col,
+  message as showMessage,
+} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import { Typography } from "antd";
@@ -39,7 +47,7 @@ const UserDashboardProfileUpdate = () => {
         form.setFieldsValue(details);
       },
       (message) => {
-        alert(message);
+        showMessage.error(message);
       }
     );
   }, []);
@@ -56,14 +64,13 @@ const UserDashboardProfileUpdate = () => {
       (message) => {
         CommonServices.getProfileStatus(
           (message) => {
-            alert(message);
             router.replace("/dashboard");
           },
           (message) => {}
         );
       },
       (message) => {
-        alert(message);
+        showMessage.error(message);
       }
     );
   };

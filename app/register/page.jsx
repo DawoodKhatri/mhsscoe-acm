@@ -1,6 +1,6 @@
 "use client";
 import Glassmorphism from "@/components/common/glassmorphism";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message as showMessage } from "antd";
 import React, { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import RegistrationDetailsInput from "@/components/register/registrationDetailsInput";
@@ -19,10 +19,10 @@ const RegistrationPage = () => {
     UserService.getVerificationMail(
       { email },
       (message) => {
-        alert(message);
+        showMessage.success(message);
       },
       (message) => {
-        alert(message);
+        showMessage.error(message);
       }
     );
   };
@@ -39,7 +39,8 @@ const RegistrationPage = () => {
         >
           <h2 className="text-center font-bold text-4xl mb-6">Registration</h2>
           <p className="text-center my-5">
-            A verification email will be sent on your email address to complete your registration
+            A verification email will be sent on your email address to complete
+            your registration
           </p>
           <Form.Item
             name="email"

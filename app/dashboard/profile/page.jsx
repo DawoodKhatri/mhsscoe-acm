@@ -1,7 +1,6 @@
 "use client";
 import UserService from "@/services/user";
-import { CameraOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, message as showMessage } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -16,7 +15,7 @@ const UserDashboardProfile = () => {
         setProfileDetails(details);
       },
       (message) => {
-        alert(message);
+        showMessage.error(message);
       }
     );
   }, []);
