@@ -14,6 +14,7 @@ const userSchema = new Schema(
     branch: { type: String },
     year: { type: Number },
     isMember: { type: Boolean, default: false },
+    links: [{ type: String }],
     events: { type: ObjectId, ref: "Events" },
     achievements: { type: ObjectId, ref: "Achievements" },
   },

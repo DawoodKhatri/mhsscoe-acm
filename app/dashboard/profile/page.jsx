@@ -54,6 +54,19 @@ const UserDashboardProfile = () => {
           <p className="my-4">
             <span className="font-bold italic">Year: </span>Fourth
           </p>
+          {profileDetails?.links?.map((link) => (
+            <div className="flex my-4 align-middle">
+              <img
+                width={50}
+                height={50}
+                src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=64&url=${link
+                  .split("/")
+                  .slice(0, 3)
+                  .join("/")}`}
+              />
+              <a href={link}>{link}</a>
+            </div>
+          ))}
         </div>
       </div>
       <div className="text-center">

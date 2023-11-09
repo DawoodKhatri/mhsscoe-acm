@@ -1,16 +1,27 @@
 "use client";
 import React, { use, useEffect } from "react";
 import { useState } from "react";
-import { Form, Input, Button, Select, Row, Col } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import { message, Upload } from "antd";
-import { Typography } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Select,
+  Row,
+  Col,
+} from "antd";
+import {
+  PlusOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
+import { Upload } from "antd";
 import Glassmorphism from "@/components/common/glassmorphism";
 import UserService from "@/services/user";
 import { useForm } from "antd/es/form/Form";
 import getBase64 from "@/utils/getBase64";
 import { useRouter } from "next/navigation";
 import CommonServices from "@/services/common";
+import { BRANCHES } from "@/constants/branches";
+import { YEARS } from "@/constants/years";
 
 const UserDashboardProfileUpdate = () => {
   const router = useRouter();
@@ -23,8 +34,7 @@ const UserDashboardProfileUpdate = () => {
     branch: "",
     year: "",
     rollno: "",
-    linkedin: "",
-    github: "",
+    // links: [],
   });
 
   const handleProfilePictureChange = (info) => {
@@ -133,11 +143,7 @@ const UserDashboardProfileUpdate = () => {
                   label="Name"
                   rules={[{ required: true }]}
                 >
-                  <Input
-                    onChange={(e) => {
-                      setData({ ...data, name: e.target.value });
-                    }}
-                  />
+                  <Input />
                 </Form.Item>
                 <Form.Item
                   name="email"
@@ -153,12 +159,7 @@ const UserDashboardProfileUpdate = () => {
                     },
                   ]}
                 >
-                  <Input
-                    disabled
-                    onChange={(e) => {
-                      setData({ ...data, email: e.target.value });
-                    }}
-                  />
+                  <Input disabled />
                 </Form.Item>
               </Col>
             </Row>
@@ -169,12 +170,7 @@ const UserDashboardProfileUpdate = () => {
                   label="Roll no"
                   rules={[{ required: true }]}
                 >
-                  <Input
-                    disabled
-                    onChange={(e) => {
-                      setData({ ...data, rollno: e.target.value });
-                    }}
-                  />
+                  <Input />
                 </Form.Item>
               </Col>
               <Col span={24} md={{ span: 8 }}>
@@ -183,24 +179,7 @@ const UserDashboardProfileUpdate = () => {
                   label="Branch"
                   rules={[{ required: true }]}
                 >
-                  <Select
-                    disabled
-                    options={[
-                      { value: "it", label: "Information Technology" },
-                      { value: "MECH", label: "Computer Science" },
-                      { value: "COMPS", label: "CSE - AI & ML" },
-                      { value: "COMPS-AI", label: "CSE - Blockchain & IOT" },
-                      {
-                        value: "EXTC",
-                        label: "Electronics & Telecommunication",
-                      },
-                      { value: "AUTO", label: "Mechanical" },
-                      { value: "CIVIL", label: "Civil" },
-                    ]}
-                    onChange={(value) => {
-                      setData({ ...data, branch: value });
-                    }}
-                  />
+                  <Select options={BRANCHES} />
                 </Form.Item>
               </Col>
               <Col span={24} md={{ span: 8 }}>
@@ -209,43 +188,71 @@ const UserDashboardProfileUpdate = () => {
                   label="Year"
                   rules={[{ required: true }]}
                 >
-                  <Select
-                    options={[
-                      { value: 1, label: "F.E." },
-                      { value: 2, label: "S.E." },
-                      { value: 3, label: "T.E." },
-                      { value: 4, label: "B.E." },
-                    ]}
-                    onChange={(value) => {
-                      setData({ ...data, year: value });
-                    }}
-                  />
+                  <Select options={YEARS} />
                 </Form.Item>
               </Col>
             </Row>
-
             {data?.isMember && (
-              <Row gutter={[32]}>
-                <Col span={24} md={{ span: 12 }}>
-                  <Form.Item name="linkedin" label="LinkedIn Profile URL">
-                    <Input
-                      onChange={(e) => {
-                        setData({ ...data, linkedin: e.target.value });
-                      }}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={24} md={{ span: 12 }}>
-                  <Form.Item name="github" label="Github Profile URL">
-                    <Input
-                      onChange={(e) => {
-                        setData({ ...data, github: e.target.value });
-                      }}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
+              <>
+                <Form.List name="links">
+                  {(fields, { add, remove }) => (
+                    <>
+                      {fields.map((field) => (
+                        <Row gutter={[32]} align="middle" className="mb-6">
+                          <Col span={24} md={{ span: 16 }} lg={{ span: 20 }}>
+                            <Form.Item
+                              {...field}
+                              className="flex-1 !mb-2"
+                              label="Enter Url"
+                            >
+                              <Input />
+                            </Form.Item>
+                          </Col>
+                          <Col span={24} md={{ span: 8 }} lg={{ span: 4 }}>
+                            <Row className="w-full gap-5">
+                              <Col span={12} flex={1}>
+                                <Button
+                                  className="!w-full mt-5 !bg-transparent"
+                                  icon={
+                                    <CloseOutlined className="!text-red-500" />
+                                  }
+                                  onClick={() => {
+                                    remove(field.name);
+                                  }}
+                                />
+                              </Col>
+                              <Col span={12} flex={1}>
+                                <Button
+                                  className="!w-full mt-5 !bg-transparent"
+                                  icon={
+                                    <PlusOutlined className="!text-primary" />
+                                  }
+                                  onClick={() => {
+                                    add(null, field.name + 1);
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      ))}
+                      {fields.length === 0 && (
+                        <Button
+                          className="w-full !bg-transparent mb-6"
+                          icon={<PlusOutlined />}
+                          onClick={() => {
+                            add();
+                          }}
+                        >
+                          Add Link
+                        </Button>
+                      )}
+                    </>
+                  )}
+                </Form.List>
+              </>
             )}
+
             <div className="text-center">
               <Button
                 type="primary"

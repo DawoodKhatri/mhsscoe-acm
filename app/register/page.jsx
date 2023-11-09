@@ -3,8 +3,6 @@ import Glassmorphism from "@/components/common/glassmorphism";
 import { Button, Form, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
-import RegistrationDetailsInput from "@/components/register/registrationDetailsInput";
-import RegistrationDetailsVerificationInput from "@/components/register/registrationDetailsVerificationInput";
 import UserService from "@/services/user";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -58,7 +56,7 @@ const RegistrationPage = () => {
             ]}
           >
             <Input
-              placeholder="Email address (@mhssce.ac.in)"
+              placeholder="College Email address (@mhssce.ac.in)"
               prefix={<MailOutlined />}
               size="large"
             />
