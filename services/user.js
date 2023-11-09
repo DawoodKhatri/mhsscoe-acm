@@ -56,15 +56,22 @@ const UserService = {
 
   updateProfileDetails: (details, onSuccess, onError) => {
     let form = new FormData();
-    Object.keys(details).forEach((key) => form.append(key, details[key]));
+    Object.keys(details).forEach((key) =>
+      form.append(
+        key,
+        key === "profilePicture" ? details[key] : JSON.stringify(details[key])
+      )
+    );
 
-    httpRequest(`/api/user/profile`, HTTP_METHODS.PUT, form, true).then((res) => {
-      if (res.success) {
-        onSuccess(res.message);
-      } else {
-        onError(res.message);
+    httpRequest(`/api/user/profile`, HTTP_METHODS.PUT, form, true).then(
+      (res) => {
+        if (res.success) {
+          onSuccess(res.message);
+        } else {
+          onError(res.message);
+        }
       }
-    });
+    );
   },
 };
 

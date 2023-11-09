@@ -13,7 +13,8 @@ export const GET = async (req) => {
     const user = await User.findById(userId);
     if (!user) return errorResponse(404, "Account not found");
 
-    user.profilePicture = await getUrl(user.profilePicture);
+    if (user.profilePicture)
+      user.profilePicture = await getUrl(user.profilePicture);
 
     return successResponse(200, "Profile Details", user);
   } catch (error) {
@@ -23,14 +24,17 @@ export const GET = async (req) => {
 
 export const PUT = async (req) => {
   try {
-    const { profilePicture, name, email, rollno, branch, year } =
-      Object.fromEntries(await req.formData());
+    let body = Object.fromEntries(await req.formData());
+    const { profilePicture } = body;
+    Object.keys(body).forEach(
+      (key) => key !== "profilePicture" && (body[key] = JSON.parse(body[key]))
+    );
+    const { name, email, rollno, branch, year, links } = body;
 
     if (!name || !email || !rollno || !branch || !year)
       return errorResponse(400, "Please fill all the fields");
 
     await connectDB();
-
     const user = await User.findOne({ email });
     if (!user) return errorResponse(404, "Account not found");
 
@@ -55,6 +59,7 @@ export const PUT = async (req) => {
     user.rollno = rollno;
     user.branch = branch;
     user.year = year;
+    user.links = links;
 
     await user.save();
 

@@ -1,6 +1,5 @@
 import { connectDB } from "@/config/database";
 import User from "@/models/user";
-import { getDetailsFromEmail } from "@/utils/detailsFromEmail";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 import { verifyEmailToken } from "@/utils/verification";
 
@@ -18,8 +17,7 @@ export const POST = async (req) => {
     let user = await User.findOne({ email });
     if (user) return errorResponse(403, "Already registered");
 
-    const { name, rollno, branch } = getDetailsFromEmail(email);
-    user = await User.create({ email, password, name, rollno, branch });
+    user = await User.create({ email, password });
 
     const response = successResponse(200, "Registration done successfully");
 

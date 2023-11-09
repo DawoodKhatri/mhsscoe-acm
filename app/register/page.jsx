@@ -1,18 +1,14 @@
 "use client";
 import Glassmorphism from "@/components/common/glassmorphism";
 import { Button, Form, Input, message as showMessage } from "antd";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "antd/es/form/Form";
-import RegistrationDetailsInput from "@/components/register/registrationDetailsInput";
-import RegistrationDetailsVerificationInput from "@/components/register/registrationDetailsVerificationInput";
 import UserService from "@/services/user";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { MailOutlined } from "@ant-design/icons";
 
 const RegistrationPage = () => {
   const [form] = useForm();
-  const [step, setStep] = useState(0);
 
   const onFormSubmit = (fields) => {
     const { email } = fields;
@@ -59,7 +55,7 @@ const RegistrationPage = () => {
             ]}
           >
             <Input
-              placeholder="Student Email address (@mhssce.ac.in)"
+              placeholder="College Email address (@mhssce.ac.in)"
               prefix={<MailOutlined />}
               size="large"
             />
