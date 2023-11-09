@@ -53,8 +53,11 @@ const UserDashboardProfile = () => {
           <p className="my-4">
             <span className="font-bold italic">Year: </span>Fourth
           </p>
-          {profileDetails?.links?.map((link) => (
-            <div className="flex my-4 align-middle">
+          {profileDetails?.links?.map((link, index) => (
+            <div
+              key={`user_dashboard_profile_links_${index}`}
+              className="flex my-4 align-middle"
+            >
               <img
                 width={50}
                 height={50}

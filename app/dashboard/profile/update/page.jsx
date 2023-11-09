@@ -197,7 +197,7 @@ const UserDashboardProfileUpdate = () => {
                   {(fields, { add, remove }) => (
                     <>
                       {fields.map((field) => (
-                        <Row gutter={[32]} align="middle" className="mb-6">
+                        <Row key={field.key} gutter={[32]} align="middle" className="mb-6">
                           <Col span={24} md={{ span: 16 }} lg={{ span: 20 }}>
                             <Form.Item
                               {...field}
