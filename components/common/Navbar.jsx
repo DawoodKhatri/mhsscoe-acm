@@ -14,7 +14,11 @@ const AppNavbar = () => {
   const pathname = usePathname();
 
   const getSelectedMenuItemKey = ({ isMobile } = { isMobile: false }) => {
-    const NAV_ITEMS = isMobile ? NAV_MOBILE_ITEMS : NAV_DESKTOP_ITEMS;
+    let NAV_ITEMS = isMobile ? NAV_MOBILE_ITEMS : NAV_DESKTOP_ITEMS;
+
+    NAV_ITEMS = NAV_ITEMS.filter(({ requireLoggedIn, requireLoggedOut }) =>
+      requireLoggedIn ? isLoggedIn : requireLoggedOut ? !isLoggedIn : true
+    );
 
     const item = NAV_ITEMS.filter(({ href }) => pathname.includes(href)).slice(
       -1
@@ -40,8 +44,8 @@ const AppNavbar = () => {
     );
   };
   return (
-    <div className="p-5 pb-0">
-      <Glassmorphism>
+    <>
+      <Glassmorphism className="border-transparent border-b-white rounded-none">
         <nav className="flex items-center justify-between px-8 md:px-10">
           <div>
             <img src="/logo.png" className="py-2 h-16" />
@@ -121,70 +125,73 @@ const AppNavbar = () => {
             </Button>
           </div>
         </nav>
-      </Glassmorphism>
 
-      <Glassmorphism
-        className={`transition-all ease-in-out duration-1000 md:hidden ${
-          mobileNavOpen ? "my-5" : " scale-y-0 h-0"
-        }`}
-      >
-        <Menu
-          className="!bg-transparent"
-          mode="inline"
-          selectedKeys={getSelectedMenuItemKey({ isMobile: true })}
+        <div
+          className={`transition-all duration-1000 ease-in-out md:hidden ${
+            mobileNavOpen ? "h-[284px] py-2" : "h-0 py-0"}`}
         >
-          {NAV_MOBILE_ITEMS.filter(({ requireLoggedIn, requireLoggedOut }) =>
-            requireLoggedIn ? isLoggedIn : requireLoggedOut ? !isLoggedIn : true
-          ).map(
-            (
-              { label, icon, href, children, isButton, onClick = () => {} },
-              index
-            ) =>
-              children ? (
-                <Menu.SubMenu
-                  key={`navbar_menu_item_${index}`}
-                  title={label}
-                  icon={icon}
-                >
-                  {children.map(
-                    (
-                      { label: subLabel, icon: subIcon, href: subHref },
-                      subIndex
-                    ) => (
-                      <Menu.Item
-                        key={`navbar_menu_item_${index}_${subIndex}`}
-                        icon={subIcon}
-                        onClick={() => {
-                          setMobileNavOpen(false);
-                          onClick();
-                        }}
-                      >
-                        <Link href={subHref ?? ""}>{subLabel}</Link>
-                      </Menu.Item>
-                    )
-                  )}
-                </Menu.SubMenu>
-              ) : (
-                <Menu.Item
-                  key={`navbar_menu_item_${index}`}
-                  icon={icon}
-                  className={`${
-                    isButton
-                      ? "!bg-primary !text-white hover:!bg-primary-light"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    setMobileNavOpen(false);
-                    onClick();
-                  }}
-                >
-                  <Link href={href ?? ""}>{label}</Link>
-                </Menu.Item>
-              )
-          )}
-        </Menu>
+          <Menu
+            className="!bg-transparent"
+            mode="inline"
+            selectedKeys={getSelectedMenuItemKey({ isMobile: true })}
+          >
+            {NAV_MOBILE_ITEMS.filter(({ requireLoggedIn, requireLoggedOut }) =>
+              requireLoggedIn
+                ? isLoggedIn
+                : requireLoggedOut
+                ? !isLoggedIn
+                : true
+            ).map(
+              (
+                { label, icon, href, children, isButton, onClick = () => {} },
+                index
+              ) =>
+                children ? (
+                  <Menu.SubMenu
+                    key={`navbar_menu_item_${index}`}
+                    title={label}
+                    icon={icon}
+                  >
+                    {children.map(
+                      (
+                        { label: subLabel, icon: subIcon, href: subHref },
+                        subIndex
+                      ) => (
+                        <Menu.Item
+                          key={`navbar_menu_item_${index}_${subIndex}`}
+                          icon={subIcon}
+                          onClick={() => {
+                            setMobileNavOpen(false);
+                            onClick();
+                          }}
+                        >
+                          <Link href={subHref ?? ""}>{subLabel}</Link>
+                        </Menu.Item>
+                      )
+                    )}
+                  </Menu.SubMenu>
+                ) : (
+                  <Menu.Item
+                    key={`navbar_menu_item_${index}`}
+                    icon={icon}
+                    className={`${
+                      isButton
+                        ? "!bg-primary !text-white hover:!bg-primary-light"
+                        : ""
+                    }`}
+                    onClick={() => {
+                      setMobileNavOpen(false);
+                      onClick();
+                    }}
+                  >
+                    <Link href={href ?? ""}>{label}</Link>
+                  </Menu.Item>
+                )
+            )}
+          </Menu>
+        </div>
       </Glassmorphism>
-    </div>
+    </>
   );
 };
 
