@@ -1,25 +1,19 @@
 "use client";
 import Glassmorphism from "@/components/common/glassmorphism";
 import { USER_DASHBOARD_SIDE_ITEMS } from "@/constants/dashboard";
-import {
-  DoubleLeftOutlined,
-  DoubleRightOutlined,
-  IssuesCloseOutlined,
-  RightOutlined,
-} from "@ant-design/icons";
-import { Button, Layout, Menu, Grid } from "antd";
+import { Layout, Menu, Grid } from "antd";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const DashboardPageLayout = ({ children }) => {
   const pathname = usePathname();
-  const { md } = Grid.useBreakpoint();
-  const [isSiderCollapsed, setSiderCollapsed] = useState(!md);
+  const { lg } = Grid.useBreakpoint();
+  const [isSiderCollapsed, setSiderCollapsed] = useState(!lg);
 
   useEffect(() => {
-    setSiderCollapsed(!md);
-  }, [md]);
+    setSiderCollapsed(!lg);
+  }, [lg]);
 
   const getSelectedMenuItemKey = () => {
     return `user_dashboard_side_item_${USER_DASHBOARD_SIDE_ITEMS.indexOf(
@@ -30,13 +24,14 @@ const DashboardPageLayout = ({ children }) => {
     <>
       <Layout className="!bg-transparent relative">
         <Layout.Sider
-          className="!bg-transparent h-[calc(100vh-86px-40px)] mr-0 md:mr-5"
+          className="!bg-transparent h-[calc(100vh-86px-40px)] mr-0 lg:mr-5"
           width={256}
           collapsedWidth={0}
+          collapsed={isSiderCollapsed}
         >
           <Glassmorphism className="h-full">
             <Menu
-              className="w-full !bg-transparent text-center md:text-start"
+              className="w-full !bg-transparent text-center lg:text-start"
               selectedKeys={getSelectedMenuItemKey()}
             >
               {USER_DASHBOARD_SIDE_ITEMS.map(({ label, href }, index) => (
@@ -47,30 +42,7 @@ const DashboardPageLayout = ({ children }) => {
             </Menu>
           </Glassmorphism>
         </Layout.Sider>
-        {/* {(md || (!md && isSiderCollapsed)) && ( */}
-        <Layout.Content>
-          {/* <Glassmorphism className="h-full"> */}
-          {children}
-          {/* </Glassmorphism> */}
-        </Layout.Content>
-        {/* )} */}
-        {/* <div
-          className={`h-screen fixed top-0 ${
-            isSiderCollapsed ? "left-0" : "right-0"
-          } flex items-center md:hidden`}
-        >
-          <Button
-            className="!w-12 !h-12 !rounded-full !bg-transparent !shadow-2xl"
-            icon={
-              isSiderCollapsed ? (
-                <DoubleRightOutlined />
-              ) : (
-                <DoubleLeftOutlined />
-              )
-            }
-            onClick={() => setSiderCollapsed(!isSiderCollapsed)}
-          />
-        </div> */}
+        <Layout.Content>{children}</Layout.Content>
       </Layout>
     </>
   );

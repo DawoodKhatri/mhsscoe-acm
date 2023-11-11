@@ -1,6 +1,6 @@
 "use client";
-import { NAV_ITEMS } from "@/constants/navbar";
-import { Button, Menu, Layout, Row, Col } from "antd";
+import { NAV_DESKTOP_ITEMS, NAV_MOBILE_ITEMS } from "@/constants/menuItems";
+import { Button, Menu } from "antd";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MenuOutlined } from "@ant-design/icons";
@@ -13,10 +13,22 @@ const AppNavbar = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const pathname = usePathname();
 
-  const getSelectedMenuItemKey = () => {
-    return `navbar_manu_item_${NAV_ITEMS.indexOf(
-      NAV_ITEMS.filter(({ href }) => href === pathname)[0]
-    )}`;
+  const getSelectedMenuItemKey = ({ isMobile } = { isMobile: false }) => {
+    const NAV_ITEMS = isMobile ? NAV_MOBILE_ITEMS : NAV_DESKTOP_ITEMS;
+
+    const item = NAV_ITEMS.filter(({ href }) => pathname.includes(href)).slice(
+      -1
+    )[0];
+
+    const itemIndex = NAV_ITEMS.indexOf(item);
+
+    if (!item.children) return `navbar_menu_item_${itemIndex}`;
+
+    const subItemIndex = item.children.indexOf(
+      item.children.filter(({ href }) => pathname === href).slice(-1)[0]
+    );
+
+    return `navbar_menu_item_${itemIndex}_${subItemIndex}`;
   };
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -36,46 +48,54 @@ const AppNavbar = () => {
           </div>
           <div className="hidden md:flex flex-1 text-center justify-center">
             <Menu
+              className="w-full !bg-transparent "
               mode="horizontal"
-              className="w-3/4 lg:w-3/5 !bg-transparent"
+              disabledOverflow={true}
               selectedKeys={getSelectedMenuItemKey()}
             >
-              {NAV_ITEMS.map(({ label, href }, index) => (
-                <Menu.Item
-                  key={`navbar_manu_item_${index}`}
-                  className="w-1/4 py-[9px]"
-                >
-                  <Link href={href} className="">
-                    {label}
-                  </Link>
-                </Menu.Item>
-              ))}
-            </Menu>
-            {/* <ul className="flex">
-              {NAV_ITEMS.map(({ label, href }, index) => (
-                <li
-                  key={`navbar_manu_item_${index}`}
-                  className={`mx-4 border-b-2 hover:border-b-primary hover:cursor-pointer ${
-                    href === pathname ? "text-primary border-b-primary" : "border-b-transparent"
-                  }`}
-                >
-                  <Link
-                    href={href}
-                    className="px-4 h-16 flex items-center text-sm"
+              {NAV_DESKTOP_ITEMS.filter(({ requireLoggedIn }) =>
+                requireLoggedIn ? isLoggedIn : true
+              ).map(({ label, icon, href, children }, index) =>
+                children ? (
+                  <Menu.SubMenu
+                    key={`navbar_menu_item_${index}`}
+                    title={label}
+                    icon={icon}
                   >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul> */}
+                    {children.map(
+                      (
+                        { label: subLabel, icon: subIcon, href: subHref },
+                        subIndex
+                      ) => (
+                        <Menu.Item
+                          key={`navbar_menu_item_${index}_${subIndex}`}
+                          icon={subIcon}
+                        >
+                          <Link href={subHref ?? ""}>{subLabel}</Link>
+                        </Menu.Item>
+                      )
+                    )}
+                  </Menu.SubMenu>
+                ) : (
+                  <Menu.Item
+                    key={`navbar_menu_item_${index}`}
+                    icon={icon}
+                    className="!font-semibold !px-4 lg:!px-6 hover:!text-primary-light"
+                  >
+                    <Link href={href}>{label}</Link>
+                  </Menu.Item>
+                )
+              )}
+            </Menu>
           </div>
           <div className="hidden md:flex">
             {isLoggedIn ? (
               <>
-                <Link href="/dashboard">
-                  <Button className="mr-2">Dashboard</Button>
-                </Link>
-                <Button className="ml-2 bg-primary" type="primary" onClick={logout}>
+                <Button
+                  className="ml-2 bg-primary"
+                  type="primary"
+                  onClick={logout}
+                >
                   Logout
                 </Button>
               </>
@@ -109,54 +129,58 @@ const AppNavbar = () => {
         }`}
       >
         <Menu
-          className="w-full !bg-transparent text-center"
-          selectedKeys={getSelectedMenuItemKey()}
-          onClick={() => setMobileNavOpen(false)}
+          className="!bg-transparent"
+          mode="inline"
+          selectedKeys={getSelectedMenuItemKey({ isMobile: true })}
         >
-          {NAV_ITEMS.map(({ label, href }, index) => (
-            <Menu.Item key={`navbar_manu_item_${index}`}>
-              <Link href={href} className="">
-                {label}
-              </Link>
-            </Menu.Item>
-          ))}
-          {isLoggedIn ? (
-            <>
-              <Link href="/dashboard">
-                <Button
-                  className="h-10 mx-1 w-[calc(100%-8px)] my-1"
-                  type="text"
+          {NAV_MOBILE_ITEMS.filter(({ requireLoggedIn, requireLoggedOut }) =>
+            requireLoggedIn ? isLoggedIn : requireLoggedOut ? !isLoggedIn : true
+          ).map(
+            (
+              { label, icon, href, children, isButton, onClick = () => {} },
+              index
+            ) =>
+              children ? (
+                <Menu.SubMenu
+                  key={`navbar_menu_item_${index}`}
+                  title={label}
+                  icon={icon}
                 >
-                  Dashboard
-                </Button>
-              </Link>
-              <Button
-                className="h-10 mx-1 w-[calc(100%-8px)] !bg-primary hover:!bg-primary-light !text-white mb-1"
-                type="text"
-                onClick={logout}
-              >
-                Logout
-              </Button>
-            </>
-          ) : (
-            <>
-              <Link href="/login">
-                <Button
-                  className="h-10 mx-1 w-[calc(100%-8px)] my-1"
-                  type="text"
+                  {children.map(
+                    (
+                      { label: subLabel, icon: subIcon, href: subHref },
+                      subIndex
+                    ) => (
+                      <Menu.Item
+                        key={`navbar_menu_item_${index}_${subIndex}`}
+                        icon={subIcon}
+                        onClick={() => {
+                          setMobileNavOpen(false);
+                          onClick();
+                        }}
+                      >
+                        <Link href={subHref ?? ""}>{subLabel}</Link>
+                      </Menu.Item>
+                    )
+                  )}
+                </Menu.SubMenu>
+              ) : (
+                <Menu.Item
+                  key={`navbar_menu_item_${index}`}
+                  icon={icon}
+                  className={`${
+                    isButton
+                      ? "!bg-primary !text-white hover:!bg-primary-light"
+                      : ""
+                  }`}
+                  onClick={() => {
+                    setMobileNavOpen(false);
+                    onClick();
+                  }}
                 >
-                  Login
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button
-                  className="h-10 mx-1 w-[calc(100%-8px)] !bg-primary hover:!bg-primary-light !text-white mb-1"
-                  type="text"
-                >
-                  Register
-                </Button>
-              </Link>
-            </>
+                  <Link href={href ?? ""}>{label}</Link>
+                </Menu.Item>
+              )
           )}
         </Menu>
       </Glassmorphism>

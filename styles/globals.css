@@ -11,6 +11,18 @@ body {
   height: 100%;
 }
 
+.ant-menu-item::before .ant-menu-item::after {
+  content: none;
+  display: none;
+}
+
+.ant-menu,
+.ant-menu-submenu,
+.ant-menu-item::after,
+.ant-menu-submenu::after {
+  border-bottom: none !important;
+}
+
 .ant-input-affix-wrapper,
 .ant-select-selector,
 input,
