@@ -7,7 +7,7 @@ const { Meta } = Card;
 
 const EventCard = ({ title, image, description }) => {
   return (
-    <Glassmorphism className="m-5 hover:scale-[1.03] transition-all duration-300">
+    <Glassmorphism className="hover:scale-[1.03] transition-all duration-300">
       <Card
         className="!bg-transparent border-none"
         hoverable

@@ -9,13 +9,17 @@ const RoutesProtection = () => {
   const router = useRouter();
 
   const { isLoading } = useSelector((state) => state.common);
-  const { isLoggedIn, isProfileIncomplete } = useSelector(
+  const { isLoggedIn, isAdmin, isProfileIncomplete } = useSelector(
     (state) => state.auth
   );
 
   useEffect(() => {
     if (!isLoading) {
       if (isLoggedIn === true) {
+        if (!isAdmin && pathname.includes("/admin")) {
+          router.replace("/not-found");
+        }
+
         if (pathname === "/login" || pathname === "/register") {
           router.replace("/dashboard");
         }
@@ -24,11 +28,16 @@ const RoutesProtection = () => {
           router.replace("/dashboard/profile");
         }
 
+        if (pathname === "/admin") {
+          router.replace("/admin/events");
+        }
+
         if (isProfileIncomplete === true && pathname.includes("/dashboard")) {
           router.replace("/dashboard/profile/update");
         }
       } else if (isLoggedIn === false) {
-        if (pathname.includes("/dashboard")) router.replace("/login");
+        if (pathname.includes("/dashboard") || pathname.includes("/admin"))
+          router.replace("/login");
       }
     }
   }, [isLoggedIn, isProfileIncomplete, pathname]);

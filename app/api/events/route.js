@@ -2,14 +2,14 @@ import { connectDB } from "@/config/database";
 import Event from "@/models/event";
 import User from "@/models/user";
 import checkAuth from "@/utils/checkAuth";
-import { upload } from "@/utils/firebaseStorage";
+import { upload, getUrl } from "@/utils/firebaseStorage";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 
 export const GET = async (req) => {
   try {
     await connectDB();
 
-    const events = await Event.find({}).select("title description thumbnail");
+    let events = await Event.find({}).select("title description thumbnail");
 
     return successResponse(200, "All Event", { events });
   } catch (error) {

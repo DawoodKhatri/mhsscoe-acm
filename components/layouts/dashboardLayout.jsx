@@ -10,18 +10,19 @@ const DashboardLayout = ({ SIDER_ITEMS = [], children }) => {
   const { lg } = Grid.useBreakpoint();
 
   const getSelectedMenuItemKey = () => {
-    return `user_dashboard_side_item_${SIDER_ITEMS.indexOf(
+    return `dashboard_layout_side_item_${SIDER_ITEMS.indexOf(
       SIDER_ITEMS.filter(({ href }) => pathname.includes(href))[0]
     )}`;
   };
   return (
     <>
-      <Layout className="!bg-transparent relative">
+      <Layout className="!bg-transparent">
         <Layout.Sider
-          className="!bg-transparent h-[calc(100vh-86px-40px)] mr-0 lg:mr-5"
+          className="!bg-transparent h-[calc(100vh-86px-40px)] !fixed  mr-0 lg:mr-5"
           width={256}
           collapsedWidth={0}
           collapsed={!lg}
+       
         >
           <Glassmorphism className="h-full">
             <Menu
@@ -39,7 +40,7 @@ const DashboardLayout = ({ SIDER_ITEMS = [], children }) => {
             </Menu>
           </Glassmorphism>
         </Layout.Sider>
-        <Layout.Content>{children}</Layout.Content>
+        <Layout.Content className="lg:ml-[276px] !min-h-[calc(100vh-86px-40px)]">{children}</Layout.Content>
       </Layout>
     </>
   );

@@ -57,7 +57,7 @@ const AppNavbar = () => {
   };
   return (
     <>
-      <Glassmorphism className="border-transparent border-b-white rounded-none">
+      <Glassmorphism className="border-transparent border-b-white rounded-none !sticky top-0 z-10">
         <nav className="flex items-center justify-between px-8 md:px-10">
           <div>
             <img src="/logo.png" className="py-2 h-16" />
