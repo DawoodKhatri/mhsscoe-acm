@@ -9,13 +9,16 @@ export const POST = async (req) => {
       return errorResponse(400, "Please fill all the fields");
 
     await connectDB();
-    const user = await User.findOne({ email }).select("password");
+
+    const user = await User.findOne({ email }).select("password isAdmin");
     if (!user) return errorResponse(404, "Account not found");
 
     const isPasswordMatch = await user.matchPassword(password);
     if (!isPasswordMatch) return errorResponse(403, "Incorrect Credentials");
 
-    const response = successResponse(200, "Logged in successfully");
+    const response = user.isAdmin
+      ? successResponse(200, "Logged in successfully", { isAdmin: true })
+      : successResponse(200, "Logged in successfully");
 
     const token = user.generateToken();
 

@@ -5,12 +5,14 @@ const authReducer = createSlice({
   name: "auth",
   initialState: authInitialState,
   reducers: {
-    login: (state) => ({
+    login: (state, { payload }) => ({
       ...state,
       isLoggedIn: true,
+      isAdmin: payload?.isAdmin ?? undefined,
     }),
     logout: () => ({
       isLoggedIn: false,
+      isAdmin: undefined,
     }),
     profileIncomplete: (state) => ({
       ...state,

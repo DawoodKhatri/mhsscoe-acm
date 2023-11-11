@@ -22,7 +22,7 @@ const UserService = {
       token,
     }).then((res) => {
       if (res.success) {
-        dispatch(login({ isLoggedIn: true }));
+        dispatch(login({ isAdmin: res.data?.isAdmin }));
         onSuccess(res.message);
       } else {
         onError(res.message);
@@ -36,7 +36,7 @@ const UserService = {
       password,
     }).then((res) => {
       if (res.success) {
-        dispatch(login({ isLoggedIn: true }));
+        dispatch(login({ isAdmin: res.data?.isAdmin }));
         onSuccess(res.message);
       } else {
         onError(res.message);
@@ -59,7 +59,7 @@ const UserService = {
     Object.keys(details).forEach((key) =>
       form.append(
         key,
-        key === "profilePicture" ? details[key] : JSON.stringify(details[key])
+        key === "links" ? JSON.stringify(details[key]) : details[key]
       )
     );
 

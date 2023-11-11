@@ -10,6 +10,8 @@ export const GET = async (req) => {
     const userId = await checkAuth(req);
     if (!userId) return errorResponse(403, "Please login first");
 
+    await connectDB();
+
     const user = await User.findById(userId);
     if (!user) return errorResponse(404, "Account not found");
 
@@ -24,19 +26,20 @@ export const GET = async (req) => {
 
 export const PUT = async (req) => {
   try {
-    let body = Object.fromEntries(await req.formData());
-    const { profilePicture } = body;
-    Object.keys(body).forEach(
-      (key) => key !== "profilePicture" && (body[key] = JSON.parse(body[key]))
-    );
-    const { name, email, rollno, branch, year, links } = body;
-
-    if (!name || !email || !rollno || !branch || !year)
-      return errorResponse(400, "Please fill all the fields");
+    const userId = await checkAuth(req);
+    if (!userId) return errorResponse(403, "Please login first");
 
     await connectDB();
-    const user = await User.findOne({ email });
+
+    const user = await User.findById(userId);
     if (!user) return errorResponse(404, "Account not found");
+
+    let body = Object.fromEntries(await req.formData());
+    const { profilePicture, name, rollno, branch, year } = body;
+    const links = body.links ? JSON.parse(body.links) : undefined;
+
+    if (!name || !rollno || !branch || !year)
+      return errorResponse(400, "Please fill all the fields");
 
     if (!user.profilePicture && !profilePicture) {
       return errorResponse(400, "Please fill all the fields");

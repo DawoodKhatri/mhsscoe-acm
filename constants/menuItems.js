@@ -12,27 +12,25 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 
-export const DASHBOARD_MENU_ITEMS = [
+export const USER_DASHBOARD_MENU_ITEMS = [
   {
     label: "Profile",
     icon: <UserOutlined />,
     href: "/dashboard/profile",
   },
-  // {
-  //   label: "Events",
-  //   icon: <TrophyOutlined />,
-  //   href: "/dashboard/events",
-  // },
-  // {
-  //   label: "Achievements",
-  //   icon: <TrophyOutlined />,
-  //   href: "/dashboard/achievements",
-  // },
-  // {
-  //   label: "Certificates",
-  //   icon: <TrophyOutlined />,
-  //   href: "/dashboard/certificates",
-  // },
+];
+
+export const ADMIN_DASHBOARD_MENU_ITEMS = [
+  {
+    label: "Events",
+    icon: <TrophyOutlined />,
+    href: "/admin/events",
+  },
+  {
+    label: "Team",
+    icon: <TeamOutlined />,
+    href: "/admin/team",
+  },
 ];
 
 export const NAV_DESKTOP_ITEMS = [
@@ -61,7 +59,14 @@ export const NAV_DESKTOP_ITEMS = [
     icon: <IdcardOutlined />,
     href: "/dashboard",
     requireLoggedIn: true,
-    children: DASHBOARD_MENU_ITEMS,
+    children: USER_DASHBOARD_MENU_ITEMS,
+  },
+  {
+    label: "Admin Panel",
+    icon: <IdcardOutlined />,
+    href: "/admin",
+    requireAdminLoggedIn: true,
+    children: ADMIN_DASHBOARD_MENU_ITEMS,
   },
 ];
 

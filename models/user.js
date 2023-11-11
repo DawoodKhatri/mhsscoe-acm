@@ -6,6 +6,7 @@ const { String, Number, Boolean, ObjectId } = Schema.Types;
 
 const userSchema = new Schema(
   {
+    isAdmin: { type: Boolean },
     profilePicture: { type: String },
     name: { type: String },
     email: { type: String, unique: true, required: true },

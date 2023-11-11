@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import CommonServices from "@/services/common";
 
 const AppNavbar = () => {
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, isAdmin } = useSelector((state) => state.auth);
   const pathname = usePathname();
 
   const { lg } = Grid.useBreakpoint();
@@ -18,8 +18,15 @@ const AppNavbar = () => {
   const getSelectedMenuItemKey = ({ isMobile } = { isMobile: false }) => {
     let NAV_ITEMS = isMobile ? NAV_MOBILE_ITEMS : NAV_DESKTOP_ITEMS;
 
-    NAV_ITEMS = NAV_ITEMS.filter(({ requireLoggedIn, requireLoggedOut }) =>
-      requireLoggedIn ? isLoggedIn : requireLoggedOut ? !isLoggedIn : true
+    NAV_ITEMS = NAV_ITEMS.filter(
+      ({ requireLoggedIn, requireLoggedOut, requireAdminLoggedIn }) =>
+        requireLoggedIn
+          ? isLoggedIn
+          : requireLoggedOut
+          ? !isLoggedIn
+          : requireAdminLoggedIn
+          ? isAdmin
+          : true
     );
 
     const item = NAV_ITEMS.filter(({ href }) => pathname.includes(href)).slice(
@@ -62,8 +69,13 @@ const AppNavbar = () => {
               disabledOverflow={true}
               selectedKeys={getSelectedMenuItemKey()}
             >
-              {NAV_DESKTOP_ITEMS.filter(({ requireLoggedIn }) =>
-                requireLoggedIn ? isLoggedIn : true
+              {NAV_DESKTOP_ITEMS.filter(
+                ({ requireLoggedIn, requireAdminLoggedIn }) =>
+                  requireLoggedIn
+                    ? isLoggedIn
+                    : requireAdminLoggedIn
+                    ? isAdmin
+                    : true
               ).map(({ label, icon, href, children }, index) =>
                 children && !lg ? (
                   <Menu.SubMenu
@@ -141,12 +153,15 @@ const AppNavbar = () => {
             mode="inline"
             selectedKeys={getSelectedMenuItemKey({ isMobile: true })}
           >
-            {NAV_MOBILE_ITEMS.filter(({ requireLoggedIn, requireLoggedOut }) =>
-              requireLoggedIn
-                ? isLoggedIn
-                : requireLoggedOut
-                ? !isLoggedIn
-                : true
+            {NAV_MOBILE_ITEMS.filter(
+              ({ requireLoggedIn, requireLoggedOut, requireAdminLoggedIn }) =>
+                requireLoggedIn
+                  ? isLoggedIn
+                  : requireLoggedOut
+                  ? !isLoggedIn
+                  : requireAdminLoggedIn
+                  ? isAdmin
+                  : true
             ).map(
               (
                 { label, icon, href, children, isButton, onClick = () => {} },

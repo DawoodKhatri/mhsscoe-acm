@@ -11,10 +11,10 @@ const { default: httpRequest } = require("@/utils/httpRequest");
 
 const CommonServices = {
   checkAuth: (onSuccess, onError) => {
-    httpRequest(`/api/auth`, HTTP_METHODS.POST).then((res) => {
+    httpRequest(`/api/auth`, HTTP_METHODS.GET).then((res) => {
       if (res.success) {
         if (res.data.isLoggedIn) {
-          dispatch(login());
+          dispatch(login({ isAdmin: res.data?.isAdmin }));
           CommonServices.getProfileStatus(
             (message) => {},
             (message) => {}
