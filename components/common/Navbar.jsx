@@ -1,6 +1,6 @@
 "use client";
 import { NAV_DESKTOP_ITEMS, NAV_MOBILE_ITEMS } from "@/constants/menuItems";
-import { Button, Menu } from "antd";
+import { Button, Grid, Menu } from "antd";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MenuOutlined } from "@ant-design/icons";
@@ -12,6 +12,8 @@ import CommonServices from "@/services/common";
 const AppNavbar = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const pathname = usePathname();
+
+  const { lg } = Grid.useBreakpoint();
 
   const getSelectedMenuItemKey = ({ isMobile } = { isMobile: false }) => {
     let NAV_ITEMS = isMobile ? NAV_MOBILE_ITEMS : NAV_DESKTOP_ITEMS;
@@ -26,13 +28,16 @@ const AppNavbar = () => {
 
     const itemIndex = NAV_ITEMS.indexOf(item);
 
-    if (!item.children) return `navbar_menu_item_${itemIndex}`;
+    if (!item.children || lg) return `navbar_menu_item_${itemIndex}`;
 
     const subItemIndex = item.children.indexOf(
-      item.children.filter(({ href }) => pathname === href).slice(-1)[0]
+      item.children.filter(({ href }) => pathname.includes(href)).slice(-1)[0]
     );
 
-    return `navbar_menu_item_${itemIndex}_${subItemIndex}`;
+    return [
+      `navbar_menu_item_${itemIndex}`,
+      `navbar_menu_item_${itemIndex}_${subItemIndex}`,
+    ];
   };
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -60,7 +65,7 @@ const AppNavbar = () => {
               {NAV_DESKTOP_ITEMS.filter(({ requireLoggedIn }) =>
                 requireLoggedIn ? isLoggedIn : true
               ).map(({ label, icon, href, children }, index) =>
-                children ? (
+                children && !lg ? (
                   <Menu.SubMenu
                     key={`navbar_menu_item_${index}`}
                     title={label}
@@ -125,7 +130,7 @@ const AppNavbar = () => {
             </Button>
           </div>
         </nav>
-        
+
         <div
           className={`transition-all duration-700 ease-in-out md:hidden ${
             mobileNavOpen ? "max-h-[468px] py-2" : "max-h-0"
@@ -152,6 +157,7 @@ const AppNavbar = () => {
                     key={`navbar_menu_item_${index}`}
                     title={label}
                     icon={icon}
+                    className="[&>ul]:!bg-transparent"
                   >
                     {children.map(
                       (

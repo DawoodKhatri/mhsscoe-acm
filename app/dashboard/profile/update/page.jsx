@@ -8,11 +8,9 @@ import {
   Select,
   Row,
   Col,
+  message as showMessage,
 } from "antd";
-import {
-  PlusOutlined,
-  CloseOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, CloseOutlined } from "@ant-design/icons";
 import { Upload } from "antd";
 import Glassmorphism from "@/components/common/glassmorphism";
 import UserService from "@/services/user";
@@ -197,7 +195,12 @@ const UserDashboardProfileUpdate = () => {
                   {(fields, { add, remove }) => (
                     <>
                       {fields.map((field) => (
-                        <Row key={field.key} gutter={[32]} align="middle" className="mb-6">
+                        <Row
+                          key={field.key}
+                          gutter={[32]}
+                          align="middle"
+                          className="mb-6"
+                        >
                           <Col span={24} md={{ span: 16 }} lg={{ span: 20 }}>
                             <Form.Item
                               {...field}

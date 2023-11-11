@@ -20,7 +20,6 @@ body {
 .ant-menu-submenu,
 .ant-menu-item::after,
 .ant-menu-submenu::after {
-  background:  transparent !important;
   border-bottom: none !important;
 }
 

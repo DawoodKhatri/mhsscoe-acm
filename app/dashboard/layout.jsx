@@ -1,6 +1,6 @@
 "use client";
 import Glassmorphism from "@/components/common/glassmorphism";
-import { USER_DASHBOARD_SIDE_ITEMS } from "@/constants/dashboard";
+import { DASHBOARD_MENU_ITEMS } from "@/constants/menuItems";
 import { Layout, Menu, Grid } from "antd";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,8 +16,8 @@ const DashboardPageLayout = ({ children }) => {
   }, [lg]);
 
   const getSelectedMenuItemKey = () => {
-    return `user_dashboard_side_item_${USER_DASHBOARD_SIDE_ITEMS.indexOf(
-      USER_DASHBOARD_SIDE_ITEMS.filter(({ href }) => pathname.includes(href))[0]
+    return `user_dashboard_side_item_${DASHBOARD_MENU_ITEMS.indexOf(
+      DASHBOARD_MENU_ITEMS.filter(({ href }) => pathname.includes(href))[0]
     )}`;
   };
   return (
@@ -34,8 +34,8 @@ const DashboardPageLayout = ({ children }) => {
               className="w-full !bg-transparent text-center lg:text-start"
               selectedKeys={getSelectedMenuItemKey()}
             >
-              {USER_DASHBOARD_SIDE_ITEMS.map(({ label, href }, index) => (
-                <Menu.Item key={`user_dashboard_side_item_${index}`}>
+              {DASHBOARD_MENU_ITEMS.map(({ label,icon, href }, index) => (
+                <Menu.Item key={`user_dashboard_side_item_${index}`} icon={icon}>
                   <Link href={href}>{label}</Link>
                 </Menu.Item>
               ))}
