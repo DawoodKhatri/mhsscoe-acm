@@ -125,10 +125,11 @@ const AppNavbar = () => {
             </Button>
           </div>
         </nav>
-
+        
         <div
-          className={`transition-all duration-1000 ease-in-out md:hidden ${
-            mobileNavOpen ? "h-[284px] py-2" : "h-0 py-0"}`}
+          className={`transition-all duration-700 ease-in-out md:hidden ${
+            mobileNavOpen ? "max-h-[468px] py-2" : "max-h-0"
+          }`}
         >
           <Menu
             className="!bg-transparent"
