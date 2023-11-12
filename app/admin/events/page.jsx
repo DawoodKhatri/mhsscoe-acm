@@ -17,7 +17,7 @@ const AdminEventsPage = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { isLoading, error, data: eventQueryData } = eventQuery;
+  const { isLoading, error, data: { events = [] } = {} } = eventQuery;
 
   const deleteEvent = (eventId) => {
     EventService.deleteEvent(eventId)
@@ -50,12 +50,12 @@ const AdminEventsPage = () => {
         </Row>
       </Glassmorphism>
 
-      {eventQueryData?.events?.filter(({ title }) =>
+      {events.filter(({ title }) =>
         title.toLowerCase().includes(searchQuery.toLowerCase())
       ).length !== 0 ? (
         <Row gutter={[40, 40]}>
-          {eventQueryData?.events
-            ?.filter(({ title }) =>
+          {events
+            .filter(({ title }) =>
               title.toLowerCase().includes(searchQuery.toLowerCase())
             )
             .map((eventDetails, index) => (

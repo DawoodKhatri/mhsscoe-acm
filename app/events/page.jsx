@@ -20,7 +20,7 @@ const EventsPage = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { isLoading, error, data: eventQueryData } = eventQuery;
+  const { isLoading, error, data: { events = [] } = {} } = eventQuery;
 
   // Sorting posts by date 😊
   // const events = allEvents.sort(
@@ -72,11 +72,11 @@ const EventsPage = () => {
           </Row>
         </Glassmorphism>
 
-        {eventQueryData?.events?.filter(({ title }) =>
+        {events.filter(({ title }) =>
           title.toLowerCase().includes(searchQuery.toLowerCase())
         ).length !== 0 ? (
           <Row gutter={[40, 40]}>
-            {eventQueryData?.events
+            {events
               .filter(({ title }) =>
                 title.toLowerCase().includes(searchQuery.toLowerCase())
               )
