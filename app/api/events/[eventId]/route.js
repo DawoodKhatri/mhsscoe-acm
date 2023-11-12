@@ -7,6 +7,9 @@ import { errorResponse, successResponse } from "@/utils/sendResponse";
 
 export const GET = async (req, { params: { eventId } }) => {
   try {
+    if (!eventId.match(/^[0-9a-fA-F]{24}$/))
+      return errorResponse(404, "Event not found");
+
     await connectDB();
 
     const event = await Event.findById(eventId);
@@ -80,6 +83,22 @@ export const PUT = async (req, { params: { eventId } }) => {
     });
 
     return successResponse(200, "Event Updated successfully");
+  } catch (error) {
+    return errorResponse(500, error.message);
+  }
+};
+
+export const DELETE = async (req, { params: { eventId } }) => {
+  try {
+    if (!eventId.match(/^[0-9a-fA-F]{24}$/))
+      return errorResponse(404, "Event not found");
+
+    await connectDB();
+
+    const event = await Event.findByIdAndDelete(eventId);
+    if (!event) return errorResponse(404, "Event not found");
+
+    return successResponse(200, "Event Deleted successfully");
   } catch (error) {
     return errorResponse(500, error.message);
   }

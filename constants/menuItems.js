@@ -26,11 +26,11 @@ export const ADMIN_DASHBOARD_MENU_ITEMS = [
     icon: <TrophyOutlined />,
     href: "/admin/events",
   },
-  {
-    label: "Team",
-    icon: <TeamOutlined />,
-    href: "/admin/team",
-  },
+  // {
+  //   label: "Team",
+  //   icon: <TeamOutlined />,
+  //   href: "/admin/team",
+  // },
 ];
 
 export const NAV_DESKTOP_ITEMS = [

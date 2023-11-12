@@ -25,8 +25,11 @@ body {
 
 .ant-input-affix-wrapper,
 .ant-select-selector,
+.ant-picker,
 input,
-input * {
+input *,
+textarea,
+textarea * {
   background-color: transparent !important;
 }
 
@@ -44,4 +47,17 @@ input * {
   padding: 0 !important;
   border-style: solid !important;
   overflow: hidden !important;
+  background-color: transparent !important;
+}
+
+@media only screen and (max-width: 640px) {
+  .ant-picker-datetime-panel {
+    flex-direction: column;
+  }
+
+  .ant-picker-time-panel-cell-inner {
+    width: 88px !important;
+    text-align: center;
+    padding: 0 14px !important;
+  }
 }
