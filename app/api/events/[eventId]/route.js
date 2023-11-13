@@ -32,6 +32,9 @@ export const PUT = async (req, { params: { eventId } }) => {
     if (!user) return errorResponse(404, "Account not found");
     if (!user.isAdmin) return errorResponse(403, "Unauthorized Access");
 
+    if (!eventId.match(/^[0-9a-fA-F]{24}$/))
+      return errorResponse(404, "Event not found");
+    
     const event = await Event.findById(eventId);
     if (!event) return errorResponse(404, "Event not found");
 
@@ -90,10 +93,17 @@ export const PUT = async (req, { params: { eventId } }) => {
 
 export const DELETE = async (req, { params: { eventId } }) => {
   try {
-    if (!eventId.match(/^[0-9a-fA-F]{24}$/))
-      return errorResponse(404, "Event not found");
+    const userId = await checkAuth(req);
+    if (!userId) return errorResponse(403, "Please login first");
 
     await connectDB();
+
+    const user = await User.findById(userId);
+    if (!user) return errorResponse(404, "Account not found");
+    if (!user.isAdmin) return errorResponse(403, "Unauthorized Access");
+
+    if (!eventId.match(/^[0-9a-fA-F]{24}$/))
+      return errorResponse(404, "Event not found");
 
     const event = await Event.findByIdAndDelete(eventId);
     if (!event) return errorResponse(404, "Event not found");
