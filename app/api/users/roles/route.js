@@ -2,6 +2,8 @@ import { connectDB } from "@/config/database";
 import User from "@/models/user";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 
+export const dynamic = "force-dynamic";
+
 export const GET = async (req) => {
   try {
     await connectDB();
