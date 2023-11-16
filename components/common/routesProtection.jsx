@@ -34,7 +34,7 @@ const RoutesProtection = () => {
         }
 
         if (isProfileIncomplete === true && pathname.includes("/dashboard")) {
-          router.replace("/dashboard/profile/update");
+          router.replace("/dashboard/profile");
         }
       } else if (isLoggedIn === false) {
         if (pathname.includes("/dashboard") || pathname.includes("/admin"))
