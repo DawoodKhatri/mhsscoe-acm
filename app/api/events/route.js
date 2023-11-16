@@ -1,4 +1,5 @@
 import { connectDB } from "@/config/database";
+import { ROLES } from "@/constants/roles";
 import Event from "@/models/event";
 import User from "@/models/user";
 import checkAuth from "@/utils/checkAuth";
@@ -26,7 +27,10 @@ export const POST = async (req) => {
 
     const user = await User.findById(userId);
     if (!user) return errorResponse(404, "Account not found");
-    if (!user.isAdmin) return errorResponse(403, "Unauthorized Access");
+    if (
+      ![ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.MANAGE_EVENTS].includes(user.role)
+    )
+      return errorResponse(403, "Unauthorized Access");
 
     const body = Object.fromEntries(await req.formData());
     const {

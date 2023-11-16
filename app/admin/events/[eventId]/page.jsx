@@ -27,7 +27,6 @@ const AdminEventsPageForm = ({ params: { eventId } }) => {
   const [blogMarkdown, setBlogMarkdown] = useState("");
 
   useEffect(() => {
-    console.log(eventId);
     if (eventId !== "create") {
       EventService.getEventDetails(eventId)
         .then(

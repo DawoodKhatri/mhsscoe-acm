@@ -8,11 +8,13 @@ const authReducer = createSlice({
     login: (state, { payload }) => ({
       ...state,
       isLoggedIn: true,
-      isAdmin: payload?.isAdmin ?? undefined,
+      email: payload?.email,
+      role: payload?.role ?? undefined,
     }),
     logout: () => ({
       isLoggedIn: false,
-      isAdmin: undefined,
+      email: undefined,
+      role: undefined,
     }),
     profileIncomplete: (state) => ({
       ...state,

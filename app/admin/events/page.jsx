@@ -29,22 +29,19 @@ const AdminEventsPage = () => {
   };
 
   return (
-    <div className="mx-3 h-full pb-10">
+    <div className="mx-3 h-full flex flex-col">
       <Glassmorphism className="mb-5">
         <Row className="m-3 gap-5" justify="space-between">
           <Col flex={1}></Col>
           <Col>
             <Input.Search
-              size="large"
               placeholder="Search Events"
               onChange={({ target: { value: query } }) => setSearchQuery(query)}
             />
           </Col>
           <Col>
             <Link href="/admin/events/create">
-              <Button icon={<PlusOutlined />} size="large">
-                Create
-              </Button>
+              <Button icon={<PlusOutlined />}>Create</Button>
             </Link>
           </Col>
         </Row>
@@ -52,8 +49,8 @@ const AdminEventsPage = () => {
 
       {events.filter(({ title }) =>
         title.toLowerCase().includes(searchQuery.toLowerCase())
-      ).length !== 0 ? (
-        <Row gutter={[40, 40]}>
+      ).length > 0 ? (
+        <Row className="pb-10" gutter={[40, 40]}>
           {events
             .filter(({ title }) =>
               title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -74,7 +71,7 @@ const AdminEventsPage = () => {
             ))}
         </Row>
       ) : (
-        <Glassmorphism className="h-[calc(100%-84px)] flex justify-center items-center">
+        <Glassmorphism className="flex-grow flex justify-center items-center">
           <Empty description="No Events Found">
             <Link href="/admin/events/create">
               <Button type="primary" icon={<PlusOutlined />}>

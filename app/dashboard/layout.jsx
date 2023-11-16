@@ -1,6 +1,6 @@
 "use client";
 import DashboardLayout from "@/components/layouts/dashboardLayout";
-import { USER_DASHBOARD_MENU_ITEMS } from "@/constants/menuItems";
+import { USER_DASHBOARD_MENU_ITEMS } from "@/constants/navbarItems";
 import React from "react";
 
 const DashboardPageLayout = ({ children }) => {

@@ -6,7 +6,7 @@ const { String, Number, Boolean, ObjectId } = Schema.Types;
 
 const userSchema = new Schema(
   {
-    isAdmin: { type: Boolean },
+    role: { type: String },
     profilePicture: { type: String },
     name: { type: String },
     email: { type: String, unique: true, required: true },
@@ -16,8 +16,14 @@ const userSchema = new Schema(
     year: { type: Number },
     isMember: { type: Boolean, default: false },
     links: [{ type: String }],
-    events: { type: ObjectId, ref: "Events" },
-    achievements: { type: ObjectId, ref: "Achievements" },
+    teams: [
+      {
+        _id: false,
+        team: { type: ObjectId, ref: "Team" },
+        section: { type: ObjectId, ref: "Team.sections" },
+        post: { type: ObjectId, ref: "Post" },
+      },
+    ],
   },
   { versionKey: false }
 );
@@ -26,6 +32,7 @@ userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 10);
   }
+
   next();
 });
 

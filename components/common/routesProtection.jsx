@@ -1,5 +1,6 @@
 "use client";
 
+import { ROLES } from "@/constants/roles";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -9,14 +10,14 @@ const RoutesProtection = () => {
   const router = useRouter();
 
   const { isLoading } = useSelector((state) => state.common);
-  const { isLoggedIn, isAdmin, isProfileIncomplete } = useSelector(
+  const { isLoggedIn, role, isProfileIncomplete } = useSelector(
     (state) => state.auth
   );
 
   useEffect(() => {
     if (!isLoading) {
       if (isLoggedIn === true) {
-        if (!isAdmin && pathname.includes("/admin")) {
+        if (!Object.values(ROLES).includes(role) && pathname.includes("/admin")) {
           router.replace("/not-found");
         }
 

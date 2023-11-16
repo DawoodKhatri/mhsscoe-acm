@@ -19,11 +19,7 @@ export const POST = async (req) => {
 
     user = await User.create({ email, password });
 
-    const response = user.isAdmin
-      ? successResponse(200, "Registration done successfully", {
-          isAdmin: true,
-        })
-      : successResponse(200, "Registration done successfully");
+    const response = successResponse(200, "Registration done successfully");
 
     const token = user.generateToken();
 

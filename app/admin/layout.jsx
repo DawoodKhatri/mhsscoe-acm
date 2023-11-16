@@ -1,6 +1,6 @@
 "use client";
 import DashboardLayout from "@/components/layouts/dashboardLayout";
-import { ADMIN_DASHBOARD_MENU_ITEMS } from "@/constants/menuItems";
+import { ADMIN_DASHBOARD_MENU_ITEMS } from "@/constants/navbarItems";
 import React from "react";
 
 const AdminPageLayout = ({ children }) => {

@@ -62,7 +62,8 @@ export const PUT = async (req) => {
     user.rollno = rollno;
     user.branch = branch;
     user.year = year;
-    user.links = links;
+
+    if (user.isMember) user.links = links;
 
     await user.save();
 

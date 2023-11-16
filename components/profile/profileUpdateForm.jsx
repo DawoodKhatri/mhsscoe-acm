@@ -16,13 +16,10 @@ import Glassmorphism from "@/components/common/glassmorphism";
 import UserService from "@/services/user";
 import { useForm } from "antd/es/form/Form";
 import getBase64 from "@/utils/getBase64";
-import { useRouter } from "next/navigation";
-import CommonServices from "@/services/common";
 import { BRANCHES } from "@/constants/branches";
 import { YEARS } from "@/constants/years";
 
-const UserDashboardProfileUpdate = () => {
-  const router = useRouter();
+const UserProfileUpdateForm = ({ userId }) => {
   const [form] = useForm();
   const [pictureData, setPictureData] = useState();
   const [data, setData] = useState({
@@ -32,7 +29,6 @@ const UserDashboardProfileUpdate = () => {
     branch: "",
     year: "",
     rollno: "",
-    // links: [],
   });
 
   const handleProfilePictureChange = (info) => {
@@ -40,16 +36,14 @@ const UserDashboardProfileUpdate = () => {
   };
 
   useEffect(() => {
-    UserService.getProfileDetails(
-      (details) => {
-        details.profilePicture && setPictureData(details.profilePicture);
-        setData(details);
-        form.setFieldsValue(details);
-      },
-      (message) => {
-        showMessage.error(message);
-      }
-    );
+    UserService.getUserDetails(userId)
+      .then(({ user }) => {
+        user.profilePicture &&
+          setPictureData(`/api/file/${user.profilePicture}`);
+        setData(user);
+        form.setFieldsValue(user);
+      })
+      .catch((message) => showMessage.error(message));
   }, []);
 
   const handleSubmit = (fields) => {
@@ -58,33 +52,22 @@ const UserDashboardProfileUpdate = () => {
     } else {
       delete fields.profilePicture;
     }
-    console.log(fields);
-    UserService.updateProfileDetails(
-      fields,
-      (message) => {
-        CommonServices.getProfileStatus(
-          (message) => {
-            router.replace("/dashboard");
-          },
-          (message) => {}
-        );
-      },
-      (message) => {
-        showMessage.error(message);
-      }
-    );
+    UserService.updateUserDetails(userId, fields)
+      .then((message) => showMessage.success(message))
+      .catch((message) => showMessage.success(message));
   };
 
   return (
-    <Glassmorphism>
+    <Glassmorphism className="mb-10">
       <div className="flex justify-center items-center">
         <div className="max-w-4xl w-full px-8 py-6">
           <h2 className="text-3xl font-bold text-center mb-5">
-            Profile Update
+            Profile Details
           </h2>
           <Form
             layout="vertical"
             size="large"
+            requiredMark={false}
             form={form}
             initialValues={data ?? {}}
             onFinish={handleSubmit}
@@ -271,4 +254,4 @@ const UserDashboardProfileUpdate = () => {
   );
 };
 
-export default UserDashboardProfileUpdate;
+export default UserProfileUpdateForm;

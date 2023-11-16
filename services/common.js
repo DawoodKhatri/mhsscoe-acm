@@ -14,7 +14,7 @@ const CommonServices = {
     httpRequest(`/api/auth`, HTTP_METHODS.GET).then((res) => {
       if (res.success) {
         if (res.data.isLoggedIn) {
-          dispatch(login({ isAdmin: res.data?.isAdmin }));
+          dispatch(login(res.data));
           CommonServices.getProfileStatus(
             (message) => {},
             (message) => {}
@@ -46,7 +46,6 @@ const CommonServices = {
 
   logout: (onSuccess, onError) => {
     httpRequest(`/api/auth`, HTTP_METHODS.DELETE).then((res) => {
-      console.log(res);
       if (res.success) {
         onSuccess(res.message);
         dispatch(logout());

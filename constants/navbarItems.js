@@ -11,6 +11,7 @@ import {
   TrophyOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import { ROLES } from "./roles";
 
 export const USER_DASHBOARD_MENU_ITEMS = [
   {
@@ -25,12 +26,31 @@ export const ADMIN_DASHBOARD_MENU_ITEMS = [
     label: "Events",
     icon: <TrophyOutlined />,
     href: "/admin/events",
+    conditions: {
+      requiredRole: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.MANAGE_EVENTS],
+    },
   },
-  // {
-  //   label: "Team",
-  //   icon: <TeamOutlined />,
-  //   href: "/admin/team",
-  // },
+  {
+    label: "Teams",
+    icon: <TeamOutlined />,
+    href: "/admin/teams",
+    conditions: {
+      requiredRole: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.MANAGE_TEAMS],
+    },
+  },
+  {
+    label: "Users",
+    icon: <UserOutlined />,
+    href: "/admin/users",
+    conditions: {
+      requiredRole: [
+        ROLES.SUPER_ADMIN,
+        ROLES.ADMIN,
+        ROLES.MANAGE_USERS,
+        ROLES.USER_PROFILE,
+      ],
+    },
+  },
 ];
 
 export const NAV_DESKTOP_ITEMS = [
@@ -49,23 +69,33 @@ export const NAV_DESKTOP_ITEMS = [
   //   icon: <PictureOutlined />,
   //   href: "/gallery",
   // },
+  {
+    label: "Our Team",
+    icon: <TeamOutlined />,
+    href: "/teams",
+  },
   // {
-  //   label: "Team",
-  //   icon: <TeamOutlined />,
-  //   href: "/team",
+  //   label: "My Profile",
+  //   icon: <UserOutlined />,
+  //   href: "/profile",
   // },
   {
     label: "Dashboard",
     icon: <IdcardOutlined />,
     href: "/dashboard",
-    requireLoggedIn: true,
+    conditions: {
+      requireLoggedIn: true,
+    },
     children: USER_DASHBOARD_MENU_ITEMS,
   },
   {
     label: "Admin Panel",
     icon: <IdcardOutlined />,
     href: "/admin",
-    requireAdminLoggedIn: true,
+    conditions: {
+      requireLoggedIn: true,
+      requiredRole: Object.values(ROLES),
+    },
     children: ADMIN_DASHBOARD_MENU_ITEMS,
   },
 ];
@@ -76,7 +106,9 @@ export const NAV_MOBILE_ITEMS = [
     label: "Logout",
     icon: <LogoutOutlined />,
     isButton: true,
-    requireLoggedIn: true,
+    conditions: {
+      requireLoggedIn: true,
+    },
     onClick: () =>
       CommonServices.logout(
         () => {},
@@ -87,13 +119,17 @@ export const NAV_MOBILE_ITEMS = [
     label: "Login",
     icon: <LoginOutlined />,
     href: "/login",
-    requireLoggedOut: true,
+    conditions: {
+      requireLoggedOut: true,
+    },
   },
   {
     label: "Register",
     icon: <ArrowRightOutlined />,
     href: "/register",
     isButton: true,
-    requireLoggedOut: true,
+    conditions: {
+      requireLoggedOut: true,
+    },
   },
 ];

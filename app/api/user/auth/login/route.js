@@ -10,15 +10,13 @@ export const POST = async (req) => {
 
     await connectDB();
 
-    const user = await User.findOne({ email }).select("password isAdmin");
+    const user = await User.findOne({ email }).select("password");
     if (!user) return errorResponse(404, "Account not found");
 
     const isPasswordMatch = await user.matchPassword(password);
     if (!isPasswordMatch) return errorResponse(403, "Incorrect Credentials");
 
-    const response = user.isAdmin
-      ? successResponse(200, "Logged in successfully", { isAdmin: true })
-      : successResponse(200, "Logged in successfully");
+    const response = successResponse(200, "Logged in successfully");
 
     const token = user.generateToken();
 
