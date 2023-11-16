@@ -91,30 +91,31 @@ const UserProfileUpdateForm = ({ userDetails, updateUserDetails }) => {
                         alt="Profile Picture"
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute top-0 w-full h-full flex flex-col justify-center items-center opacity-0 text-white bg-black bg-opacity-50 hover:opacity-100">
+                      <div className="absolute top-0 w-full h-full flex flex-col justify-center items-center gap-3 opacity-0 text-white bg-black bg-opacity-50 hover:opacity-100">
                         <Button
-                          className="mb-2"
                           type="primary"
                           size="small"
                           icon={<PlusOutlined />}
                         >
                           Change
                         </Button>
-                        <Button
-                          className="mt-2"
-                          size="small"
-                          icon={<CloseOutlined />}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setPictureData(
-                              userDetails?.profilePicture
-                                ? `/api/file/${userDetails?.profilePicture}`
-                                : null
-                            );
-                          }}
-                        >
-                          Reset
-                        </Button>
+                        {pictureData !==
+                          `/api/file/${userDetails.profilePicture}` && (
+                          <Button
+                            size="small"
+                            icon={<CloseOutlined />}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setPictureData(
+                                userDetails?.profilePicture
+                                  ? `/api/file/${userDetails?.profilePicture}`
+                                  : null
+                              );
+                            }}
+                          >
+                            Reset
+                          </Button>
+                        )}
                       </div>
                     </div>
                   ) : (

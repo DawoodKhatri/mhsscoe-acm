@@ -1,4 +1,10 @@
-import { ref, uploadBytes, getDownloadURL, getStream } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  getStream,
+  deleteObject,
+} from "firebase/storage";
 import storage from "@/config/firebase";
 
 export const upload = async (folder, fileName, fileBuffer, fileMimeType) => {
@@ -22,8 +28,17 @@ export const getUrl = async (filePath) => {
   return downloadUrl;
 };
 
-export const getFileStream = async (filePath) => {
+export const getFileStream = (filePath) => {
   const storageRef = ref(storage, filePath);
   const fileStream = getStream(storageRef);
   return fileStream;
+};
+
+export const deleteFile = async (filePath) => {
+  const storageRef = ref(storage, filePath);
+  try {
+    await deleteObject(storageRef);
+  } catch (error) {
+    throw error;
+  }
 };

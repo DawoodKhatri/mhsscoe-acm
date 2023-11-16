@@ -1,7 +1,7 @@
 import { connectDB } from "@/config/database";
 import User from "@/models/user";
 import checkAuth from "@/utils/checkAuth";
-import { getUrl, upload } from "@/utils/firebaseStorage";
+import { deleteFile, upload } from "@/utils/firebaseStorage";
 import resizeImage from "@/utils/resizeImage";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 
@@ -38,16 +38,19 @@ export const PUT = async (req) => {
     if (!name || !rollno || !branch || !year)
       return errorResponse(400, "Please fill all the fields");
 
-    if (!user.profilePicture && !profilePicture) {
+    if (!user.profilePicture && !profilePicture)
       return errorResponse(400, "Please fill all the fields");
-    } else if (profilePicture) {
+
+    if (profilePicture) {
+      if (user.profilePicture) await deleteFile(user.profilePicture);
+
       const profilePictureBuffer = await resizeImage(
         await profilePicture.arrayBuffer()
       );
 
       const profilePicturePath = await upload(
         "Profile-Pictures",
-        `${user._id}.jpg`,
+        `${user._id}-${Date.now()}.jpg`,
         profilePictureBuffer,
         profilePicture.type
       );

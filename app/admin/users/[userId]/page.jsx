@@ -16,9 +16,7 @@ const AdminUserDetailsPage = ({ params: { userId } }) => {
   const [userDetails, setUserDetails] = useState({});
 
   const changeMembership = (isMember) => {
-    UserService[isMember ? "assignMembership" : "removeMembership"](
-      userDetails._id
-    )
+    UserService[isMember ? "assignMembership" : "removeMembership"](userId)
       .then((message) => {
         showMessage.success(message);
         setUserDetails({ ...userDetails, isMember });
@@ -27,7 +25,7 @@ const AdminUserDetailsPage = ({ params: { userId } }) => {
   };
 
   const changeRole = (value) => {
-    UserService[value ? "assignRole" : "removeRole"](userDetails._id, value)
+    UserService[value ? "assignRole" : "removeRole"](userId, value)
       .then((message) => {
         showMessage.success(message);
         setUserDetails({ ...userDetails, role: value });
@@ -35,20 +33,23 @@ const AdminUserDetailsPage = ({ params: { userId } }) => {
       .catch((message) => showMessage.error(message));
   };
 
+  const getDetails = () => {
+    UserService.getUserDetails(userId)
+      .then(({ user }) => setUserDetails(user))
+      .catch((message) => showMessage.error(message));
+  };
+
   const updateDetails = (details) => {
-    UserService.updateUserDetails(userDetails._id, details)
+    UserService.updateUserDetails(userId, details)
       .then((message) => {
-        delete details.profilePicture;
         showMessage.success(message);
-        setUserDetails({ ...userDetails, ...details });
+        getDetails();
       })
       .catch((message) => showMessage.error(message));
   };
 
   useEffect(() => {
-    UserService.getUserDetails(userId)
-      .then(({ user }) => setUserDetails(user))
-      .catch((message) => showMessage.error(message));
+    getDetails();
   }, [userId]);
 
   return (

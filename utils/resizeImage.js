@@ -5,20 +5,24 @@ export default async (image) => {
 
   const { width, height } = image.bitmap;
 
-  let resizeWidth, resizeHeight;
+  let resizeWidth,
+    resizeHeight,
+    maxDimension = 192;
 
-  if (width < height && width > 192) {
-    resizeWidth = 192;
-    resizeHeight = (height / width) * 192;
-  } else if (height < width && height > 192) {
-    resizeWidth = (width / height) * 192;
-    resizeHeight = 192;
-  } else {
+  if (width <= maxDimension && height <= maxDimension) {
     resizeWidth = width;
     resizeHeight = height;
+  } else {
+    if (width > height) {
+      resizeWidth = maxDimension;
+      resizeHeight = Math.round((maxDimension / width) * height);
+    } else {
+      resizeHeight = maxDimension;
+      resizeWidth = Math.round((maxDimension / height) * width);
+    }
   }
 
   image = image.resize(resizeWidth, resizeHeight);
 
-  return await image.getBufferAsync(Jimp.MIME_JPEG)
+  return await image.getBufferAsync(Jimp.MIME_JPEG);
 };
