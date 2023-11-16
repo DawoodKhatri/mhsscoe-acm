@@ -38,7 +38,6 @@ const AdminUsersPage = () => {
       </Glassmorphism>
       {users.length > 0 ? (
         <>
-          
           <Row gutter={[32, 32]} justify="space-evenly">
             {users.map(({ _id, ...user }, index) => (
               <Col

@@ -4,7 +4,7 @@ export const ROLES = {
   MANAGE_EVENTS: "events",
   MANAGE_TEAMS: "teams",
   MANAGE_USERS: "users",
-  USER_PROFILE: "users",
+  USER_PROFILE: "userProfiles",
 };
 
 export const ASSIGNABLE_ROLES = [...Object.values(ROLES).slice(1)];
