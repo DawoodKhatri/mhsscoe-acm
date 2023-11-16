@@ -15,9 +15,6 @@ export const GET = async (req) => {
     const user = await User.findById(userId);
     if (!user) return errorResponse(404, "Account not found");
 
-    if (user.profilePicture)
-      user.profilePicture = await getUrl(user.profilePicture);
-
     return successResponse(200, "Profile Details", user);
   } catch (error) {
     return errorResponse(500, error.message);

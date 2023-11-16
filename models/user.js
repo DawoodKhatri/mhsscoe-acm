@@ -1,6 +1,9 @@
 import { Schema, model, models } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import Event from "@/models/event";
+import Team from "@/models/team";
+import Post from "@/models/post";
 
 const { String, Number, Boolean, ObjectId } = Schema.Types;
 
