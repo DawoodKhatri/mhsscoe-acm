@@ -19,6 +19,7 @@ export const GET = async (req) => {
         ROLES.ADMIN,
         ROLES.MANAGE_TEAMS,
         ROLES.MANAGE_USERS,
+        ROLES.USER_PROFILE
       ].includes(user.role)
     )
       return errorResponse(403, "Unauthorized Access");

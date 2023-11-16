@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   Form,
@@ -12,8 +12,6 @@ import {
 } from "antd";
 import { PlusOutlined, CloseOutlined } from "@ant-design/icons";
 import { Upload } from "antd";
-import Glassmorphism from "@/components/common/glassmorphism";
-import UserService from "@/services/user";
 import { useForm } from "antd/es/form/Form";
 import getBase64 from "@/utils/getBase64";
 import { BRANCHES } from "@/constants/branches";
@@ -24,7 +22,11 @@ const UserProfileUpdateForm = ({ userDetails, updateUserDetails }) => {
   const [pictureData, setPictureData] = useState();
 
   const handleProfilePictureChange = (info) => {
-    getBase64(info.file.originFileObj, (data) => setPictureData(data));
+    if (info.file.size / (1024 * 1024) < 3) {
+      getBase64(info.file.originFileObj, (data) => setPictureData(data));
+    } else {
+      showMessage.error("Image size should be less than 3mb");
+    }
   };
 
   useEffect(() => {
