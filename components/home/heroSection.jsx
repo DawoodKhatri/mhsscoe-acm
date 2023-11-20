@@ -24,7 +24,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <div className="sm:min-h-[calc(100vh-64px-40px)] flex flex-col sm:flex-row">
+    <div className="sm:min-h-[calc(100vh-64px-40px)] flex flex-col md:flex-row">
       <div className="flex-1 flex items-center justify-center overflow-auto">
         <div className="relative isolate p-6 lg:p-8">
           <div className="max-w-2xl">
@@ -78,7 +78,7 @@ const HeroSection = () => {
                   slideComponent={({ data, dataIndex }) => {
                     return (
                       <img
-                        className="my-10 w-full aspect-[4/3] object-cover rounded-lg shadow-xl"
+                        className="my-10 w-full aspect-[4/3] lg:aspect-video object-cover rounded-lg shadow-xl"
                         src={data[dataIndex].cover}
                         data-aos="zoom-in"
                       />
