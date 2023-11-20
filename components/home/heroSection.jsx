@@ -26,7 +26,7 @@ const HeroSection = () => {
   return (
     <div className="sm:min-h-[calc(100vh-64px-40px)] flex flex-col sm:flex-row">
       <div className="flex-1 flex items-center justify-center overflow-auto">
-        <div className="relative isolate px-6 py-14 lg:px-8">
+        <div className="relative isolate p-6 lg:p-8">
           <div className="max-w-2xl">
             <div className="hidden sm:mb-8 sm:flex sm:justify-center">
               <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
