@@ -1,17 +1,11 @@
 "use client";
 
-import Glassmorphism from "@/components/common/glassmorphism";
 import EventCard from "@/components/events/eventCard";
 import { Input, Col, Empty, Row } from "antd";
-// import { EVENTS } from "@/constants/data";
 import Link from "next/link";
-
-// mdx imports here :)
-// import { allEvents } from ".contentlayer/generated";
-
 import { useQuery } from "react-query";
 import EventService from "@/services/event";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const EventsPage = () => {
   const eventQuery = useQuery("events", async () => {
@@ -22,42 +16,14 @@ const EventsPage = () => {
 
   const { isLoading, error, data: { events = [] } = {} } = eventQuery;
 
-  // Sorting posts by date 😊
-  // const events = allEvents.sort(
-  //   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  // );
-
   return (
     <>
-      <Glassmorphism className="relative">
-        <img
-          className="w-full h-44 md:h-96 object-cover align-middle opacity-50"
-          src="/images/EventsBanner.jpg"
-        />
-        <div className="absolute bg-primary top-0 h-full w-full bg-opacity-40 flex justify-center items-center">
-          <h2 className="text-6xl md:text-7xl font-bold italic text-left text-white">
-            Our Events
-          </h2>
-        </div>
-      </Glassmorphism>
-
-      {/* <Row className="max-w-screen-xl mx-auto my-6">
-        {events.map((event, index) => (
-          <Col
-            key={`events_page_event_${index}`}
-            span={24}
-            sm={{ span: 12 }}
-            md={{ span: 8 }}
-          >
-            <Link href={`/events/${event.title}`}>
-              <EventCard {...event} />
-            </Link>
-          </Col>
-        ))}
-      </Row> */}
+      <div className="text-gray-700 py-10 text-center">
+        <h2 className="text-7xl font-bold">Our Events</h2>
+      </div>
 
       <div className="m-5 pb-10">
-        <Glassmorphism className="mb-5">
+        <div className="mb-5">
           <Row className="m-3 gap-5" justify="space-between">
             <Col flex={1}></Col>
             <Col>
@@ -70,7 +36,7 @@ const EventsPage = () => {
               />
             </Col>
           </Row>
-        </Glassmorphism>
+        </div>
 
         {events.filter(({ title }) =>
           title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -86,16 +52,20 @@ const EventsPage = () => {
                   span={24}
                   sm={{ span: 12 }}
                   md={{ span: 8 }}
-                  lg={{ span: 6 }}
+                  lg={{ span: 24 }}
                 >
-                  <EventCard {...eventDetails} />
+                  <div className="rounded-md shadow-md">
+                    <Link href={`/events/${eventDetails._id}`}>
+                      <EventCard {...eventDetails} left={index % 2 == 0} />
+                    </Link>
+                  </div>
                 </Col>
               ))}
           </Row>
         ) : (
-          <Glassmorphism className="h-44 md:h-96 flex justify-center items-center">
+          <div className="h-44 md:h-96 flex justify-center items-center bg-white rounded-md shadow-md">
             <Empty description="No Events Found" />
-          </Glassmorphism>
+          </div>
         )}
       </div>
     </>
