@@ -52,13 +52,10 @@ const EventsPage = () => {
                   span={24}
                   sm={{ span: 12 }}
                   md={{ span: 8 }}
-                  lg={{ span: 24 }}
                 >
-                  <div className="rounded-md shadow-md">
-                    <Link href={`/events/${eventDetails._id}`}>
-                      <EventCard {...eventDetails} left={index % 2 == 0} />
-                    </Link>
-                  </div>
+                  <Link href={`/events/${eventDetails._id}`}>
+                    <EventCard {...eventDetails} left={index % 2 == 0} />
+                  </Link>
                 </Col>
               ))}
           </Row>
