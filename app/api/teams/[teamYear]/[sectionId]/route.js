@@ -17,7 +17,9 @@ export const GET = async (req, { params: { teamYear, sectionId } }) => {
       return errorResponse(404, "Section not found for this Team");
 
     const sectionIndex = team.sections.indexOf(
-      team.sections.filter(({ _id }) => _id.toString() === sectionId)[0]
+      team.sections.filter(
+        ({ _id }) => _id.toString() === sectionId.toString()
+      )[0]
     );
 
     if (sectionIndex < 0)
@@ -61,7 +63,9 @@ export const POST = async (req, { params: { teamYear, sectionId } }) => {
       return errorResponse(404, "Section not found for this Team");
 
     const sectionIndex = team.sections.indexOf(
-      team.sections.filter(({ _id }) => _id.toString() === sectionId)[0]
+      team.sections.filter(
+        ({ _id }) => _id.toString() === sectionId.toString()
+      )[0]
     );
 
     if (sectionIndex < 0)
@@ -91,7 +95,7 @@ export const POST = async (req, { params: { teamYear, sectionId } }) => {
 
     team.sections[sectionIndex].posts.push(post._id);
     await team.save();
-    
+
     postHolder.teams.push({
       team: team._id,
       section: sectionId,
@@ -125,7 +129,9 @@ export const PUT = async (req, { params: { teamYear, sectionId } }) => {
       return errorResponse(404, "Section not found for this Team");
 
     const sectionIndex = team.sections.indexOf(
-      team.sections.filter(({ _id }) => _id.toString() === sectionId)[0]
+      team.sections.filter(
+        ({ _id }) => _id.toString() === sectionId.toString()
+      )[0]
     );
 
     if (sectionIndex < 0)
@@ -162,7 +168,9 @@ export const DELETE = async (req, { params: { teamYear, sectionId } }) => {
       return errorResponse(404, "Section not found for this Team");
 
     const sectionIndex = team.sections.indexOf(
-      team.sections.filter(({ _id }) => _id.toString() === sectionId)[0]
+      team.sections.filter(
+        ({ _id }) => _id.toString() === sectionId.toString()
+      )[0]
     );
 
     if (sectionIndex < 0)
@@ -182,7 +190,8 @@ export const DELETE = async (req, { params: { teamYear, sectionId } }) => {
 
           const postHolderTeamIndex = postHolder.teams.indexOf(
             postHolder.teams.filter(
-              ({ post: holderPostId }) => holderPostId === postId
+              ({ post: holderPostId }) =>
+                holderPostId.toString() === postId.toString()
             )[0]
           );
 

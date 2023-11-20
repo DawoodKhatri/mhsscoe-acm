@@ -76,7 +76,8 @@ export const DELETE = async (req, { params: { teamYear } }) => {
 
                 const postHolderTeamIndex = postHolder.teams.indexOf(
                   postHolder.teams.filter(
-                    ({ post: holderPostId }) => holderPostId === postId
+                    ({ post: holderPostId }) =>
+                      holderPostId.toString() === postId.toString()
                   )[0]
                 );
 

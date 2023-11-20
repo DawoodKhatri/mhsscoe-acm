@@ -55,7 +55,7 @@ export const PUT = async (req, { params: { teamYear, sectionId, postId } }) => {
 
       const isAlreadyAssigned = newPostHolder.teams.find(
         ({ team: newPostHolderCurrTeamId }) =>
-          newPostHolderCurrTeamId === team._id
+          newPostHolderCurrTeamId.toString() === team._id.toString()
       );
 
       if (isAlreadyAssigned)
@@ -63,7 +63,8 @@ export const PUT = async (req, { params: { teamYear, sectionId, postId } }) => {
 
       const currPostHolderTeamIndex = currPostHolder.teams.indexOf(
         currPostHolder.teams.filter(
-          ({ post: currHolderPostId }) => currHolderPostId === postId
+          ({ post: currHolderPostId }) =>
+            currHolderPostId.toString() === postId.toString()
         )[0]
       );
 
@@ -114,7 +115,9 @@ export const DELETE = async (
       return errorResponse(404, "Section not found for this Team");
 
     const sectionIndex = team.sections.indexOf(
-      team.sections.filter(({ _id }) => _id.toString() === sectionId)[0]
+      team.sections.filter(
+        ({ _id }) => _id.toString() === sectionId.toString()
+      )[0]
     );
 
     if (sectionIndex < 0)
@@ -130,7 +133,8 @@ export const DELETE = async (
 
     const postHolderTeamIndex = postHolder.teams.indexOf(
       postHolder.teams.filter(
-        ({ post: currHolderPostId }) => currHolderPostId === postId
+        ({ post: currHolderPostId }) =>
+          currHolderPostId.toString() === postId.toString()
       )[0]
     );
 
