@@ -1,24 +1,31 @@
 "use client";
 
-import React from "react";
-import Glassmorphism from "../common/glassmorphism";
-import { Button } from "antd";
-import { colorPrimary } from "@/constants/colors";
+import React, { useRef, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
 import Link from "next/link";
+import {
+  ResponsiveContainer,
+  StackedCarousel,
+} from "react-stacked-center-carousel";
 
 const HeroSection = () => {
+  const imgStackRef = useRef();
+  const [imgStackTimer, setImgStackTimer] = useState();
+
   useEffect(() => {
+    if (!imgStackTimer)
+      setImgStackTimer(setInterval(() => imgStackRef.current?.goNext(), 3000));
+
     AOS.init({
       duration: 2000,
     }); // Initialize AOS
   }, []);
 
   return (
-    <div className="h-fit my-auto">
-      <div className="flex items-center justify-center overflow-auto">
+    <div className="sm:min-h-[calc(100vh-64px-40px)] flex flex-col sm:flex-row">
+      <div className="flex-1 flex items-center justify-center overflow-auto">
         <div className="relative isolate px-6 py-14 lg:px-8">
           <div className="max-w-2xl">
             <div className="hidden sm:mb-8 sm:flex sm:justify-center">
@@ -58,6 +65,50 @@ const HeroSection = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="flex-1 flex justify-center items-center ">
+        <div className="w-full relative z-0">
+          <ResponsiveContainer
+            carouselRef={imgStackRef}
+            render={(parentWidth, carouselRef) => {
+              return (
+                <StackedCarousel
+                  ref={carouselRef}
+                  slideComponent={({ data, dataIndex }) => {
+                    return (
+                      <img
+                        className="my-10 w-full aspect-video object-cover rounded-lg shadow-xl"
+                        src={data[dataIndex].cover}
+                        loading="lazy"
+                        data-aos="zoom-in"
+                      />
+                    );
+                  }}
+                  data={[
+                    {
+                      cover: "/api/file/Static-Images/hero_section_pic1.jpg",
+                    },
+
+                    {
+                      cover: "/api/file/Static-Images/hero_section_pic2.jpg",
+                    },
+                    {
+                      cover: "/api/file/Static-Images/hero_section_pic3.jpg",
+                    },
+                    {
+                      cover: "/api/file/Static-Images/hero_section_pic4.jpg",
+                    },
+                  ]}
+                  slideWidth={(parentWidth * 3) / 4}
+                  carouselWidth={parentWidth}
+                  maxVisibleSlide={3}
+                  disableSwipe
+                  transitionTime={1000}
+                />
+              );
+            }}
+          />
         </div>
       </div>
     </div>
