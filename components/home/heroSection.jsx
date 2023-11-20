@@ -67,7 +67,7 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
-      <div className="flex-1 flex justify-center items-center ">
+      <div className="flex-1 flex justify-center items-center">
         <div className="w-full relative z-0">
           <ResponsiveContainer
             carouselRef={imgStackRef}
@@ -78,9 +78,8 @@ const HeroSection = () => {
                   slideComponent={({ data, dataIndex }) => {
                     return (
                       <img
-                        className="my-10 w-full aspect-video object-cover rounded-lg shadow-xl"
+                        className="my-10 w-full aspect-[4/3] object-cover rounded-lg shadow-xl"
                         src={data[dataIndex].cover}
-                        loading="lazy"
                         data-aos="zoom-in"
                       />
                     );
