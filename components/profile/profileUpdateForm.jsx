@@ -190,9 +190,9 @@ const UserProfileUpdateForm = ({ userDetails, updateUserDetails }) => {
             <Form.List name="links">
               {(fields, { add, remove }) => (
                 <>
-                  {fields.map((field) => (
+                  {fields.map(({ key, ...field }) => (
                     <Row
-                      key={field.key}
+                      key={key}
                       gutter={[32]}
                       align="middle"
                       className="mb-6"
