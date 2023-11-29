@@ -1,52 +1,53 @@
 "use client";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import {
-  Form,
-  Input,
-  Button,
-  Select,
-  Row,
-  Col,
-  message as showMessage,
-} from "antd";
-import { PlusOutlined, CloseOutlined } from "@ant-design/icons";
-import { Upload } from "antd";
+import { Form, Input, Button, Select, Row, Col } from "antd";
+import { PlusOutlined, CloseOutlined, EditOutlined } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
-import getBase64 from "@/utils/getBase64";
 import { BRANCHES } from "@/constants/branches";
 import { YEARS } from "@/constants/years";
+import ImageEditor from "../common/imageEditor";
 
 const UserProfileUpdateForm = ({ userDetails, updateUserDetails }) => {
   const [form] = useForm();
-  const [pictureData, setPictureData] = useState();
+  const [pictureData, setPictureData] = useState({ file: null, url: null });
+  const [isEditorOpen, setEditorOpen] = useState(false);
 
-  const handleProfilePictureChange = (info) => {
-    if (info.file.size / (1024 * 1024) < 3) {
-      getBase64(info.file.originFileObj, (data) => setPictureData(data));
-    } else {
-      showMessage.error("Image size should be less than 3mb");
-    }
+  const resetPicture = () => {
+    setPictureData({
+      url: userDetails?.profilePicture
+        ? `/api/file/${userDetails?.profilePicture}`
+        : null,
+      file: null,
+    });
+    form.setFieldValue("profilePicture", 0);
+  };
+
+  const changePicture = (newPicture) => {
+    setPictureData({
+      file: newPicture,
+      url: URL.createObjectURL(newPicture),
+    });
+    form.setFieldValue("profilePicture", newPicture);
+    setEditorOpen(false);
   };
 
   useEffect(() => {
     if (userDetails) {
-      setPictureData(
-        userDetails?.profilePicture
-          ? `/api/file/${userDetails?.profilePicture}`
-          : null
-      );
-      form.setFieldsValue(userDetails);
+      const { profilePicture, ...details } = userDetails;
+      setPictureData({
+        url: profilePicture ? `/api/file/${profilePicture}` : null,
+        file: null,
+      });
+      form.setFieldsValue({ ...details, profilePicture: 0 });
     } else {
-      setPictureData(null);
+      setPictureData({ file: null, url: null });
       form.resetFields();
     }
   }, [userDetails]);
 
   const handleSubmit = (fields) => {
-    if (fields.profilePicture.file) {
-      fields.profilePicture = fields.profilePicture.file.originFileObj;
-    } else {
+    if (!fields.profilePicture) {
       delete fields.profilePicture;
     }
 
@@ -67,9 +68,8 @@ const UserProfileUpdateForm = ({ userDetails, updateUserDetails }) => {
           <Col span={24} md={{ span: 8 }}>
             <div className="text-center">
               <Form.Item
-                className="!mb-0"
+                className="!hidden !w-0 !h-0 !mb-0"
                 name="profilePicture"
-                valuePropName="file"
                 rules={[
                   {
                     required: true,
@@ -77,57 +77,65 @@ const UserProfileUpdateForm = ({ userDetails, updateUserDetails }) => {
                   },
                 ]}
               >
-                <Upload
-                  listType="picture-card"
-                  accept="image/png, image/jpeg, image/jpg"
-                  className="!w-1/2 md:!w-3/5 !aspect-square overflow-hidden"
-                  customRequest={() => {}}
-                  showUploadList={false}
-                  multiple={false}
-                  onChange={handleProfilePictureChange}
-                >
-                  {pictureData ? (
-                    <div className="w-full h-full relative">
-                      <img
-                        src={pictureData}
-                        alt="Profile Picture"
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute top-0 w-full h-full flex flex-col justify-center items-center gap-3 opacity-0 text-white bg-black bg-opacity-50 hover:opacity-100">
-                        <Button
-                          type="primary"
-                          size="small"
-                          icon={<PlusOutlined />}
-                        >
-                          Change
-                        </Button>
-                        {pictureData !==
-                          `/api/file/${userDetails.profilePicture}` && (
-                          <Button
-                            size="small"
-                            icon={<CloseOutlined />}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setPictureData(
-                                userDetails?.profilePicture
-                                  ? `/api/file/${userDetails?.profilePicture}`
-                                  : null
-                              );
-                            }}
-                          >
-                            Reset
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="w-full h-full flex flex-col justify-center items-center">
-                      <PlusOutlined />
-                      <div className="mt-3">Upload</div>
-                    </div>
-                  )}
-                </Upload>
+                <Input className="!hidden !w-0 !h-0" />
               </Form.Item>
+              {isEditorOpen && (
+                <ImageEditor
+                  originalImageUrl={pictureData.url}
+                  closeEditor={() => setEditorOpen(false)}
+                  onSaveImage={changePicture}
+                />
+              )}
+              <div className="w-1/2 md:w-3/5 aspect-square rounded-md overflow-hidden mx-auto">
+                {pictureData.url ? (
+                  <div className="w-full h-full relative">
+                    <img
+                      src={pictureData.url}
+                      alt="Profile Picture"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute top-0 w-full h-full flex flex-col justify-center items-center gap-3 opacity-0 text-white bg-black bg-opacity-50 hover:opacity-100 transition-all duration-300 ease-in-out">
+                      <Button
+                        type="primary"
+                        size="small"
+                        icon={<EditOutlined />}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setEditorOpen(true);
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        className="!bg-red-500 hover:!bg-red-400"
+                        type="primary"
+                        size="small"
+                        icon={<CloseOutlined />}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          resetPicture();
+                        }}
+                      >
+                        Reset
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="w-full h-full flex flex-col justify-center items-center border border-gray-300 rounded-md hover:border-primary transition-all ease-in-out duration-300">
+                    <Button
+                      type="primary"
+                      size="small"
+                      icon={<PlusOutlined />}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditorOpen(true);
+                      }}
+                    >
+                      Upload
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
           </Col>
           <Col span={24} md={{ span: 16 }}>

@@ -89,7 +89,7 @@ export async function middleware(req) {
         }
 
         default:
-          return NextResponse.redirect(new URL("/not-found", origin));
+          break;
       }
     }
   } else {
