@@ -27,6 +27,7 @@ const TeamSectionCard = ({ teamYear, sectionId }) => {
               span={12}
               sm={{ span: 8 }}
               md={{ span: 6 }}
+              lg={{ span: 5 }}
             >
               <TeamSectionsPostCard {...post} />
             </Col>
