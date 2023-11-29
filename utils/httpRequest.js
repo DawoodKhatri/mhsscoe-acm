@@ -13,7 +13,10 @@ export default async (url, method, data, isMultipart) => {
       reqOptions.headers = { "Content-Type": "application/json" };
       reqOptions.body = JSON.stringify(data);
     }
-    const result = await fetch(url, reqOptions);
+    const result = await fetch(
+      (process.env.CLIENT_URL ?? "") + url,
+      reqOptions
+    );
     const response = await result.json();
     dispatch(loading(false));
     return response;
