@@ -99,7 +99,7 @@ const AppNavbar = () => {
                       <Menu.Item
                         key={`navbar_menu_item_${index}`}
                         icon={icon}
-                        className="!font-semibold !px-4 lg:!px-6 hover:!text-primary-light"
+                        className="!font-thin !px-4 lg:!px-6 hover:!text-primary-light"
                       >
                         <Link href={href}>{label}</Link>
                       </Menu.Item>
