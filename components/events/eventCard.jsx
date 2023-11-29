@@ -26,7 +26,7 @@ const EventCard = ({
   }, []);
 
   return (
-    <div className="hover:scale-[1.01] hover:shadow-sm transition-all duration-300">
+    <div className="rounded-lg overflow-hidden shadow-sm hover:scale-[1.01] hover:shadow-lg transition-all duration-300">
       {/* <Card
           className="!bg-transparent border-none"
           hoverable
@@ -141,7 +141,7 @@ const EventCard = ({
             src={`/api/file/${thumbnail}`}
           />
         </div>
-        <div className="relative w-full h-full flex flex-col gap-5 p-5">
+        <div className="relative w-full h-full flex flex-col gap-3 p-3">
           <div className="w-full flex-[6] overflow-hidden">
             <img
               className="mx-auto h-full object-contain rounded-lg"
