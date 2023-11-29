@@ -44,14 +44,10 @@ export const PUT = async (req) => {
     if (profilePicture) {
       if (user.profilePicture) await deleteFile(user.profilePicture);
 
-      const profilePictureBuffer = await resizeImage(
-        await profilePicture.arrayBuffer()
-      );
-
       const profilePicturePath = await upload(
         "Profile-Pictures",
-        `${user._id}-${Date.now()}.jpg`,
-        profilePictureBuffer,
+        `${user._id}-${Date.now()}.webp`,
+        await profilePicture.arrayBuffer(),
         profilePicture.type
       );
 
