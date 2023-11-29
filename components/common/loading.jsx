@@ -8,7 +8,7 @@ const AppLoading = () => {
   if (isLoading)
     return (
       <div className="fixed top-0 h-screen w-full overflow-hidden bg-white bg-opacity-40 flex justify-center items-center">
-        {/* <PropagateLoader color="#1677ff" size={30}/> */}
+        <PropagateLoader color="#1677ff" size={30}/>
       </div>
     );
 
