@@ -1,15 +1,11 @@
 "use client";
 
-import { Button, Card } from "antd";
-import Glassmorphism from "../common/glassmorphism";
+import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import Image from "next/image";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
-
-const { Meta } = Card;
 
 const EventCard = ({
   _id,
@@ -22,11 +18,13 @@ const EventCard = ({
 }) => {
   useEffect(() => {
     AOS.init({ duration: 1000 });
-    console.log("AOS.init");
   }, []);
 
   return (
-    <div className="rounded-lg overflow-hidden shadow-sm hover:scale-[1.01] hover:shadow-lg transition-all duration-300">
+    <div
+      className="rounded-lg overflow-hidden shadow-sm hover:scale-[1.01] hover:shadow-lg transition-all duration-300"
+      data-aos="fade-up"
+    >
       {/* <Card
           className="!bg-transparent border-none"
           hoverable
@@ -133,7 +131,6 @@ const EventCard = ({
         className={`relative ${
           allowEditDelete ? "aspect-[3/4]" : "aspect-square"
         } rounded-lg overflow-hidden`}
-        data-aos="fade-up"
       >
         <div className="absolute top-0 w-full h-full">
           <img
