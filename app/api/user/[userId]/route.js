@@ -3,7 +3,6 @@ import { ROLES } from "@/constants/roles";
 import checkAuth from "@/utils/checkAuth";
 import User from "@/models/user";
 import { deleteFile, upload } from "@/utils/firebaseStorage";
-import resizeImage from "@/utils/resizeImage";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 
 export const GET = async (req, { params: { userId } }) => {

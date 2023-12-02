@@ -1,6 +1,7 @@
 import CommonServices from "@/services/common";
 import {
   ArrowRightOutlined,
+  BookOutlined,
   GroupOutlined,
   HomeOutlined,
   IdcardOutlined,
@@ -74,11 +75,11 @@ export const NAV_DESKTOP_ITEMS = [
     icon: <TeamOutlined />,
     href: "/teams",
   },
-  // {
-  //   label: "My Profile",
-  //   icon: <UserOutlined />,
-  //   href: "/profile",
-  // },
+  {
+    label: "Magazines",
+    icon: <BookOutlined />,
+    href: "/magazines",
+  },
   {
     label: "Dashboard",
     icon: <IdcardOutlined />,

@@ -28,9 +28,9 @@ export const getUrl = async (filePath) => {
   return downloadUrl;
 };
 
-export const getFileStream = (filePath) => {
+export const getFileStream = async (filePath) => {
   const storageRef = ref(storage, filePath);
-  const fileStream = getStream(storageRef);
+  const fileStream = await getStream(storageRef);
   return fileStream;
 };
 
