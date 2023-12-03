@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { Button, Skeleton } from "antd";
+import { Button } from "antd";
 import {
   DoubleLeftOutlined,
   DoubleRightOutlined,
@@ -10,13 +10,14 @@ import {
 import "../../../styles/magazineViewer.css";
 import ReactFlipBook from "react-pageflip";
 import MagazineService from "@/services/magazine";
-import { getPdfDocument } from "@/utils/pdfHandler";
+import { getPdfDocument, getPdfPage } from "@/utils/pdfHandler";
 import MagazineViewerPage from "@/components/magazines/magazineViewerPage";
 import { dispatch } from "@/redux/store";
 import { loading } from "@/redux/reducers/commonReducer";
 
 const MagazineViewPage = ({ params: { magazineId } }) => {
   const [magazine, setMagazine] = useState();
+  const [pages, setPages] = useState([]);
   const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
   const [currPage, setCurrPage] = useState(1);
   const [isFullscreen, setFullscreen] = useState(false);
@@ -55,6 +56,31 @@ const MagazineViewPage = ({ params: { magazineId } }) => {
       }
     );
   }, []);
+
+  useEffect(() => {
+    if (magazine) {
+      setPages(Array(magazine.numPages).fill(null));
+      renderPages();
+    }
+  }, [magazine]);
+
+  const renderPages = async () => {
+    const renderedPages = await Promise.all(
+      Array(magazine.numPages)
+        .fill(null)
+        .map(async (pageUrl, pageIndex) => {
+          const pageCanvas = await getPdfPage(magazine, pageIndex + 1);
+          const pageBlob = await new Promise((resolve, reject) => {
+            pageCanvas.toBlob((pageBlob) => {
+              resolve(pageBlob);
+            });
+          });
+          return URL.createObjectURL(pageBlob);
+        })
+    );
+
+    setPages(renderedPages);
+  };
 
   const toggleFullscreen = () => {
     if (document.fullscreenElement) {
@@ -96,7 +122,7 @@ const MagazineViewPage = ({ params: { magazineId } }) => {
           className={`w-full h-full absolute`}
           style={{ top: isFullscreen ? 20 : 0 }}
         >
-          {magazine?.numPages > 0 && (
+          {pages.length > 0 && (
             <ReactFlipBook
               key={screenSize.height}
               className="!mx-auto"
@@ -110,28 +136,21 @@ const MagazineViewPage = ({ params: { magazineId } }) => {
                 bookRef.current?.pageFlip()?.turnToPage(currPage - 1);
               }}
             >
-              {Array(magazine.numPages)
-                .fill(null)
-                .map((val, pageIndex) => (
-                  <div
-                    key={`magazine_page_index_${pageIndex}`}
-                    style={{
-                      width: getBookWidth(),
-                      height: getBookWidth() * 1.414,
-                    }}
-                  >
-                    {pageIndex > currPage - 4 && pageIndex < currPage + 4 && (
-                      <MagazineViewerPage
-                        magazine={magazine}
-                        pageNo={pageIndex + 1}
-                      />
-                    )}
-                  </div>
-                ))}
+              {pages.map((pageUrl, pageIndex) => (
+                <div
+                  key={`magazine_page_index_${pageIndex}`}
+                  style={{
+                    width: getBookWidth(),
+                    height: getBookWidth() * 1.414,
+                  }}
+                >
+                  <MagazineViewerPage pageUrl={pageUrl} />
+                </div>
+              ))}
             </ReactFlipBook>
           )}
         </div>
-        {magazine?.numPages > 0 && (
+        {pages.length > 0 && (
           <div
             className="relative h-full flex flex-col justify-center items-center"
             style={{ padding: isFullscreen ? "20px" : "12px" }}

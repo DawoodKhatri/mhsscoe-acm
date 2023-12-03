@@ -11,7 +11,6 @@ export const GET = async (req, { params: { folderPath, filePath } }) => {
       responseType: "stream",
       method: "get",
     });
-    // return new NextResponse(await getFileStream(`${folderPath}/${filePath}`));
     return new NextResponse(fileStream);
   } catch (error) {
     return errorResponse(404, "File not found");
