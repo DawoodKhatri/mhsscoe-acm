@@ -6,8 +6,7 @@ const magazineSchema = new Schema(
   {
     title: { type: String },
     description: { type: String },
-    thumbnail: { type: String },
-    file: { type: String },
+    pages: [{ type: String }],
   },
   { versionKey: false }
 );

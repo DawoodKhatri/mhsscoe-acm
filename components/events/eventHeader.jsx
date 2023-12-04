@@ -1,7 +1,7 @@
 import React from "react";
 import Glassmorphism from "../common/glassmorphism";
 
-const EventHeader = ({ title, description, thumbnail }) => {
+const EventHeader = ({ title, description, poster }) => {
   return (
     <>
       <Glassmorphism className="p-5">
@@ -11,7 +11,7 @@ const EventHeader = ({ title, description, thumbnail }) => {
       <Glassmorphism className="mt-5">
         <img
           className="w-full aspect-[4/3] object-cover"
-          src={`/api/file/${thumbnail}`}
+          src={`/api/file/${poster}`}
         />
       </Glassmorphism>
     </>

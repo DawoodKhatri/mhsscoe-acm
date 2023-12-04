@@ -61,6 +61,8 @@ const AdminTeamsPage = () => {
                   key={`admin_team_section_control_${index}`}
                   teamYear={currTeamYear}
                   refresh={() => teamSectionsQuery.refetch()}
+                  isFirst={index === 0}
+                  isLast={index === sections.length - 1}
                   {...section}
                 />
               ))}

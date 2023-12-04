@@ -49,65 +49,55 @@ const AdminTeamControl = ({ allTeamsQuery, currTeamYear, setCurrTeamYear }) => {
     <>
       {teams.length > 0 ? (
         <Glassmorphism className="mb-5">
-          <Row className="m-3 gap-5" justify="space-between" align="middle">
-            <Col>
-              <Row className="w-64" align="middle">
-                <Col span={10}>
-                  <span className="text-base">Select Team:</span>
-                </Col>
-                <Col span={14}>
-                  <Space.Compact className="w-full">
-                    <Select
-                      className="w-full"
-                      options={teams.map(({ year }) => ({
-                        label: year,
-                        value: year,
-                      }))}
-                      value={currTeamYear}
-                      onChange={(value) => setCurrTeamYear(value)}
-                    />
-                    <Button
-                      className="!bg-red-500 hover:!bg-red-400"
-                      type="primary"
-                      icon={<DeleteOutlined />}
-                      onClick={deleteTeam}
-                    />
-                  </Space.Compact>
-                </Col>
-              </Row>
-            </Col>
-
-            <Col flex={1} />
-            <Col>
-              <Space.Compact>
-                <DatePicker
-                  placeholder="Select Year"
-                  picker="year"
-                  allowClear={false}
-                  disabledDate={(current) =>
-                    teams.filter(
-                      ({ year }) => year.slice(0, 4) === current?.format("YYYY")
-                    ).length
-                  }
-                  value={
-                    newTeamYearValue
-                      ? dayjs(newTeamYearValue.slice(0, 4))
-                      : null
-                  }
-                  onChange={(value) =>
-                    setNewTeamYearValue(
-                      `${value?.format("YYYY")}-${
-                        Number(value?.format("YY")) + 1
-                      }`
-                    )
-                  }
+          <div className="m-5 flex flex-col sm:flex-row gap-5 justify-between items-center">
+            <div className="w-full sm:w-64 flex gap-3 items-center" align="middle">
+              <span className="text-base">Select Team:</span>
+              <Space.Compact className="flex-grow flex">
+                <Select
+                  className="flex-grow"
+                  options={teams.map(({ year }) => ({
+                    label: year,
+                    value: year,
+                  }))}
+                  value={currTeamYear}
+                  onChange={(value) => setCurrTeamYear(value)}
                 />
-                <Button type="primary" onClick={createTeam}>
-                  Create Team
-                </Button>
+                <Button
+                  className="!bg-red-500 hover:!bg-red-400"
+                  type="primary"
+                  icon={<DeleteOutlined />}
+                  onClick={deleteTeam}
+                />
               </Space.Compact>
-            </Col>
-          </Row>
+            </div>
+
+            <Space.Compact className="w-full sm:w-fit flex">
+              <DatePicker
+                className="flex-grow"
+                placeholder="Select Year"
+                picker="year"
+                allowClear={false}
+                disabledDate={(current) =>
+                  teams.filter(
+                    ({ year }) => year.slice(0, 4) === current?.format("YYYY")
+                  ).length
+                }
+                value={
+                  newTeamYearValue ? dayjs(newTeamYearValue.slice(0, 4)) : null
+                }
+                onChange={(value) =>
+                  setNewTeamYearValue(
+                    `${value?.format("YYYY")}-${
+                      Number(value?.format("YY")) + 1
+                    }`
+                  )
+                }
+              />
+              <Button type="primary" onClick={createTeam}>
+                Create Team
+              </Button>
+            </Space.Compact>
+          </div>
         </Glassmorphism>
       ) : (
         <Glassmorphism className="h-[calc(100%+40px)] flex justify-center items-center">

@@ -2,12 +2,17 @@ import { errorResponse, successResponse } from "@/utils/sendResponse";
 import { getPdfDocument, getPdfPage } from "@/utils/pdfHandler";
 import Magazine from "@/models/magazine";
 import { connectDB } from "@/config/database";
-import { upload } from "@/utils/firebaseStorage";
+import { uploadFile } from "@/utils/cloudinaryStorage";
 
 export const GET = async (req) => {
   try {
     await connectDB();
-    const magazines = await Magazine.find();
+    let magazines = await Magazine.find();
+    magazines = magazines.map(({ _doc: { pages, ...details } }) => ({
+      ...details,
+      thumbnail: pages[0],
+    }));
+
     return successResponse(200, "Magazines", { magazines });
   } catch (error) {
     console.log(error);
@@ -28,24 +33,24 @@ export const POST = async (req) => {
     const magazine = await Magazine.create({ title, description });
 
     const document = await getPdfDocument(await file.arrayBuffer());
-    const thumbnail = (await getPdfPage(document, 1)).toBuffer("image/jpeg");
 
-    const thumbnailPath = await upload(
-      "Magazine-Thumbnails",
-      `${magazine._id}-${Date.now()}.jpeg`,
-      thumbnail,
-      "image/jpeg"
+    const magazinePages = await Promise.all(
+      Array(document.numPages)
+        .fill(null)
+        .map(async (val, pageIndex) => {
+          const pageBuffer = (
+            await getPdfPage(document, pageIndex + 1)
+          ).toBuffer("image/jpeg");
+          const pagePath = await uploadFile(
+            pageBuffer,
+            `Magazines/${magazine._id}`
+          );
+          console.log(`Uploaded Page ${pageIndex + 1}/${document.numPages}`);
+          return pagePath;
+        })
     );
 
-    const filePath = await upload(
-      "Magazines",
-      `${magazine._id}-${Date.now()}.pdf`,
-      await file.arrayBuffer(),
-      file.type
-    );
-
-    magazine.thumbnail = thumbnailPath;
-    magazine.file = filePath;
+    magazine.pages = magazinePages;
     await magazine.save();
 
     return successResponse(200, "Magazine Published");

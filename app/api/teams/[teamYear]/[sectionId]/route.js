@@ -148,6 +148,57 @@ export const PUT = async (req, { params: { teamYear, sectionId } }) => {
   }
 };
 
+export const PATCH = async (req, { params: { teamYear, sectionId } }) => {
+  try {
+    const userId = await checkAuth(req);
+    if (!userId) return errorResponse(403, "Please login first");
+
+    await connectDB();
+
+    const user = await User.findById(userId);
+    if (!user) return errorResponse(404, "Account not found");
+    if (
+      ![ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.MANAGE_TEAMS].includes(user.role)
+    )
+      return errorResponse(403, "Unauthorized Access");
+
+    const team = await Team.findOne({ year: teamYear });
+    if (!team) return errorResponse(404, "Team not found for this Year");
+    if (!sectionId.match(/^[0-9a-fA-F]{24}$/))
+      return errorResponse(404, "Section not found for this Team");
+
+    const sectionIndex = team.sections.indexOf(
+      team.sections.filter(
+        ({ _id }) => _id.toString() === sectionId.toString()
+      )[0]
+    );
+
+    if (sectionIndex < 0)
+      return errorResponse(404, "Section not found for this Team");
+
+    const { direction } = await req.json();
+    if (!direction) return errorResponse(400, "Please specify direction");
+    if (direction !== "UP" && direction !== "DOWN")
+      return errorResponse(400, "Invalid Direction");
+
+    const targetIndex =
+      direction === "UP" ? sectionIndex - 1 : sectionIndex + 1;
+
+    if (targetIndex < 0 || targetIndex >= team.sections.length)
+      return errorResponse(400, "Invalid Movement");
+
+    [team.sections[sectionIndex], team.sections[targetIndex]] = [
+      team.sections[targetIndex],
+      team.sections[sectionIndex],
+    ];
+
+    await team.save();
+
+    return successResponse(200, "Section Moved");
+  } catch (error) {
+    return errorResponse(500, error.message);
+  }
+};
 export const DELETE = async (req, { params: { teamYear, sectionId } }) => {
   try {
     const userId = await checkAuth(req);

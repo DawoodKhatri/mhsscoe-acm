@@ -2,8 +2,8 @@ import { connectDB } from "@/config/database";
 import { ROLES } from "@/constants/roles";
 import checkAuth from "@/utils/checkAuth";
 import User from "@/models/user";
-import { deleteFile, upload } from "@/utils/firebaseStorage";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
+import { deleteFile, uploadFile } from "@/utils/cloudinaryStorage";
 
 export const GET = async (req, { params: { userId } }) => {
   try {
@@ -62,11 +62,10 @@ export const PUT = async (req, { params: { userId: targetUserId } }) => {
       if (targetUser.profilePicture)
         await deleteFile(targetUser.profilePicture);
 
-      const profilePicturePath = await upload(
-        "Profile-Pictures",
-        `${targetUser._id}-${Date.now()}.webp`,
-        await profilePicture.arrayBuffer(),
-        profilePicture.type
+      const profilePicturePath = await uploadFile(
+        Buffer.from(await profilePicture.arrayBuffer()),
+        "Profile Pictures",
+        `${targetUser._id}-${Date.now()}`
       );
 
       targetUser.profilePicture = profilePicturePath;

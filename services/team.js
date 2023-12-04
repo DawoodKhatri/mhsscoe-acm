@@ -78,6 +78,19 @@ const TeamService = {
     }
   },
 
+  moveTeamSection: async (teamYear, sectionId, direction) => {
+    const res = await httpRequest(
+      `/api/teams/${teamYear}/${sectionId}`,
+      HTTP_METHODS.PATCH,
+      { direction }
+    );
+    if (res.success) {
+      return res.message;
+    } else {
+      throw res.message;
+    }
+  },
+
   deleteTeamSection: async (teamYear, sectionId) => {
     const res = await httpRequest(
       `/api/teams/${teamYear}/${sectionId}`,

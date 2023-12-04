@@ -91,6 +91,7 @@ const ImageEditor = ({ originalImageUrl, onSaveImage, closeEditor }) => {
             viewMode={1}
             dragMode="move"
             aspectRatio={1}
+            crossOrigin="anonymous"
           />
         ) : (
           <Empty className="my-10" description="No Image Selected" />

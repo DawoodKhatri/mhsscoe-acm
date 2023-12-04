@@ -6,7 +6,7 @@ const eventSchema = new Schema(
   {
     title: { type: String },
     description: { type: String },
-    thumbnail: { type: String },
+    poster: { type: String },
     startDate: { type: Date },
     endDate: { type: Date },
     registrationEndDate: { type: Date },

@@ -11,7 +11,7 @@ const EventCard = ({
   _id,
   title,
   description,
-  thumbnail,
+  poster,
   allowEditDelete,
   onDelete,
   left = true,
@@ -32,7 +32,7 @@ const EventCard = ({
             <img
               loading="lazy"
               alt="image"
-              src={`/api/file/${thumbnail}`}
+              src={`/api/file/${poster}`}
               className="w-full aspect-[4/3] object-cover"
             />
           }
@@ -78,7 +78,7 @@ const EventCard = ({
         >
           {left && (
             <Image
-              src={`/api/file/${thumbnail}`}
+              src={`/api/file/${poster}`}
               alt="image"
               width={300}
               height={300}
@@ -95,7 +95,7 @@ const EventCard = ({
 
           {!left && (
             <Image
-              src={`/api/file/${thumbnail}`}
+              src={`/api/file/${poster}`}
               alt="image"
               width={300}
               height={300}
@@ -135,14 +135,14 @@ const EventCard = ({
         <div className="absolute top-0 w-full h-full">
           <img
             className="w-full h-full object-cover blur-lg"
-            src={`/api/file/${thumbnail}`}
+            src={`/api/file/${poster}`}
           />
         </div>
         <div className="relative w-full h-full flex flex-col gap-3 p-3">
           <div className="w-full flex-[6] overflow-hidden">
             <img
               className="mx-auto h-full object-contain rounded-lg"
-              src={`/api/file/${thumbnail}`}
+              src={`/api/file/${poster}`}
             />
           </div>
           <div className="w-full flex-[2] rounded-lg bg-white py-2 px-5 flex flex-col justify-center items-center">

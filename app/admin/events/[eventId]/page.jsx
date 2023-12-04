@@ -23,7 +23,7 @@ import remarkGfm from "remark-gfm";
 const AdminEventsPageForm = ({ params: { eventId } }) => {
   const [form] = useForm();
   const router = useRouter();
-  const [thumbnailData, setThumbnailData] = useState();
+  const [posterData, setPosterData] = useState();
   const [blogMarkdown, setBlogMarkdown] = useState("");
 
   useEffect(() => {
@@ -35,14 +35,14 @@ const AdminEventsPageForm = ({ params: { eventId } }) => {
               startDate,
               endDate,
               registrationEndDate,
-              thumbnail,
+              poster,
               ...eventDetails
             },
           }) => {
             form.setFieldsValue(eventDetails);
 
-            form.setFieldValue("thumbnail", thumbnail);
-            setThumbnailData(`/api/file/${thumbnail}`);
+            form.setFieldValue("poster", poster);
+            setPosterData(`/api/file/${poster}`);
 
             setBlogMarkdown(eventDetails.blog);
 
@@ -64,8 +64,8 @@ const AdminEventsPageForm = ({ params: { eventId } }) => {
     }
   }, [eventId]);
 
-  const handleThumbnailChange = (info) => {
-    getBase64(info.file.originFileObj, (data) => setThumbnailData(data));
+  const handlePosterChange = (info) => {
+    getBase64(info.file.originFileObj, (data) => setPosterData(data));
   };
 
   const handleBlogEdit = ({ target: { value } }) => {
@@ -73,10 +73,10 @@ const AdminEventsPageForm = ({ params: { eventId } }) => {
   };
 
   const handleSubmit = (fields) => {
-    if (fields.thumbnail.file) {
-      fields.thumbnail = fields.thumbnail.file.originFileObj;
+    if (fields.poster.file) {
+      fields.poster = fields.poster.file.originFileObj;
     } else {
-      delete fields.thumbnail;
+      delete fields.poster;
     }
 
     fields.startDate = new Date(fields.eventDuration[0]).toString();
@@ -140,13 +140,13 @@ const AdminEventsPageForm = ({ params: { eventId } }) => {
             </Col>
             <Col span={24} md={{ span: 12 }}>
               <Form.Item
-                label="Event Thumbnail"
-                name="thumbnail"
+                label="Event Poster"
+                name="poster"
                 valuePropName="file"
                 rules={[
                   {
                     required: true,
-                    message: "Please Select Thumbnail",
+                    message: "Please Select Poster",
                   },
                 ]}
               >
@@ -156,15 +156,20 @@ const AdminEventsPageForm = ({ params: { eventId } }) => {
                   customRequest={() => {}}
                   showUploadList={false}
                   multiple={false}
-                  onChange={handleThumbnailChange}
+                  onChange={handlePosterChange}
                 >
-                  {thumbnailData ? (
-                    <div className="w-full h-full relative">
+                  {posterData ? (
+                    <div className="w-full aspect-video relative">
                       <img
-                        src={thumbnailData}
-                        alt="Profile Picture"
-                        className="w-full aspect-[4/3]  object-cover"
+                        className="w-full h-full object-contain"
+                        src={posterData}
                       />
+                      <div className="absolute top-0 w-full h-full -z-[1]">
+                        <img
+                          className="w-full h-full object-cover blur-lg"
+                          src={posterData}
+                        />
+                      </div>
                       <div className="absolute top-0 w-full h-full flex flex-col justify-center items-center opacity-0 text-white bg-black bg-opacity-50 hover:opacity-100">
                         <p className="ant-upload-drag-icon">
                           <PlusOutlined />
@@ -178,8 +183,8 @@ const AdminEventsPageForm = ({ params: { eventId } }) => {
                           size="middle"
                           icon={<DeleteOutlined />}
                           onClick={(e) => {
-                            setThumbnailData();
-                            form.resetFields(["thumbnail"]);
+                            setPosterData();
+                            form.resetFields(["poster"]);
                             e.stopPropagation();
                           }}
                         >
@@ -196,7 +201,7 @@ const AdminEventsPageForm = ({ params: { eventId } }) => {
                         Click or drag file to this area to upload
                       </p>
                       <p className="ant-upload-hint">
-                        Select or Drop an Image for Event Thumbnail
+                        Select or Drop an Image for Event Poster
                       </p>
                     </div>
                   )}

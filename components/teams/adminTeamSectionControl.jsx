@@ -1,12 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Glassmorphism from "../common/glassmorphism";
 import { Button, Col, Input, Row, Space, message as showMessage } from "antd";
-import { CheckOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  CheckOutlined,
+  DeleteOutlined,
+  DownOutlined,
+  UpOutlined,
+} from "@ant-design/icons";
 import TeamService from "@/services/team";
 import { useQuery } from "react-query";
 import AdminTeamSectionPostControl from "./adminTeamSectionPostControl";
+import ButtonGroup from "antd/es/button/button-group";
 
-const AdminTeamSectionControl = ({ teamYear, refresh, _id: sectionId }) => {
+const AdminTeamSectionControl = ({
+  teamYear,
+  refresh,
+  _id: sectionId,
+  isFirst,
+  isLast,
+}) => {
   const teamSectionDetailsQuery = useQuery(
     ["teamSectionDetails", sectionId],
     async () => TeamService.getTeamSectionDetails(teamYear, sectionId),
@@ -31,6 +45,15 @@ const AdminTeamSectionControl = ({ teamYear, refresh, _id: sectionId }) => {
       .catch((message) => showMessage.error(message));
   };
 
+  const moveSection = (direction) => {
+    TeamService.moveTeamSection(teamYear, sectionId, direction)
+      .then((message) => {
+        showMessage.success(message);
+        refresh();
+      })
+      .catch((message) => showMessage.error(message));
+  };
+
   const deleteSection = () => {
     TeamService.deleteTeamSection(teamYear, sectionId)
       .then((message) => {
@@ -42,34 +65,45 @@ const AdminTeamSectionControl = ({ teamYear, refresh, _id: sectionId }) => {
   return (
     <>
       <Glassmorphism className="p-5">
-        <Row justify="space-between">
-          <Col>
-            <Space.Compact>
-              <Input
-                placeholder="Enter Section Title"
-                value={sectionTitle}
-                onChange={({ target: { value } }) => setSectionTitle(value)}
-              />
-              <Button
-                icon={<CheckOutlined />}
-                onClick={updateSectionTitle}
-                type="primary"
-              >
-                Save
-              </Button>
-            </Space.Compact>
-          </Col>
-          <Col>
+        <div className="flex flex-col sm:flex-row gap-3 justify-between items-center">
+          <Space.Compact className="w-full sm:w-fit">
+            <Input
+              placeholder="Enter Section Title"
+              value={sectionTitle}
+              onChange={({ target: { value } }) => setSectionTitle(value)}
+            />
             <Button
-              className="!bg-red-500 hover:!bg-red-400"
+              icon={<CheckOutlined />}
+              onClick={updateSectionTitle}
+              type="primary"
+            >
+              Save
+            </Button>
+          </Space.Compact>
+
+          <div className="w-full sm:w-fit flex gap-3 justify-between items-center">
+            <Button
+            className="flex-1 sm:flex-auto"
+              disabled={isFirst}
+              icon={<UpOutlined />}
+              onClick={() => moveSection("UP")}
+            />
+
+            <Button
+            className="flex-1 sm:flex-auto"
+              disabled={isLast}
+              icon={<DownOutlined />}
+              onClick={() => moveSection("DOWN")}
+            />
+
+            <Button
+              className="flex-1 sm:flex-auto !bg-red-500 hover:!bg-red-400"
               icon={<DeleteOutlined />}
               onClick={deleteSection}
               type="primary"
-            >
-              Delete Section
-            </Button>
-          </Col>
-        </Row>
+            />
+          </div>
+        </div>
       </Glassmorphism>
       <Row gutter={[32, 32]}>
         {[...posts, { isNew: true }].map((post, index) => (

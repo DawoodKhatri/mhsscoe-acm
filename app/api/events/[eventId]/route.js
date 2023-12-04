@@ -3,7 +3,7 @@ import { ROLES } from "@/constants/roles";
 import Event from "@/models/event";
 import User from "@/models/user";
 import checkAuth from "@/utils/checkAuth";
-import { upload } from "@/utils/firebaseStorage";
+import { uploadFile, deleteFile } from "@/utils/cloudinaryStorage";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 
 export const GET = async (req, { params: { eventId } }) => {
@@ -46,7 +46,7 @@ export const PUT = async (req, { params: { eventId } }) => {
     const {
       title,
       description,
-      thumbnail,
+      poster,
       startDate,
       endDate,
       registrationEndDate,
@@ -67,14 +67,15 @@ export const PUT = async (req, { params: { eventId } }) => {
     )
       return errorResponse(400, "Please fill all the fields");
 
-    let thumbnailPath;
-    if (thumbnail) {
-      thumbnailPath = await upload(
-        "Event-Thumbnails",
-        `${eventId}.jpg`,
-        await thumbnail.arrayBuffer(),
-        thumbnail.type
+    let posterPath;
+    if (poster) {
+      posterPath = await uploadFile(
+        Buffer.from(await poster.arrayBuffer()),
+        "Event Posters",
+        `${event._id}-${Date.now()}`
       );
+
+      if (event.poster) await deleteFile(event.poster);
     }
 
     await Event.findByIdAndUpdate(eventId, {
@@ -86,7 +87,7 @@ export const PUT = async (req, { params: { eventId } }) => {
       entryFees,
       membersEntryFees,
       blog,
-      ...(thumbnail ? { thumbnail: thumbnailPath } : {}),
+      ...(poster ? { poster: posterPath } : {}),
     });
 
     return successResponse(200, "Event Updated successfully");
@@ -114,6 +115,7 @@ export const DELETE = async (req, { params: { eventId } }) => {
 
     const event = await Event.findByIdAndDelete(eventId);
     if (!event) return errorResponse(404, "Event not found");
+    await deleteFile(event.poster);
 
     return successResponse(200, "Event Deleted successfully");
   } catch (error) {

@@ -86,17 +86,17 @@ const HeroSection = () => {
                   }}
                   data={[
                     {
-                      cover: "/api/file/Static-Images/hero_section_pic1.jpg",
+                      cover: "/api/file/Static Images/hero_section_pic1",
                     },
 
                     {
-                      cover: "/api/file/Static-Images/hero_section_pic2.jpg",
+                      cover: "/api/file/Static Images/hero_section_pic2",
                     },
                     {
-                      cover: "/api/file/Static-Images/hero_section_pic3.jpg",
+                      cover: "/api/file/Static Images/hero_section_pic3",
                     },
                     {
-                      cover: "/api/file/Static-Images/hero_section_pic4.jpg",
+                      cover: "/api/file/Static Images/hero_section_pic4",
                     },
                   ]}
                   slideWidth={(parentWidth * 3) / 4}

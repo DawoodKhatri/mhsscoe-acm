@@ -32,7 +32,6 @@ const MagazinesPage = () => {
           <ResponsiveContainer
             carouselRef={imgStackRef}
             render={(parentWidth, carouselRef) => {
-              console.log(parentWidth);
               return (
                 <StackedCarousel
                   ref={carouselRef}
@@ -49,7 +48,7 @@ const MagazinesPage = () => {
                       </div>
                     );
                   }}
-                  data={magazines.concat(magazines)}
+                  data={magazines}
                   slideWidth={
                     parentWidth > 480
                       ? parentWidth / (window.innerHeight - 104) > 1

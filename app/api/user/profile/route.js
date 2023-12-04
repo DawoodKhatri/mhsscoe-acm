@@ -1,7 +1,7 @@
 import { connectDB } from "@/config/database";
 import User from "@/models/user";
 import checkAuth from "@/utils/checkAuth";
-import { deleteFile, upload } from "@/utils/firebaseStorage";
+import { deleteFile, uploadFile } from "@/utils/cloudinaryStorage";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 
 export const GET = async (req) => {
@@ -43,11 +43,10 @@ export const PUT = async (req) => {
     if (profilePicture) {
       if (user.profilePicture) await deleteFile(user.profilePicture);
 
-      const profilePicturePath = await upload(
-        "Profile-Pictures",
-        `${user._id}-${Date.now()}.webp`,
-        await profilePicture.arrayBuffer(),
-        profilePicture.type
+      const profilePicturePath = await uploadFile(
+        Buffer.from(await profilePicture.arrayBuffer()),
+        "Profile Pictures",
+        `${user._id}-${Date.now()}`
       );
 
       user.profilePicture = profilePicturePath;

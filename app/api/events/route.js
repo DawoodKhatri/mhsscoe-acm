@@ -3,14 +3,14 @@ import { ROLES } from "@/constants/roles";
 import Event from "@/models/event";
 import User from "@/models/user";
 import checkAuth from "@/utils/checkAuth";
-import { upload, getUrl } from "@/utils/firebaseStorage";
+import { uploadFile } from "@/utils/cloudinaryStorage";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 
 export const GET = async (req) => {
   try {
     await connectDB();
 
-    let events = await Event.find({}).select("title description thumbnail");
+    let events = await Event.find({}).select("title description poster");
 
     return successResponse(200, "All Event", { events });
   } catch (error) {
@@ -36,7 +36,7 @@ export const POST = async (req) => {
     const {
       title,
       description,
-      thumbnail,
+      poster,
       startDate,
       endDate,
       registrationEndDate,
@@ -48,7 +48,7 @@ export const POST = async (req) => {
     if (
       !title ||
       !description ||
-      !thumbnail ||
+      !poster ||
       !startDate ||
       !endDate ||
       !registrationEndDate ||
@@ -69,14 +69,13 @@ export const POST = async (req) => {
       blog,
     });
 
-    const thumbnailPath = await upload(
-      "Event-Thumbnails",
-      `${event._id}.jpg`,
-      await thumbnail.arrayBuffer(),
-      thumbnail.type
+    const posterPath = await uploadFile(
+      Buffer.from(await poster.arrayBuffer()),
+      "Event Posters",
+      `${event._id}-${Date.now()}`
     );
 
-    event.thumbnail = thumbnailPath;
+    event.poster = posterPath;
 
     await event.save();
 
