@@ -43,7 +43,7 @@ export const PUT = async (req, { params: { teamYear, sectionId, postId } }) => {
     if (level < 0 || level > 3)
       return errorResponse(400, "Level must be between 0 and 3");
 
-    if (post.user !== newPostHolderId) {
+    if (post.user.toString() !== newPostHolderId) {
       const currPostHolder = await User.findById(post.user);
       if (!currPostHolder) return errorResponse(404, "User not found");
 
