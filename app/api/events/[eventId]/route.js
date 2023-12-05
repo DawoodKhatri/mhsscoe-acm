@@ -70,9 +70,10 @@ export const PUT = async (req, { params: { eventId } }) => {
     let posterPath;
     if (poster) {
       posterPath = await uploadFile(
-        Buffer.from(await poster.arrayBuffer()),
+        await poster.arrayBuffer(),
         "Event Posters",
-        `${event._id}-${Date.now()}`
+        `${event._id}-${Date.now()}`,
+        poster.type
       );
 
       if (event.poster) await deleteFile(event.poster);

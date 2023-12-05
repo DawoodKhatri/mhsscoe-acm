@@ -43,9 +43,9 @@ export const POST = async (req) => {
           ).toBuffer("image/jpeg");
           const pagePath = await uploadFile(
             pageBuffer,
-            `Magazines/${magazine._id}`
+            `Magazines/${magazine._id}`,
+            "image/jpeg"
           );
-          console.log(`Uploaded Page ${pageIndex + 1}/${document.numPages}`);
           return pagePath;
         })
     );

@@ -60,9 +60,10 @@ export const PUT = async (req, { params: { userId: targetUserId } }) => {
 
     if (profilePicture) {
       const profilePicturePath = await uploadFile(
-        Buffer.from(await profilePicture.arrayBuffer()),
+        await profilePicture.arrayBuffer(),
         "Profile Pictures",
-        `${targetUser._id}-${Date.now()}`
+        `${targetUser._id}-${Date.now()}`,
+        profilePicture.type
       );
 
       if (targetUser.profilePicture)

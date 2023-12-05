@@ -1,24 +1,14 @@
 import cloudinary from "@/config/cloudinary";
 
-export const uploadFile = async (filebuffer, folder, fileName) => {
+export const uploadFile = async (filebuffer, folder, fileName, mimeType) => {
   try {
-    const uploadResult = await new Promise((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream(
-          {
-            folder: `MHSSCOE ACM/${folder}`,
-            ...{ unique_filename: !fileName },
-            ...{ public_id: fileName ?? undefined },
-          },
-          (error, uploadResult) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(uploadResult);
-            }
-          }
-        )
-        .end(filebuffer);
+    const base64Data = Buffer.from(filebuffer).toString("base64");
+    const fileUri = "data:" + mimeType + ";" + "base64" + "," + base64Data;
+
+    const uploadResult = await cloudinary.uploader.upload(fileUri, {
+      folder: `MHSSCOE ACM/${folder}`,
+      ...{ unique_filename: !fileName },
+      ...{ public_id: fileName ?? undefined },
     });
 
     return uploadResult.public_id.replace("MHSSCOE ACM/", "");

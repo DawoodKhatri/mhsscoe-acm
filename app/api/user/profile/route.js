@@ -42,9 +42,10 @@ export const PUT = async (req) => {
 
     if (profilePicture) {
       const profilePicturePath = await uploadFile(
-        Buffer.from(await profilePicture.arrayBuffer()),
+        await profilePicture.arrayBuffer(),
         "Profile Pictures",
-        `${user._id}-${Date.now()}`
+        `${user._id}-${Date.now()}`,
+        profilePicture.type
       );
 
       if (user.profilePicture) await deleteFile(user.profilePicture);

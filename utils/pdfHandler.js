@@ -15,20 +15,11 @@ export const getPdfDocument = async (pdfFile) => {
 };
 
 export const getPdfPage = async (pdfDocument, pageNo = 1) => {
+  const { createCanvas, DOMMatrix } = await import("canvas");
+  global.DOMMatrix = DOMMatrix;
   const page = await pdfDocument.getPage(pageNo);
   const viewport = page.getViewport({ scale: 2 });
-
-  let canvas;
-  if (typeof window === "undefined") {
-    const { createCanvas, DOMMatrix } = await import("canvas");
-    global.DOMMatrix = DOMMatrix;
-    canvas = createCanvas(viewport.width, viewport.height);
-  } else {
-    canvas = document.createElement("canvas");
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-  }
-
+  const canvas = createCanvas(viewport.width, viewport.height);
   const canvasContext = canvas.getContext("2d", {
     alpha: false,
     willReadFrequently: true,

@@ -70,9 +70,10 @@ export const POST = async (req) => {
     });
 
     const posterPath = await uploadFile(
-      Buffer.from(await poster.arrayBuffer()),
+      await poster.arrayBuffer(),
       "Event Posters",
-      `${event._id}-${Date.now()}`
+      `${event._id}-${Date.now()}`,
+      poster.type
     );
 
     event.poster = posterPath;
