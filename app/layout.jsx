@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
           <div className="relative">
             <AppNavbar />
             <div className="m-5 min-h-[calc(100vh-64px-40px)]">{children}</div>
-            {/* <AppFooter /> */}
+            <AppFooter />
           </div>
           <AppLoading />
         </AppProviders>

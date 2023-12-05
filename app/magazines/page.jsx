@@ -1,7 +1,6 @@
 "use client";
 import MagazineCard from "@/components/magazines/magazineCard";
 import MagazineService from "@/services/magazine";
-import AOS from "aos";
 import Link from "next/link";
 import React, { useEffect, useRef } from "react";
 import { useQuery } from "react-query";
@@ -20,9 +19,6 @@ const MagazinesPage = () => {
 
   useEffect(() => {
     setInterval(() => imgStackRef.current?.goNext(), 3000);
-    AOS.init({
-      duration: 2000,
-    }); // Initialize AOS
   }, []);
 
   return (
@@ -54,7 +50,7 @@ const MagazinesPage = () => {
                       ? parentWidth / (window.innerHeight - 104) > 1
                         ? (window.innerHeight - 144) / 1.414
                         : parentWidth - 250
-                      : parentWidth -64
+                      : parentWidth - 64
                   }
                   carouselWidth={parentWidth}
                   maxVisibleSlide={parentWidth > 640 ? 5 : 3}

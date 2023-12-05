@@ -23,16 +23,17 @@ const DashboardLayout = ({ SIDER_ITEMS = [], children }) => {
   };
   return (
     <>
-      <Layout className="!bg-transparent">
+     
+      <Layout className="!bg-transparent !relative">
         <Layout.Sider
-          className="!bg-transparent h-[calc(100vh-86px-40px)] !fixed  mr-0 lg:mr-5"
+          className="!bg-transparent h-[calc(100%-40px)] !absolute mr-0 lg:mr-5"
           width={256}
           collapsedWidth={0}
           collapsed={!lg}
         >
           <Glassmorphism className="h-full">
             <Menu
-              className="w-full !bg-transparent text-center lg:text-start"
+              className="w-full h-full !bg-transparent text-center lg:text-start"
               selectedKeys={getSelectedMenuItemKey()}
             >
               {SIDER_ITEMS.map(({ label, icon, href }, index) => (
@@ -46,7 +47,7 @@ const DashboardLayout = ({ SIDER_ITEMS = [], children }) => {
             </Menu>
           </Glassmorphism>
         </Layout.Sider>
-        <Layout.Content className="lg:ml-[276px] !min-h-[calc(100vh-86px-40px)]">
+        <Layout.Content className="lg:ml-[276px] !min-h-[calc(100vh-64px-40px)]">
           {children}
         </Layout.Content>
       </Layout>

@@ -24,7 +24,7 @@ const RegistrationPage = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-86px-40px)] flex justify-center items-center">
+    <div className="h-[calc(100vh-64px-40px)] flex justify-center items-center">
       <Glassmorphism className="px-8 py-8 lg:w-1/3">
         <Form
           form={form}

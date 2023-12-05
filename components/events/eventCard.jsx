@@ -3,9 +3,6 @@
 import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
 
 const EventCard = ({
   _id,
@@ -16,10 +13,6 @@ const EventCard = ({
   onDelete,
   left = true,
 }) => {
-  useEffect(() => {
-    AOS.init({ duration: 1000 });
-  }, []);
-
   return (
     <div
       className="rounded-lg overflow-hidden shadow-sm hover:scale-[1.01] hover:shadow-lg transition-all duration-300"
