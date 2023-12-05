@@ -41,13 +41,13 @@ export const PUT = async (req) => {
       return errorResponse(400, "Please fill all the fields");
 
     if (profilePicture) {
-      if (user.profilePicture) await deleteFile(user.profilePicture);
-
       const profilePicturePath = await uploadFile(
         Buffer.from(await profilePicture.arrayBuffer()),
         "Profile Pictures",
         `${user._id}-${Date.now()}`
       );
+
+      if (user.profilePicture) await deleteFile(user.profilePicture);
 
       user.profilePicture = profilePicturePath;
     }
@@ -63,6 +63,7 @@ export const PUT = async (req) => {
 
     return successResponse(200, "Profile updated successfully");
   } catch (error) {
+    console.log(error);
     return errorResponse(500, error.message);
   }
 };

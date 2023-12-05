@@ -42,9 +42,14 @@ const HeroSection = () => {
                 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl"
                 data-aos="fade-right"
               >
-                ACM Chapter &apos;23
+                ACM Chapter
                 <br />
-                <span className="text-5xl text-gray-500">M H Saboo Siddik</span>
+                <span className="text-5xl text-gray-500">
+                  M. H. Saboo Siddik <br />
+                  College of Engineering
+                </span>
+                <br />
+                <span className="text-3xl text-gray-500">2023-24</span>
               </h1>
               <p className="mt-6 text-lg leading-8 text-gray-600">
                 Empowering Minds, Igniting Futures and Building Leaders
@@ -78,7 +83,7 @@ const HeroSection = () => {
                   slideComponent={({ data, dataIndex }) => {
                     return (
                       <img
-                        className="my-10 w-full aspect-[4/3] lg:aspect-video object-cover rounded-lg shadow-xl"
+                        className="my-10 w-full aspect-[4/3] object-cover rounded-lg shadow-xl"
                         src={data[dataIndex].cover}
                         data-aos="zoom-in"
                       />
