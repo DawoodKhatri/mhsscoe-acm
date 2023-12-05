@@ -1,6 +1,8 @@
 "use client";
 import MagazineCard from "@/components/magazines/magazineCard";
 import MagazineService from "@/services/magazine";
+import { DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
+import { Button } from "antd";
 import Link from "next/link";
 import React, { useEffect, useRef } from "react";
 import { useQuery } from "react-query";
@@ -22,8 +24,8 @@ const MagazinesPage = () => {
   }, []);
 
   return (
-    <div className="w-full h-[calc(100vh-64px-40px)] flex justify-center items-center gap-10">
-      <div className="w-full relative z-0">
+    <div className="w-full h-[calc(100vh-64px-40px)] relative flex justify-center items-center gap-10">
+      <div className="w-full h-full flex justify-center items-center">
         {magazines.length > 0 && (
           <ResponsiveContainer
             carouselRef={imgStackRef}
@@ -62,6 +64,20 @@ const MagazinesPage = () => {
           />
         )}
       </div>
+      <Button
+        className="!absolute left-5 top-[calc(50%-20px)] z-[3]"
+        onClick={() => imgStackRef.current?.goBack()}
+        icon={<DoubleLeftOutlined />}
+        type="primary"
+        size="large"
+      />
+      <Button
+        className="!absolute right-5 top-[calc(50%-20px)] z-[3]"
+        onClick={() => imgStackRef.current?.goNext()}
+        icon={<DoubleRightOutlined />}
+        type="primary"
+        size="large"
+      />
     </div>
   );
 };

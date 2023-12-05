@@ -9,15 +9,15 @@ import React from "react";
 const AppFooter = () => {
   return (
     <div className="bg-gray-900 text-white py-10">
-      <div className="flex gap-5 justify-center items-center">
-        <div className="w-1/4 p-5">
-          <img className="w-[84px] height-[84px] filter" src={`/logo.png`} />
+      <div className="flex flex-col sm:flex-row gap-5 justify-center items-center text-center sm:text-start">
+        <div className="w-3/4 sm:w-1/4 p-5">
+          <img className="mx-auto sm:mx-0 w-[84px] height-[84px] mb-5" src={`/logo.png`} />
           <p className="text-white">
             It is a team of students who strive to organize and manage various
             technical and extra-curricular events, workshops and competition.
           </p>
         </div>
-        <div className="w-1/4 p-5">
+        <div className="sm:w-1/4 p-5">
           <ul className="text-center [&>li]:my-3">
             <li className="font-bold text-xl !mt-0">Useful Links</li>
             <li>
@@ -34,7 +34,7 @@ const AppFooter = () => {
             </li>
           </ul>
         </div>
-        <div className="w-1/4 p-5">
+        <div className="sm:w-1/4 p-5">
           <p className="font-bold text-xl mb-3">
             M. H. Saboo Siddik College of Engineering
           </p>

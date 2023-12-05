@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "antd";
 import {
+  ArrowLeftOutlined,
   DoubleLeftOutlined,
   DoubleRightOutlined,
   FullscreenExitOutlined,
@@ -10,8 +11,10 @@ import {
 import "../../../styles/magazineViewer.css";
 import ReactFlipBook from "react-pageflip";
 import MagazineService from "@/services/magazine";
+import { useRouter } from "next/navigation";
 
 const MagazineViewPage = ({ params: { magazineId } }) => {
+  const router = useRouter();
   const [magazine, setMagazine] = useState({});
   const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
   const [currPage, setCurrPage] = useState(1);
@@ -137,6 +140,13 @@ const MagazineViewPage = ({ params: { magazineId } }) => {
               />
             </div>
             <div className="bg-white shadow-lg shadow-gray-500 rounded-lg p-3 flex justify-center items-center gap-3">
+              <Button
+                onClick={() => router.back()}
+                icon={<ArrowLeftOutlined />}
+                type="primary"
+              >
+                Back
+              </Button>
               <p>
                 {currPage > 1 && currPage < magazine.pages.length
                   ? `${currPage}-${currPage + 1}`
