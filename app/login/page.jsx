@@ -14,15 +14,9 @@ const LoginPage = () => {
 
   const onFormSubmit = (fields) => {
     const { email, password } = fields;
-    UserService.loginUser(
-      { email, password },
-      (message) => {
-        router.replace("/dashboard");
-      },
-      (message) => {
-        showMessage.error(message);
-      }
-    );
+    UserService.loginUser(email, password)
+      .then((message) => router.replace("/dashboard"))
+      .catch((message) => showMessage.error(message));
   };
 
   return (
@@ -39,7 +33,7 @@ const LoginPage = () => {
           <Form.Item
             name="email"
             label="Email Address:"
-            rules={[{ required: true, message: "Email required" }]}
+            rules={[{ required: true, message: "" }]}
           >
             <Input
               placeholder="Email address (@mhssce.ac.in)"
@@ -47,13 +41,23 @@ const LoginPage = () => {
               size="large"
             />
           </Form.Item>
-          <Form.Item name="password" label="Password:">
+
+          <Form.Item
+            className="!mb-0"
+            name="password"
+            label="Password:"
+            rules={[{ required: true, message: false }]}
+          >
             <Input.Password
               placeholder="Enter Password"
               prefix={<LockOutlined />}
               size="large"
             />
           </Form.Item>
+          <Link className="mb-6 float-right" href="/resetPassword">
+            Forgot Password ?
+          </Link>
+
           <Button type="primary" htmlType="submit" block>
             Login
           </Button>

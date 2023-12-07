@@ -4,7 +4,8 @@ import SearchUser from "@/components/common/searchUser";
 import UserRoleCard from "@/components/users/userRoleCard";
 import { ROLES } from "@/constants/roles";
 import UserService from "@/services/user";
-import { Col, Empty, Row, message as showMessage } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { Button, Col, Empty, Row, message as showMessage } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -30,11 +31,20 @@ const AdminUsersPage = () => {
   return (
     <div className="h-full flex flex-col gap-5">
       <Glassmorphism className="p-5">
-        <SearchUser
-          onUserSearched={({ _id: userId }) =>
-            router.push(`/admin/users/${userId}`)
-          }
-        />
+        <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
+          <div className="w-full sm:w-fit flex-grow">
+            <SearchUser
+              onUserSearched={({ _id: userId }) =>
+                router.push(`/admin/users/${userId}`)
+              }
+            />
+          </div>
+          <div className="w-full sm:w-fit">
+            <Link href="/admin/users/create">
+              <Button icon={<PlusOutlined />} type="primary" size="large" block>Create User</Button>
+            </Link>
+          </div>
+        </div>
       </Glassmorphism>
       {users.length > 0 ? (
         <>

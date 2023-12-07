@@ -4,57 +4,95 @@ import { dispatch } from "@/redux/store";
 import httpRequest from "@/utils/httpRequest";
 
 const UserService = {
-  getVerificationMail: ({ email }, onSuccess, onError) => {
-    httpRequest(`/api/user/auth/verification`, HTTP_METHODS.POST, {
+  getVerificationMail: async (email) => {
+    const res = await httpRequest(
+      `/api/user/auth/registration/verification`,
+      HTTP_METHODS.POST,
+      {
+        email,
+      }
+    );
+    if (res.success) {
+      return res.message;
+    } else {
+      throw res.message;
+    }
+  },
+
+  registerUser: async (password, token) => {
+    const res = await httpRequest(
+      `/api/user/auth/registration`,
+      HTTP_METHODS.POST,
+      {
+        password,
+        token,
+      }
+    );
+
+    if (res.success) {
+      dispatch(login());
+      return res.message;
+    } else {
+      throw res.message;
+    }
+  },
+
+  loginUser: async (email, password) => {
+    const res = await httpRequest(`/api/user/auth/login`, HTTP_METHODS.POST, {
       email,
-    }).then((res) => {
-      if (res.success) {
-        onSuccess(res.message);
-      } else {
-        onError(res.message);
-      }
-    });
-  },
-
-  registerUser: ({ password, token }, onSuccess, onError) => {
-    httpRequest(`/api/user/auth/registration`, HTTP_METHODS.POST, {
       password,
-      token,
-    }).then((res) => {
-      if (res.success) {
-        dispatch(login());
-        onSuccess(res.message);
-      } else {
-        onError(res.message);
-      }
     });
+
+    if (res.success) {
+      dispatch(login());
+      return res.message;
+    } else {
+      throw res.message;
+    }
   },
 
-  loginUser: ({ email, password }, onSuccess, onError) => {
-    httpRequest(`/api/user/auth/login`, HTTP_METHODS.POST, {
-      email,
-      password,
-    }).then((res) => {
-      if (res.success) {
-        dispatch(login());
-        onSuccess(res.message);
-      } else {
-        onError(res.message);
+  getPasswordResetMail: async (email) => {
+    const res = await httpRequest(
+      `/api/user/auth/resetPassword/verification`,
+      HTTP_METHODS.POST,
+      {
+        email,
       }
-    });
+    );
+    if (res.success) {
+      return res.message;
+    } else {
+      throw res.message;
+    }
   },
 
-  getProfileDetails: (onSuccess, onError) => {
-    httpRequest(`/api/user/profile`, HTTP_METHODS.GET).then((res) => {
-      if (res.success) {
-        onSuccess(res.data);
-      } else {
-        onError(res.message);
+  resetPassword: async (password, token) => {
+    const res = await httpRequest(
+      `/api/user/auth/resetPassword`,
+      HTTP_METHODS.POST,
+      {
+        password,
+        token,
       }
-    });
+    );
+
+    if (res.success) {
+      return res.message;
+    } else {
+      throw res.message;
+    }
   },
 
-  updateProfileDetails: (details, onSuccess, onError) => {
+  getProfileDetails: async () => {
+    const res = await httpRequest(`/api/user/profile`, HTTP_METHODS.GET);
+    if (res.success) {
+      return res.data;
+    } else {
+      throw res.message;
+    }
+  },
+
+  updateProfileDetails: async (details) => {
     let form = new FormData();
     Object.keys(details).forEach((key) =>
       form.append(
@@ -63,15 +101,17 @@ const UserService = {
       )
     );
 
-    httpRequest(`/api/user/profile`, HTTP_METHODS.PUT, form, true).then(
-      (res) => {
-        if (res.success) {
-          onSuccess(res.message);
-        } else {
-          onError(res.message);
-        }
-      }
+    const res = await httpRequest(
+      `/api/user/profile`,
+      HTTP_METHODS.PUT,
+      form,
+      true
     );
+    if (res.success) {
+      return res.message;
+    } else {
+      throw res.message;
+    }
   },
 
   searchUsers: async (searchQuery) => {
@@ -107,6 +147,18 @@ const UserService = {
     }
   },
 
+  createUser: async (details) => {
+    let form = new FormData();
+    Object.keys(details).forEach((key) => form.append(key, details[key]));
+
+    const res = await httpRequest(`/api/user`, HTTP_METHODS.POST, form, true);
+    if (res.success) {
+      return res.data;
+    } else {
+      throw res.message;
+    }
+  },
+
   updateUserDetails: async (userId, details) => {
     let form = new FormData();
     Object.keys(details).forEach((key) =>
@@ -129,10 +181,11 @@ const UserService = {
     }
   },
 
-  assignMembership: async (userId) => {
+  updateMembership: async (userId, membershipId) => {
     const res = await httpRequest(
       `/api/user/${userId}/membership`,
-      HTTP_METHODS.PUT
+      HTTP_METHODS.PUT,
+      { membershipId }
     );
     if (res.success) {
       return res.message;

@@ -30,21 +30,23 @@ const AdminEventsPage = () => {
 
   return (
     <div className="mx-3 h-full flex flex-col">
-      <Glassmorphism className="mb-5">
-        <Row className="m-3 gap-5" justify="space-between">
-          <Col flex={1}></Col>
-          <Col>
-            <Input.Search
-              placeholder="Search Events"
-              onChange={({ target: { value: query } }) => setSearchQuery(query)}
-            />
-          </Col>
-          <Col>
+      <Glassmorphism className="mb-5 p-5">
+        <div className="flex flex-col sm:flex-row gap-5 justify-end items-center">
+          <Input.Search
+            className="w-full sm:w-fit"
+            size="large"
+            placeholder="Search Events"
+            onChange={({ target: { value: query } }) => setSearchQuery(query)}
+          />
+
+          <div className="w-full sm:w-fit">
             <Link href="/admin/events/create">
-              <Button icon={<PlusOutlined />}>Create</Button>
+              <Button icon={<PlusOutlined />} size="large" type="primary" block>
+                Create
+              </Button>
             </Link>
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Glassmorphism>
 
       {events.filter(({ title }) =>

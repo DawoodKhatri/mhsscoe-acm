@@ -6,12 +6,12 @@ export const uploadFile = async (filebuffer, folder, fileName, mimeType) => {
     const fileUri = "data:" + mimeType + ";" + "base64" + "," + base64Data;
 
     const uploadResult = await cloudinary.uploader.upload(fileUri, {
-      folder: `MHSSCOE ACM/${folder}`,
+      folder: `MHSSCOE ACM/${process.env.DB_NAME ?? "Production"}/${folder}`,
       ...{ unique_filename: !fileName },
       ...{ public_id: fileName ?? undefined },
     });
 
-    return uploadResult.public_id.replace("MHSSCOE ACM/", "");
+    return uploadResult.public_id.replace(`MHSSCOE ACM/${process.env.DB_NAME ?? "Production"}/`, "");
   } catch (error) {
     throw error;
   }
@@ -19,7 +19,7 @@ export const uploadFile = async (filebuffer, folder, fileName, mimeType) => {
 
 export const deleteFile = async (filePath) => {
   try {
-    await cloudinary.uploader.destroy(`MHSSCOE ACM/${filePath}`);
+    await cloudinary.uploader.destroy(`MHSSCOE ACM/${process.env.DB_NAME ?? "Production"}/${filePath}`);
   } catch (error) {
     throw error;
   }
@@ -27,7 +27,7 @@ export const deleteFile = async (filePath) => {
 
 export const getFileUrl = async (filePath) => {
   try {
-    return cloudinary.url(`MHSSCOE ACM/${filePath}`);
+    return cloudinary.url(`MHSSCOE ACM/${process.env.DB_NAME ?? "Production"}/${filePath}`);
   } catch (error) {
     throw error;
   }

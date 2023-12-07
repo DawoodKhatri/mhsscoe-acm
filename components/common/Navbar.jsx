@@ -53,10 +53,7 @@ const AppNavbar = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const logout = () => {
-    CommonServices.logout(
-      () => {},
-      () => {}
-    );
+    CommonServices.logout();
   };
   return (
     <>

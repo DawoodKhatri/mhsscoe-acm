@@ -15,8 +15,11 @@ const RegistrationFinishPage = ({ params: { token } }) => {
 
   const onFormSubmit = (fields) => {
     const { password } = fields;
-    UserService.registerUser(password, token)
-      .then((message) => router.replace("/dashboard"))
+    UserService.resetPassword(password, token)
+      .then((message) => {
+        showMessage.success(message);
+        router.replace("/login");
+      })
       .catch((message) => showMessage.error(message));
   };
 
@@ -30,7 +33,9 @@ const RegistrationFinishPage = ({ params: { token } }) => {
           requiredMark={false}
           onFinish={onFormSubmit}
         >
-          <h2 className="text-center font-bold text-4xl mb-6">Set Password</h2>
+          <h2 className="text-center font-bold text-4xl mb-6">
+            Set New Password
+          </h2>
           <Form.Item name="password" label="Password:">
             <Input.Password
               placeholder="Enter Password"
@@ -40,10 +45,10 @@ const RegistrationFinishPage = ({ params: { token } }) => {
           </Form.Item>
 
           <Button type="primary" htmlType="submit" block>
-            Complete Registration
+            Save
           </Button>
           <p className="text-center my-3">
-            <Link href="/register">Back to registration</Link>
+            <Link href="/login">Back to Login</Link>
           </p>
         </Form>
       </Glassmorphism>

@@ -14,10 +14,13 @@ export const POST = async (req) => {
 
     await connectDB();
 
-    let user = await User.findOne({ email });
-    if (user) return errorResponse(403, "Already registered");
+    let user = await User.findOne({ email }).select("+password");
 
-    user = await User.create({ email, password });
+    if (user) {
+      if (user.password) return errorResponse(403, "Already registered");
+    } else {
+      user = await User.create({ email, password });
+    }
 
     const response = successResponse(200, "Registration done successfully");
 

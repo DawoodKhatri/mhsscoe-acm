@@ -10,49 +10,43 @@ const { HTTP_METHODS } = require("@/constants/httpMethods");
 const { default: httpRequest } = require("@/utils/httpRequest");
 
 const CommonServices = {
-  checkAuth: (onSuccess, onError) => {
-    httpRequest(`/api/auth`, HTTP_METHODS.GET).then((res) => {
-      if (res.success) {
-        if (res.data.isLoggedIn) {
-          dispatch(login(res.data));
-          CommonServices.getProfileStatus(
-            (message) => {},
-            (message) => {}
-          );
-        } else {
-          dispatch(logout());
-        }
+  checkAuth: async () => {
+    const res = await httpRequest(`/api/auth`, HTTP_METHODS.GET);
+    if (res.success) {
+      if (res.data.isLoggedIn) {
+        dispatch(login(res.data));
+        CommonServices.getProfileStatus();
       } else {
         dispatch(logout());
       }
-    });
+    } else {
+      dispatch(logout());
+    }
   },
 
-  getProfileStatus: (onSuccess, onError) => {
-    httpRequest(`/api/user/profile/status`, HTTP_METHODS.GET).then((res) => {
-      if (res.success) {
-        if (res.data.isProfileIncomplete) {
-          dispatch(profileIncomplete());
-          onSuccess(res.message);
-        } else {
-          dispatch(profileComplete());
-          onSuccess(res.message);
-        }
+  getProfileStatus: async () => {
+    const res = await httpRequest(`/api/user/profile/status`, HTTP_METHODS.GET);
+    if (res.success) {
+      if (res.data.isProfileIncomplete) {
+        dispatch(profileIncomplete());
+        return res.message;
       } else {
-        onError(res.message);
+        dispatch(profileComplete());
+        return res.message;
       }
-    });
+    } else {
+      throw res.message;
+    }
   },
 
-  logout: (onSuccess, onError) => {
-    httpRequest(`/api/auth`, HTTP_METHODS.DELETE).then((res) => {
-      if (res.success) {
-        onSuccess(res.message);
-        dispatch(logout());
-      } else {
-        onError(res.message);
-      }
-    });
+  logout: async () => {
+    const res = await httpRequest(`/api/auth`, HTTP_METHODS.DELETE);
+    if (res.success) {
+      dispatch(logout());
+      return res.message;
+    } else {
+      throw res.message;
+    }
   },
 };
 

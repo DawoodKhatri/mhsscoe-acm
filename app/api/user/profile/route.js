@@ -58,7 +58,7 @@ export const PUT = async (req) => {
     user.branch = branch;
     user.year = year;
 
-    if (user.isMember) user.links = links;
+    if (user.membershipId) user.links = links;
 
     await user.save();
 

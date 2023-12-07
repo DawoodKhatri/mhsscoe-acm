@@ -10,27 +10,18 @@ const UserDashboardProfileUpdate = () => {
   const [profileDetails, setProfileDetails] = useState();
 
   const getProfileDetails = () => {
-    UserService.getProfileDetails(
-      (details) => {
-        setProfileDetails(details);
-      },
-      (message) => {
-        showMessage.error(message);
-      }
-    );
+    UserService.getProfileDetails()
+      .then((details) => setProfileDetails(details))
+      .catch((message) => showMessage.error(message));
   };
 
   const updateProfileDetails = (details) => {
-    UserService.updateProfileDetails(
-      details,
-      (message) => {
+    UserService.updateProfileDetails(details)
+      .then((message) => {
         showMessage.success(message);
         getProfileDetails();
-      },
-      (message) => {
-        showMessage.error(message);
-      }
-    );
+      })
+      .catch((message) => showMessage.error(message));
   };
 
   useEffect(() => {

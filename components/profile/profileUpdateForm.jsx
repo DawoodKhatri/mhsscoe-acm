@@ -70,12 +70,12 @@ const UserProfileUpdateForm = ({ userDetails, updateUserDetails }) => {
               <Form.Item
                 className="!hidden !w-0 !h-0 !mb-0"
                 name="profilePicture"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please Select Profile Picture",
-                  },
-                ]}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Please Select Profile Picture",
+                //   },
+                // ]}
               >
                 <Input className="!hidden !w-0 !h-0" />
               </Form.Item>
@@ -185,7 +185,7 @@ const UserProfileUpdateForm = ({ userDetails, updateUserDetails }) => {
             </Form.Item>
           </Col>
         </Row>
-        {userDetails?.isMember && (
+        {userDetails?.membershipId && (
           <>
             <Form.List name="links">
               {(fields, { add, remove }) => (

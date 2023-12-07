@@ -110,11 +110,7 @@ export const NAV_MOBILE_ITEMS = [
     conditions: {
       requireLoggedIn: true,
     },
-    onClick: () =>
-      CommonServices.logout(
-        () => {},
-        () => {}
-      ),
+    onClick: () => CommonServices.logout(),
   },
   {
     label: "Login",

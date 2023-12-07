@@ -7,13 +7,13 @@ import UserService from "@/services/user";
 import Link from "next/link";
 import { MailOutlined } from "@ant-design/icons";
 
-const RegistrationPage = () => {
+const ResetPasswordPage = () => {
   const [form] = useForm();
 
   const onFormSubmit = (fields) => {
     const { email } = fields;
 
-    UserService.getVerificationMail(email)
+    UserService.getPasswordResetMail(email)
       .then((message) => showMessage.success(message))
       .catch((message) => showMessage.error(message));
   };
@@ -28,10 +28,12 @@ const RegistrationPage = () => {
           requiredMark={false}
           onFinish={onFormSubmit}
         >
-          <h2 className="text-center font-bold text-4xl mb-6">Registration</h2>
+          <h2 className="text-center font-bold text-4xl mb-6">
+            Reset Password
+          </h2>
           <p className="text-center my-5">
-            A verification email will be sent on your email address to complete
-            your registration
+            An email containing the link to reset your password will be sent on
+            following email address
           </p>
           <Form.Item
             name="email"
@@ -57,10 +59,10 @@ const RegistrationPage = () => {
           </Form.Item>
 
           <Button type="primary" htmlType="submit" block>
-            Get Verification Email
+            Reset Password
           </Button>
           <p className="text-center my-3">
-            Already have an account ? <Link href="/login">Login</Link>
+            <Link href="/login">Back to Login</Link>
           </p>
         </Form>
       </Glassmorphism>
@@ -68,4 +70,4 @@ const RegistrationPage = () => {
   );
 };
 
-export default RegistrationPage;
+export default ResetPasswordPage;

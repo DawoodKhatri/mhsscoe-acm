@@ -18,13 +18,16 @@ export const PUT = async (req, { params: { userId: targetUserId } }) => {
     )
       return errorResponse(403, "Unauthorized Access");
 
+    const { membershipId } = await req.json();
+    if (!membershipId) return errorResponse(400, "Membership Id Required");
+
     const targetUser = await User.findById(targetUserId);
     if (!targetUser) return errorResponse(404, "User not found");
 
-    targetUser.isMember = true;
+    targetUser.membershipId = membershipId;
     await targetUser.save();
 
-    return successResponse(200, "Membership Assigned");
+    return successResponse(200, "Membership Updated");
   } catch (error) {
     return errorResponse(500, error.message);
   }
@@ -47,7 +50,7 @@ export const DELETE = async (req, { params: { userId: targetUserId } }) => {
     const targetUser = await User.findById(targetUserId);
     if (!targetUser) return errorResponse(404, "User not found");
 
-    targetUser.isMember = false;
+    targetUser.membershipId = undefined;
     await targetUser.save();
 
     return successResponse(200, "Membership Removed");

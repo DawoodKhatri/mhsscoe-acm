@@ -1,13 +1,29 @@
 import jwt from "jsonwebtoken";
 
 export const generateEmailToken = (email) => {
-  return jwt.sign({ email }, process.env.JWT_SECRET);
+  return jwt.sign({ email, task: "registration" }, process.env.JWT_SECRET);
 };
 
 export const verifyEmailToken = (token) => {
   try {
-    return jwt.verify(token, process.env.JWT_SECRET);
+    const { email, task } = jwt.verify(token, process.env.JWT_SECRET);
+    if (task !== "registration") throw "Invalid Token";
+    return {email};
   } catch (error) {
-    return {email: null};
+    return { email: null };
+  }
+};
+
+export const generatePasswordToken = (email) => {
+  return jwt.sign({ email, task: "resetPassword" }, process.env.JWT_SECRET);
+};
+
+export const verifyPasswordToken = (token) => {
+  try {
+    const { email, task } = jwt.verify(token, process.env.JWT_SECRET);
+    if (task !== "resetPassword") throw "Invalid Token";
+    return {email};
+  } catch (error) {
+    return { email: null };
   }
 };

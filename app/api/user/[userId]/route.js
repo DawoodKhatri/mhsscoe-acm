@@ -77,7 +77,7 @@ export const PUT = async (req, { params: { userId: targetUserId } }) => {
     targetUser.branch = branch;
     targetUser.year = year;
 
-    if (targetUser.isMember) targetUser.links = links;
+    if (targetUser.membershipId) targetUser.links = links;
 
     await targetUser.save();
 

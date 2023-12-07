@@ -17,7 +17,7 @@ const userSchema = new Schema(
     rollno: { type: Number },
     branch: { type: String },
     year: { type: Number },
-    isMember: { type: Boolean, default: false },
+    membershipId: { type: Number },
     links: [{ type: String }],
     teams: [
       {
