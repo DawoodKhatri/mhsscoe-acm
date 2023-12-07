@@ -3,6 +3,7 @@ import { getPdfDocument, getPdfPage } from "@/utils/pdfHandler";
 import Magazine from "@/models/magazine";
 import { connectDB } from "@/config/database";
 import { uploadFile } from "@/utils/cloudinaryStorage";
+import { Blob } from "buffer";
 
 export const GET = async (req) => {
   try {
@@ -34,17 +35,25 @@ export const POST = async (req) => {
 
     const document = await getPdfDocument(await file.arrayBuffer());
 
+    let progress = 0;
+
     const magazinePages = await Promise.all(
       Array(document.numPages)
         .fill(null)
         .map(async (val, pageIndex) => {
           const pageBuffer = (
             await getPdfPage(document, pageIndex + 1)
-          ).toBuffer("image/jpeg");
+          ).toDataURL("image/jpeg");
           const pagePath = await uploadFile(
             pageBuffer,
-            `Magazines/${magazine._id}`,
-            "image/jpeg"
+            `Magazines/${magazine._id}`
+          );
+
+          progress += 1;
+          console.log(
+            `Uploaded ${Number((progress / document.numPages) * 100).toFixed(
+              0
+            )}%`
           );
           return pagePath;
         })
