@@ -3,6 +3,9 @@
 // process.env.LD_LIBRARY_PATH = `${process.env.PWD}/node_modules/canvas/build/Release`;
 
 const nextConfig = {
+  publicRuntimeConfig:{
+    experimental: { serverActions: true },
+  }
   // webpack: (config, { isServer }) => {
   //   // Add native-addon-loader for handling native addons
   //   config.module.rules.push({
