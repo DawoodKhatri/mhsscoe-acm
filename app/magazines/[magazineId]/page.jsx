@@ -60,12 +60,16 @@ const MagazineViewPage = ({ params: { magazineId } }) => {
 
   const nextPage = () => {
     bookRef.current?.pageFlip()?.flipNext();
-    setCurrPage(currPage + (currPage === 1 ? 1 : 2));
+    setCurrPage(
+      currPage + (screenSize.width < 640 ? 1 : currPage === 1 ? 1 : 2)
+    );
   };
 
   const prevPage = () => {
     bookRef.current?.pageFlip()?.flipPrev();
-    setCurrPage(currPage - (currPage - 2 === 0 ? 1 : 2));
+    setCurrPage(
+      currPage - (screenSize.width < 640 ? 1 : currPage - 2 === 0 ? 1 : 2)
+    );
   };
 
   return (
@@ -134,7 +138,13 @@ const MagazineViewPage = ({ params: { magazineId } }) => {
               <Button
                 onClick={nextPage}
                 icon={<DoubleRightOutlined />}
-                disabled={currPage >= magazine.pages.length - 1}
+                disabled={
+                  currPage ===
+                  magazine.pages.length -
+                    (magazine.pages.length % 2 !== 0 || screenSize.width < 640
+                      ? 0
+                      : 1)
+                }
                 type="primary"
                 size="large"
               />
@@ -148,9 +158,11 @@ const MagazineViewPage = ({ params: { magazineId } }) => {
                 Back
               </Button>
               <p>
-                {currPage > 1 && currPage < magazine.pages.length
-                  ? `${currPage}-${currPage + 1}`
-                  : currPage}
+                {screenSize.width < 640 ||
+                currPage === 1 ||
+                currPage === magazine.pages.length
+                  ? currPage
+                  : `${currPage}-${currPage + 1}`}
                 /{magazine.pages.length}
               </p>
               <Button
