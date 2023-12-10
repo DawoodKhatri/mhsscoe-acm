@@ -8,7 +8,6 @@ import {
   FullscreenExitOutlined,
   FullscreenOutlined,
 } from "@ant-design/icons";
-import "../../../styles/magazineViewer.css";
 import ReactFlipBook from "react-pageflip";
 import MagazineService from "@/services/magazine";
 import { useRouter } from "next/navigation";
@@ -75,7 +74,7 @@ const MagazineViewPage = ({ params: { magazineId } }) => {
   return (
     <>
       <div
-        className={`w-full relative${isFullscreen ? " bg-white" : ""}`}
+        className={`w-full relative overflow-hidden${isFullscreen ? " bg-white" : ""}`}
         style={{ height: screenSize.height }}
         ref={bookViewerRef}
       >
