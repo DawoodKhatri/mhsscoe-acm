@@ -98,11 +98,13 @@ const UserDetailsPage = async ({ params: { userEmail } }) => {
 
         <div className="ml-[10%] text-xl font-bold text-gray-600 mt-8 flex-1">
           <span className="inline-block">{data.name}</span>
-          <span className="text-xs text-white bg-red-400 ml-2 px-2 rounded-md py-[1px]">
-            {Object.keys(ROLES)[
-              Object.values(ROLES).findIndex((value) => value === data.role)
-            ].replace("_", " ")}
-          </span>
+          {data.role && (
+            <span className="text-xs text-white bg-red-400 ml-2 px-2 rounded-md py-[1px]">
+              {Object.keys(ROLES)[
+                Object.values(ROLES).findIndex((value) => value === data.role)
+              ].replace("_", " ")}
+            </span>
+          )}
 
           <div className="mt-5 text-lg text-gray-800 font-semibold">
             <span className="block">Teams Joined</span>
