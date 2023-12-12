@@ -1,20 +1,20 @@
-import { TrophyOutlined } from "@ant-design/icons";
+import { TrophyTwoTone } from "@ant-design/icons";
 
 export const POST_LEVELS = [
   {
     value: 0,
-    label: <TrophyOutlined className="!text-yellow-500" />,
+    label: <TrophyTwoTone twoToneColor="gold" />,
   },
   {
     value: 1,
-    label: <TrophyOutlined className="!text-[darkorange]" />,
+    label: <TrophyTwoTone twoToneColor="darkorange" />,
   },
   {
     value: 2,
-    label: <TrophyOutlined className="!text-[firebrick]" />,
+    label: <TrophyTwoTone twoToneColor="firebrick" />,
   },
   {
     value: 3,
-    label: <TrophyOutlined className="!text-[black]" />,
+    label: <TrophyTwoTone twoToneColor="black" />,
   },
 ];

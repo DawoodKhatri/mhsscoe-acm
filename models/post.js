@@ -1,4 +1,5 @@
 import { Schema, model, models } from "mongoose";
+import User from "./user";
 
 const { String, Number, ObjectId } = Schema.Types;
 

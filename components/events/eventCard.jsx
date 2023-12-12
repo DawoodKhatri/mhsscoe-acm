@@ -128,14 +128,14 @@ const EventCard = ({
         <div className="absolute top-0 w-full h-full">
           <img
             className="w-full h-full object-cover blur-lg"
-            src={`/api/file/${poster}`}
+            src={`${process.env.CLIENT_URL ?? ""}/api/file/${poster}`}
           />
         </div>
         <div className="relative w-full h-full flex flex-col gap-3 p-3">
           <div className="w-full flex-[6] overflow-hidden">
             <img
               className="mx-auto h-full object-contain rounded-lg"
-              src={`/api/file/${poster}`}
+              src={`${process.env.CLIENT_URL ?? ""}/api/file/${poster}`}
             />
           </div>
           <div className="w-full flex-[2] rounded-lg bg-white py-2 px-5 flex flex-col justify-center items-center">

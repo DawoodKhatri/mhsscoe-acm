@@ -1,6 +1,5 @@
 import { connectDB } from "@/config/database";
 import { BRANCHES } from "@/constants/branches";
-import { POST_LEVELS } from "@/constants/postLevels";
 import { ROLES } from "@/constants/roles";
 import { YEARS } from "@/constants/years";
 import User from "@/models/user";

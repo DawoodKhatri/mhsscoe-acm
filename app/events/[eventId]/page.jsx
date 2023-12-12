@@ -1,64 +1,30 @@
-"use client";
-import EventService from "@/services/event";
-import { useEffect } from "react";
-import { useQuery } from "react-query";
-import { Col, Grid, Row, message as showMessage } from "antd";
-import { useRouter } from "next/navigation";
 import EventHeader from "@/components/events/eventHeader";
 import EventBlog from "@/components/events/eventsBlog";
 import EventDetails from "@/components/events/eventDetails";
+import { getEventDetails } from "@/actions/events";
+import { redirect } from "next/navigation";
 
-const EventPage = ({ params: { eventId } }) => {
-
-  const router = useRouter();
-  const eventQuery = useQuery(
-    "events",
-    async () => {
-      return EventService.getEventDetails(eventId);
-    },
-    { retry: false }
-  );
-
-  const {
-    isLoading,
-    error: eventQueryError,
-    data: { event = {} } = {},
-  } = eventQuery;
-
-  useEffect(() => {
-    if (eventQueryError) {
-      showMessage.error(eventQueryError);
-      router.replace("/not-found");
-    }
-  }, [eventQueryError]);
-
-  const { md } = Grid.useBreakpoint();
+const EventPage = async ({ params: { eventId } }) => {
+  let event = {};
+  try {
+    event = await getEventDetails(eventId);
+  } catch (error) {
+    redirect("/not-found");
+  }
 
   return (
     <>
-      <Row
-        className="m-5 pb-10 relative"
-        gutter={[20, 20]}
-        justify="space-evenly"
-      >
-        <Col span={24} md={{ span: 16 }} lg={{ span: 12 }}>
+      <div className="flex flex-col md:flex-row flex-wrap p-5 gap-y-10 md:px-10 justify-between">
+        <div className="w-full md:w-[calc(60%-30px)]">
           <EventHeader {...event} />
-          {md && (
-            <div className="mt-5">
-              <EventBlog blog={event?.blog} />
-            </div>
-          )}
-        </Col>
-
-        <Col span={24} md={{ span: 8 }}>
+        </div>
+        <div className="w-full md:w-[calc(40%-30px)]">
           <EventDetails {...event} />
-        </Col>
-        {!md && (
-          <Col span={24}>
-            <EventBlog blog={event?.blog} />
-          </Col>
-        )}
-      </Row>
+        </div>
+        <div className="w-full md:w-[calc(60%-30px)]">
+          <EventBlog blog={event.blog} />
+        </div>
+      </div>
     </>
   );
 };

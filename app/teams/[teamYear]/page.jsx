@@ -1,36 +1,29 @@
-"use client";
-import TeamService from "@/services/team";
-import React, { useEffect, useState } from "react";
-import { Empty, message as showMessage } from "antd";
 import TeamSectionCard from "@/components/teams/teamSectionCard";
-import Glassmorphism from "@/components/common/glassmorphism";
+import { getTeamSections } from "@/actions/teams";
+import { redirect } from "next/navigation";
+import TeamChangeControl from "@/components/teams/teamChangeControl";
 
-const TeamDetailsPage = ({ params: { teamYear } }) => {
-  const [teamSections, setTeamSections] = useState([]);
+const TeamDetailsPage = async ({ params: { teamYear } }) => {
+  let teamSections;
 
-  useEffect(() => {
-    TeamService.getTeamDetails(teamYear)
-      .then(({ team: { sections = [] } = {} }) => setTeamSections(sections))
-      .catch((message) => showMessage.error(message));
-  }, []);
+  try {
+    teamSections = await getTeamSections(teamYear);
+  } catch (error) {
+    redirect("/not-found");
+  }
 
   return (
     <>
-      {teamSections.length > 0 ? (
-        <div className="flex flex-col gap-10 pb-10">
-          {teamSections.map(({ _id }, index) => (
-            <TeamSectionCard
-              key={`teams_page_section_${index}`}
-              teamYear={teamYear}
-              sectionId={_id}
-            />
-          ))}
-        </div>
-      ) : (
-        <Glassmorphism className="h-full p-5 flex justify-center items-center">
-          <Empty description="No Members found" />
-        </Glassmorphism>
-      )}
+      <TeamChangeControl currYear={teamYear} />
+      <div className="flex flex-col gap-10 pb-10">
+        {teamSections.map((sectionId, index) => (
+          <TeamSectionCard
+            key={`teams_page_section_${index}`}
+            teamYear={teamYear}
+            sectionId={sectionId}
+          />
+        ))}
+      </div>
     </>
   );
 };

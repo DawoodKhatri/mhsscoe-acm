@@ -1,43 +1,34 @@
-import TeamService from "@/services/team";
-import React, { useEffect, useState } from "react";
-import { Col, Empty, Row, message as showMessage } from "antd";
-import Glassmorphism from "../common/glassmorphism";
+import Link from "next/link";
 import TeamSectionsPostCard from "./teamSectionsPostCard";
+import { getTeamSectionDetails } from "@/actions/teams";
+import { redirect } from "next/navigation";
 
-const TeamSectionCard = ({ teamYear, sectionId }) => {
-  const [sectionDetails, setSectionDetails] = useState({});
+const TeamSectionCard = async ({ teamYear, sectionId }) => {
+  let sectionDetails;
 
-  useEffect(() => {
-    TeamService.getTeamSectionDetails(teamYear, sectionId)
-      .then(({ section = {} }) => setSectionDetails(section))
-      .catch((message) => showMessage.error(message));
-  }, []);
+  try {
+    sectionDetails = await getTeamSectionDetails(teamYear, sectionId);
+  } catch (error) {
+    redirect("/not-found");
+  }
+
   return (
     <div>
-      <Glassmorphism className="p-5 mb-5">
-        <h3 className="text-center text-4xl font-bold italic">
+      <div className="p-5 mb-5">
+        <h3 className="text-center text-4xl font-bold italic text-gray-800">
           {sectionDetails?.title}
         </h3>
-      </Glassmorphism>
-      {sectionDetails?.posts?.length > 0 ? (
-        <Row gutter={[32, 32]} justify="space-evenly" align="middle">
-          {sectionDetails?.posts?.map((post, index) => (
-            <Col
-              key={`teams_page_section_post_${index}`}
-              span={12}
-              sm={{ span: 8 }}
-              md={{ span: 6 }}
-              lg={{ span: 5 }}
-            >
-              <TeamSectionsPostCard {...post} />
-            </Col>
-          ))}
-        </Row>
-      ) : (
-        <Glassmorphism className="h-full p-10 flex justify-center items-center">
-          <Empty description="No Members found" />
-        </Glassmorphism>
-      )}
+      </div>
+      <div className="grid gap-8 grid-cols-[repeat(auto-fit,_calc(50%-16px))] sm:grid-cols-[repeat(auto-fit,_calc(33%-24px))] md:grid-cols-[repeat(auto-fit,_calc(25%-24px))] lg:grid-cols-[repeat(auto-fit,_20%)] justify-evenly">
+        {sectionDetails?.posts?.map((post, index) => (
+          <Link
+            key={`teams_page_section_post_${index}`}
+            href={`/user/${post.user.email.split("@")[0]}`}
+          >
+            <TeamSectionsPostCard {...post} />
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };

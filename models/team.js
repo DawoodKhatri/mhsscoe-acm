@@ -1,4 +1,5 @@
 import { Schema, model, models } from "mongoose";
+import Post from "./post";
 
 const { String, ObjectId } = Schema.Types;
 
