@@ -34,14 +34,11 @@ const AppFooter = () => {
             M. H. Saboo Siddik College of Engineering
           </p>
           <Link href="https://mhssce.ac.in">https://mhssce.ac.in</Link>
-          <div className="mt-5 flex justify-evenly items-center">
-            <Link href="https://instagram.com">
+          <div className="mt-5 flex gap-5 justify-center sm:justify-start items-center">
+            <Link href="https://www.instagram.com/acm_mhssce">
               <InstagramFilled style={{ fontSize: 24 }} />
             </Link>
-            <Link href="https://instagram.com">
-              <FacebookFilled style={{ fontSize: 24 }} />
-            </Link>
-            <Link href="https://instagram.com">
+            <Link href="https://www.linkedin.com/in/acm-mhsscoe-b6b54824a">
               <LinkedinFilled style={{ fontSize: 24 }} />
             </Link>
           </div>
