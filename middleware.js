@@ -1,33 +1,39 @@
-import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import UserService from "./services/user";
 import { ROLES } from "./constants/roles";
+import jwt from "jsonwebtoken";
 
 export async function middleware(req) {
+  // if (1 == 1) return NextResponse.next();
+
   const token = req.cookies.get("token")?.value;
-  const isLoggedIn = token ? true : false;
+  const { _id: userId } = jwt.decode(token);
+  let isLoggedIn = userId ? true : false;
+
   const { origin, pathname } = req.nextUrl;
-  let userRole;
 
   if (pathname === "/not-found") return NextResponse.next();
 
   if (isLoggedIn) {
-    try {
-      const { _id: userId } = jwt.decode(token);
-      const { user } = await UserService.getUserDetails(userId);
-      userRole = user.role;
-    } catch (error) {
-      return NextResponse.redirect(new URL("/not-found", origin));
+    if (pathname === "/login" || pathname === "/register") {
+      return NextResponse.redirect(new URL("/myaccount", origin));
     }
 
-    if (pathname === "/login" || pathname === "/register") {
-      return NextResponse.redirect(new URL("/dashboard", origin));
-    }
-    if (pathname === "/dashboard") {
-      return NextResponse.redirect(new URL("/dashboard/profile", origin));
+    if (pathname === "/myaccount") {
+      return NextResponse.redirect(
+        new URL("/myaccount/update-profile", origin)
+      );
     }
 
     if (pathname.includes("/admin")) {
+      let userRole;
+      try {
+        const { role } = await UserService.getUserRole(userId);
+        userRole = role;
+      } catch (error) {
+        return NextResponse.redirect(new URL("/not-found", origin));
+      }
+
       switch (pathname) {
         case "/admin": {
           if (
@@ -40,15 +46,12 @@ export async function middleware(req) {
           ) {
             return NextResponse.redirect(new URL("/admin/users", origin));
           }
-
           if ([ROLES.MANAGE_EVENTS].includes(userRole)) {
             return NextResponse.redirect(new URL("/admin/events", origin));
           }
-
           if ([ROLES.MANAGE_TEAMS].includes(userRole)) {
             return NextResponse.redirect(new URL("/admin/teams", origin));
           }
-
           return NextResponse.redirect(new URL("/not-found", origin));
         }
 
@@ -59,7 +62,6 @@ export async function middleware(req) {
             )
           )
             return NextResponse.redirect(new URL("/not-found", origin));
-
           break;
         }
 
@@ -70,7 +72,6 @@ export async function middleware(req) {
             )
           )
             return NextResponse.redirect(new URL("/not-found", origin));
-
           break;
         }
 
@@ -84,7 +85,6 @@ export async function middleware(req) {
             ].includes(userRole)
           )
             return NextResponse.redirect(new URL("/not-found", origin));
-
           break;
         }
 
@@ -93,7 +93,7 @@ export async function middleware(req) {
       }
     }
   } else {
-    if (pathname.includes("/dashboard") || pathname.includes("/admin")) {
+    if (pathname.includes("/myaccount") || pathname.includes("/admin")) {
       return NextResponse.redirect(new URL("/login", origin));
     }
   }

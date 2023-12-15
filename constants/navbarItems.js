@@ -39,9 +39,9 @@ export const NAVBAR_AUTH_LINKS = [
     type: "group",
     children: [
       {
-        key: "/dashboard/profile",
+        key: "/myaccount/update-profile",
         icon: <ProfileOutlined />,
-        label: <Link href="/dashboard/profile">Update Profile</Link>,
+        label: <Link href="/myaccount/update-profile">Update Profile</Link>,
       },
     ],
   },

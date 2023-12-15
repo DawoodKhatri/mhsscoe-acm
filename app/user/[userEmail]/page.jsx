@@ -67,7 +67,7 @@ const UserDetailsPage = async ({ params: { userEmail } }) => {
             </span>
           )}
 
-          <div className="mt-5 text-lg text-gray-800 font-semibold">
+          <div className="mt-5 text-lg text-gray-700 font-semibold">
             <span className="block">Teams Joined</span>
             <div className="flex flex-wrap">
               {user.teams.length === 0 && (
@@ -75,7 +75,6 @@ const UserDetailsPage = async ({ params: { userEmail } }) => {
                   No teams joined
                 </div>
               )}
-              {/* {console.log(user.teams)} */}
 
               {user.teams.map((team, index) => (
                 <div

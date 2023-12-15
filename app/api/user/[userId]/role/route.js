@@ -4,6 +4,19 @@ import { checkAuth } from "@/utils/auth";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 import { ASSIGNABLE_ROLES, ROLES } from "@/constants/roles";
 
+export const GET = async (req, { params: { userId } }) => {
+  try {
+    await connectDB();
+
+    const user = await User.findById(userId);
+    if (!user) return errorResponse(404, "Account not found");
+
+    return successResponse(200, "User Role", { role: user.role });
+  } catch (error) {
+    return errorResponse(500, error.message);
+  }
+};
+
 export const PUT = async (req, { params: { userId: targetUserId } }) => {
   try {
     const userId = await checkAuth(req);

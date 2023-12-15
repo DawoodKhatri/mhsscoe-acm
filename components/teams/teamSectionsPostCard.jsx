@@ -9,7 +9,7 @@ const TeamSectionsPostCard = ({ title, level, user }) => {
         src={`/api/file/${user.profilePicture}`}
       />
       <div className="p-5">
-        <p className="font-semibold text-center text-gray-800">{user.name}</p>
+        <p className="font-semibold text-center text-gray-700">{user.name}</p>
         <div className="flex gap-3 justify-center items-center">
           {/* {POST_LEVELS.find(({ value }) => value === level).label} */}
           <p className="md:text-base italic text-gray-500">{title}</p>

@@ -15,7 +15,7 @@ const TeamSectionCard = async ({ teamYear, sectionId }) => {
   return (
     <div>
       <div className="p-5 mb-5">
-        <h3 className="text-center text-4xl font-bold italic text-gray-800">
+        <h3 className="text-center text-4xl font-bold italic text-gray-700">
           {sectionDetails?.title}
         </h3>
       </div>

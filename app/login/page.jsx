@@ -18,7 +18,7 @@ const LoginPage = () => {
     UserService.login(email, password)
       .then((message) => {
         showMessage.success(message);
-        router.replace("/dashboard");
+        router.replace("/myaccount");
       })
       .catch((message) => showMessage.error(message));
   };

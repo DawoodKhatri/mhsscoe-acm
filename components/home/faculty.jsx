@@ -4,7 +4,7 @@ import React from "react";
 const HomeFacultySection = () => {
   return (
     <div className="w-full p-10">
-      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 pb-10">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-800 pb-10">
         Meet Our Faculty Incharges
       </h1>
       <div className="w-full flex flex-col sm:flex-row flex-wrap gap-10 justify-center items-center">

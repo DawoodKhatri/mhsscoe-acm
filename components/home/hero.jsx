@@ -36,7 +36,7 @@ const HomeHeroSection = () => {
             </div>
             <div className="text-center">
               <h1
-                className="text-5xl sm:text-6xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 "
+                className="text-5xl sm:text-6xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-800 "
                 data-aos="fade-right"
               >
                 ACM Chapter
@@ -61,7 +61,7 @@ const HomeHeroSection = () => {
                   Join Us
                 </Link>
                 <Link
-                  className="text-sm font-semibold leading-6 text-gray-900"
+                  className="text-sm font-semibold leading-6 text-gray-800"
                   href="/teams"
                 >
                   Meet our team <span aria-hidden="true">→</span>

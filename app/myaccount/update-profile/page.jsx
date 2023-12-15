@@ -6,7 +6,7 @@ import Glassmorphism from "@/components/common/glassmorphism";
 import UserService from "@/services/user";
 import UserProfileUpdateForm from "@/components/profile/profileUpdateForm";
 
-const UserDashboardProfileUpdate = () => {
+const MyProfileUpdatePage = () => {
   const [profileDetails, setProfileDetails] = useState();
 
   const getProfileDetails = () => {
@@ -31,7 +31,9 @@ const UserDashboardProfileUpdate = () => {
   return (
     <div className="flex flex-col gap-5 mb-10">
       <Glassmorphism className="p-5">
-        <h2 className="text-3xl font-bold text-center">Profile Details</h2>
+        <h2 className="text-3xl font-bold text-center text-gray-700">
+          Update Profile Details
+        </h2>
       </Glassmorphism>
       <Glassmorphism>
         <UserProfileUpdateForm
@@ -43,4 +45,4 @@ const UserDashboardProfileUpdate = () => {
   );
 };
 
-export default UserDashboardProfileUpdate;
+export default MyProfileUpdatePage;

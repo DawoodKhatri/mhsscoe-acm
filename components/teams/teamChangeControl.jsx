@@ -14,13 +14,13 @@ const TeamChangeControl = ({ currYear }) => {
   }, []);
   return (
     <div className="p-5 flex justify-center sm:justify-end items-center gap-3">
-      <h2 className="text-2xl text-gray-800 font-bold itaic">Our Team</h2>
+      <h2 className="text-2xl text-gray-700 font-bold itaic">Our Team</h2>
       {teams.length > 0 ? (
         <Select
           value={currYear}
           options={teams.map(({ year }) => ({
             label: (
-              <p className="text-xl text-gray-800 font-bold itaic">{year}</p>
+              <p className="text-xl text-gray-700 font-bold itaic">{year}</p>
             ),
             value: year,
           }))}

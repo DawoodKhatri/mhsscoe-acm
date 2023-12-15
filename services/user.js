@@ -166,18 +166,6 @@ const UserService = {
     }
   },
 
-  getUserProfile: async (profileId) => {
-    const res = await httpRequest(
-      `/api/user/profile/${profileId}`,
-      HTTP_METHODS.GET
-    );
-    if (res.success) {
-      return res.data;
-    } else {
-      throw res.message;
-    }
-  },
-
   getUserDetails: async (userId) => {
     const res = await httpRequest(`/api/user/${userId}`, HTTP_METHODS.GET);
     if (res.success) {
@@ -266,6 +254,15 @@ const UserService = {
     );
     if (res.success) {
       return res.message;
+    } else {
+      throw res.message;
+    }
+  },
+
+  getUserRole: async (userId) => {
+    const res = await httpRequest(`/api/user/${userId}/role`, HTTP_METHODS.GET);
+    if (res.success) {
+      return res.data;
     } else {
       throw res.message;
     }
