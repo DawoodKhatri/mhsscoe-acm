@@ -16,7 +16,11 @@ export async function middleware(req) {
   if (pathname === "/not-found") return NextResponse.next();
 
   if (isLoggedIn) {
-    if (pathname === "/login" || pathname === "/register") {
+    if (
+      pathname === "/login" ||
+      pathname.includes("/register") ||
+      pathname.includes("/resetPassword")
+    ) {
       return NextResponse.redirect(new URL("/myaccount", origin));
     }
 
