@@ -1,3 +1,4 @@
+import { NAVBAR_LINKS } from "@/constants/navbarItems";
 import {
   FacebookFilled,
   InstagramFilled,
@@ -9,29 +10,23 @@ import React from "react";
 const AppFooter = () => {
   return (
     <div className="bg-gray-900 text-white py-10">
-      <div className="flex flex-col sm:flex-row gap-5 justify-center items-center text-center sm:text-start">
+      <div className="flex flex-col sm:flex-row gap-5 justify-evenly items-center text-center sm:text-start">
         <div className="w-3/4 sm:w-1/4 p-5">
-          <img className="mx-auto sm:mx-0 w-[84px] height-[84px] mb-5" src={`/logo.png`} />
+          <img
+            className="mx-auto sm:mx-0 w-[84px] height-[84px] mb-5"
+            src={`/logo.png`}
+          />
           <p className="text-white">
             It is a team of students who strive to organize and manage various
             technical and extra-curricular events, workshops and competition.
           </p>
         </div>
-        <div className="sm:w-1/4 p-5">
-          <ul className="text-center [&>li]:my-3">
-            <li className="font-bold text-xl !mt-0">Useful Links</li>
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>
-              <Link href="/events">Events</Link>
-            </li>
-            <li>
-              <Link href="/team">Our Team</Link>
-            </li>
-            <li>
-              <Link href="/magazines">Magazines</Link>
-            </li>
+        <div className="sm:w-1/4 md:w-1/5 lg:w-1/6 p-5">
+          <p className="text-start font-bold text-xl !mt-0">Useful Links</p>
+          <ul className="text-start [&>li]:my-3">
+            {NAVBAR_LINKS.map(({ label }, index) => (
+              <li key={`footer_useful_link_${index}`}>{label}</li>
+            ))}
           </ul>
         </div>
         <div className="sm:w-1/4 p-5">
