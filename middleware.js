@@ -6,9 +6,10 @@ import jwt from "jsonwebtoken";
 export async function middleware(req) {
   // if (1 == 1) return NextResponse.next();
 
+  let isLoggedIn = false;
   const token = req.cookies.get("token")?.value;
-  const { _id: userId } = jwt.decode(token);
-  let isLoggedIn = userId ? true : false;
+  const { _id: userId } = token ? jwt.decode(token) : { _id: null };
+  isLoggedIn = userId ? true : false;
 
   const { origin, pathname } = req.nextUrl;
 
