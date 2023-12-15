@@ -70,7 +70,7 @@ const UserService = {
     });
 
     if (res.success) {
-      dispatch(login());
+      dispatch(loginState(res.data));
       return res.message;
     } else {
       throw res.message;

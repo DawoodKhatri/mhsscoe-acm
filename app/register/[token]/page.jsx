@@ -17,7 +17,7 @@ const RegistrationFinishPage = ({ params: { token } }) => {
     UserService.registerUser(password, token)
       .then((message) => {
         showMessage.success(message);
-        router.replace("/dashboard");
+        router.replace("/myaccount");
       })
       .catch((message) => showMessage.error(message));
   };

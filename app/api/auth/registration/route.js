@@ -24,7 +24,12 @@ export const POST = async (req) => {
       user = await User.create({ email, password });
     }
 
-    const response = successResponse(200, "Registration done successfully");
+    const response = successResponse(200, "Registration done successfully", {
+      profilePicture: user.profilePicture,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    });
 
     const token = user.generateToken();
 

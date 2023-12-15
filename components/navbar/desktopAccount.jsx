@@ -19,31 +19,33 @@ const NavbarDesktopAccount = ({ getFilteredLinksByRole, logoutUser }) => {
         content={
           <div className="w-56">
             {name && email && (
-              <Link
-                href={`/user/${email.split("@")[0]}`}
-                className="text-black hover:text-gray-500"
-              >
-                <div className="px-2 w-full flex gap-2 items-center">
-                  <div className="flex-grow">
-                    <p className="font-semibold text-ellipsis line-clamp-1">
-                      {name}
-                    </p>
-                    <p className="text-ellipsis line-clamp-1 break-all">
-                      {email}
-                    </p>
+              <>
+                <Link
+                  href={`/user/${email.split("@")[0]}`}
+                  className="text-black hover:text-gray-500"
+                >
+                  <div className="px-2 w-full flex gap-2 items-center">
+                    <div className="flex-grow">
+                      <p className="font-semibold text-ellipsis line-clamp-1">
+                        {name}
+                      </p>
+                      <p className="text-ellipsis line-clamp-1 break-all">
+                        {email}
+                      </p>
+                    </div>
+                    <div className="h-10 aspect-square">
+                      <img
+                        className="rounded-full w-full h-full"
+                        src={`/api/file/${
+                          profilePicture ?? "Profile%20Pictures/default"
+                        }`}
+                      />
+                    </div>
                   </div>
-                  <div className="h-10 aspect-square">
-                    <img
-                      className="rounded-full w-full h-full"
-                      src={`/api/file/${
-                        profilePicture ?? "Profile%20Pictures/default"
-                      }`}
-                    />
-                  </div>
-                </div>
-              </Link>
+                </Link>
+                <Divider className="!mb-2" />
+              </>
             )}
-            <Divider className="!mb-2" />
             <Menu
               className="w-56"
               mode="inline"
