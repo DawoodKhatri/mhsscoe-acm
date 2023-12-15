@@ -1,12 +1,56 @@
 import { HTTP_METHODS } from "@/constants/httpMethods";
-import { login } from "@/redux/reducers/authReducer";
+import {
+  loginState,
+  logoutState,
+  profileCompleteState,
+  profileIncompleteState,
+} from "@/redux/reducers/authReducer";
 import { dispatch } from "@/redux/store";
 import httpRequest from "@/utils/httpRequest";
 
 const UserService = {
+  getAuthStatus: async () => {
+    const res = await httpRequest(`/api/auth`, HTTP_METHODS.GET);
+    if (res.success) {
+      if (res.data.isLoggedIn) {
+        dispatch(loginState(res.data));
+        UserService.getProfileStatus();
+      } else {
+        dispatch(logoutState());
+      }
+    } else {
+      dispatch(logoutState());
+    }
+  },
+
+  getProfileStatus: async () => {
+    const res = await httpRequest(`/api/user/profile/status`, HTTP_METHODS.GET);
+    if (res.success) {
+      if (res.data.isProfileIncomplete) {
+        dispatch(profileIncompleteState());
+        return res.message;
+      } else {
+        dispatch(profileCompleteState());
+        return res.message;
+      }
+    } else {
+      throw res.message;
+    }
+  },
+
+  logout: async () => {
+    const res = await httpRequest(`/api/auth`, HTTP_METHODS.DELETE);
+    if (res.success) {
+      dispatch(logoutState());
+      return res.message;
+    } else {
+      throw res.message;
+    }
+  },
+
   getVerificationMail: async (email) => {
     const res = await httpRequest(
-      `/api/user/auth/registration/verification`,
+      `/api/auth/registration/verification`,
       HTTP_METHODS.POST,
       {
         email,
@@ -20,27 +64,9 @@ const UserService = {
   },
 
   registerUser: async (password, token) => {
-    const res = await httpRequest(
-      `/api/user/auth/registration`,
-      HTTP_METHODS.POST,
-      {
-        password,
-        token,
-      }
-    );
-
-    if (res.success) {
-      dispatch(login());
-      return res.message;
-    } else {
-      throw res.message;
-    }
-  },
-
-  loginUser: async (email, password) => {
-    const res = await httpRequest(`/api/user/auth/login`, HTTP_METHODS.POST, {
-      email,
+    const res = await httpRequest(`/api/auth/registration`, HTTP_METHODS.POST, {
       password,
+      token,
     });
 
     if (res.success) {
@@ -51,9 +77,23 @@ const UserService = {
     }
   },
 
+  login: async (email, password) => {
+    const res = await httpRequest(`/api/auth/login`, HTTP_METHODS.POST, {
+      email,
+      password,
+    });
+
+    if (res.success) {
+      dispatch(loginState(res.data));
+      return res.message;
+    } else {
+      throw res.message;
+    }
+  },
+
   getPasswordResetMail: async (email) => {
     const res = await httpRequest(
-      `/api/user/auth/resetPassword/verification`,
+      `/api/auth/resetPassword/verification`,
       HTTP_METHODS.POST,
       {
         email,
@@ -68,7 +108,7 @@ const UserService = {
 
   resetPassword: async (password, token) => {
     const res = await httpRequest(
-      `/api/user/auth/resetPassword`,
+      `/api/auth/resetPassword`,
       HTTP_METHODS.POST,
       {
         password,

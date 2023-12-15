@@ -2,7 +2,7 @@ import { connectDB } from "@/config/database";
 import { HTTP_METHODS } from "@/constants/httpMethods";
 import { ROLES } from "@/constants/roles";
 import User from "@/models/user";
-import checkAuth from "@/utils/checkAuth";
+import { checkAuth } from "@/utils/auth";
 import { uploadFile } from "@/utils/cloudinaryStorage";
 import httpRequest from "@/utils/httpRequest";
 import { errorResponse, successResponse } from "@/utils/sendResponse";

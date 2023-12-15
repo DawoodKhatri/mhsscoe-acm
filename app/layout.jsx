@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import AppProviders from "@/providers/providers";
-import AppNavbar from "@/components/common/Navbar";
+import AppNavbar from "@/components/navbar/navbar";
 import AppFooter from "@/components/common/Footer";
 import AppBackground from "/components/common/appBackground";
 import AppLoading from "@/components/common/loading";

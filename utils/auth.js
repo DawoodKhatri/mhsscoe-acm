@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
 
-export default async (req) => {
+export const checkAuth = async (cookies) => {
   try {
-    const token = req.cookies.get("token")?.value;
+    if (cookies.cookies) cookies = cookies.cookies;
+    const token = cookies.get("token")?.value;
     if (!token) return null;
 
     let { _id } = jwt.verify(token, process.env.JWT_SECRET);

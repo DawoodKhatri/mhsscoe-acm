@@ -18,6 +18,8 @@ export const POST = async (req) => {
 
     if (user) {
       if (user.password) return errorResponse(403, "Already registered");
+      user.password = password;
+      await user.save();
     } else {
       user = await User.create({ email, password });
     }

@@ -1,13 +1,12 @@
 "use client";
-import CommonServices from "@/services/common";
+import UserService from "@/services/user";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 
 const AuthProvider = ({ children }) => {
-  const { isLoggedIn } = useSelector((state) => state.auth);
   useEffect(() => {
-    CommonServices.checkAuth();
-  }, [isLoggedIn]);
+    UserService.getAuthStatus();
+  }, []);
+
   return children;
 };
 

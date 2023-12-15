@@ -3,7 +3,7 @@ import { ROLES } from "@/constants/roles";
 import Post from "@/models/post";
 import Team from "@/models/team";
 import User from "@/models/user";
-import checkAuth from "@/utils/checkAuth";
+import { checkAuth } from "@/utils/auth";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 
 export const GET = async (req, { params: { teamYear } }) => {

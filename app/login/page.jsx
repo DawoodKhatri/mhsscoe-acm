@@ -3,10 +3,10 @@ import Glassmorphism from "@/components/common/glassmorphism";
 import { Button, Form, Input, message as showMessage } from "antd";
 import React from "react";
 import { useForm } from "antd/es/form/Form";
-import UserService from "@/services/user";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import UserService from "@/services/user";
 
 const LoginPage = () => {
   const [form] = useForm();
@@ -14,8 +14,12 @@ const LoginPage = () => {
 
   const onFormSubmit = (fields) => {
     const { email, password } = fields;
-    UserService.loginUser(email, password)
-      .then((message) => router.replace("/dashboard"))
+
+    UserService.login(email, password)
+      .then((message) => {
+        showMessage.success(message);
+        router.replace("/dashboard");
+      })
       .catch((message) => showMessage.error(message));
   };
 

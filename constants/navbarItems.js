@@ -1,132 +1,79 @@
-import CommonServices from "@/services/common";
 import {
-  ArrowRightOutlined,
   BookOutlined,
-  GroupOutlined,
   HomeOutlined,
-  IdcardOutlined,
-  LoginOutlined,
-  LogoutOutlined,
-  PictureOutlined,
+  ProfileOutlined,
   TeamOutlined,
   TrophyOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { ROLES } from "./roles";
+import Link from "next/link";
 
-export const USER_DASHBOARD_MENU_ITEMS = [
+export const NAVBAR_LINKS = [
   {
-    label: "Profile",
-    icon: <UserOutlined />,
-    href: "/dashboard/profile",
-  },
-];
-
-export const ADMIN_DASHBOARD_MENU_ITEMS = [
-  {
-    label: "Events",
-    icon: <TrophyOutlined />,
-    href: "/admin/events",
-    conditions: {
-      requiredRole: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.MANAGE_EVENTS],
-    },
-  },
-  {
-    label: "Teams",
-    icon: <TeamOutlined />,
-    href: "/admin/teams",
-    conditions: {
-      requiredRole: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.MANAGE_TEAMS],
-    },
-  },
-  {
-    label: "Users",
-    icon: <UserOutlined />,
-    href: "/admin/users",
-    conditions: {
-      requiredRole: [
-        ROLES.SUPER_ADMIN,
-        ROLES.ADMIN,
-        ROLES.MANAGE_USERS,
-        ROLES.USER_PROFILE,
-      ],
-    },
-  },
-];
-
-export const NAV_DESKTOP_ITEMS = [
-  {
-    label: "Home",
+    key: "/",
     icon: <HomeOutlined />,
-    href: "/",
+    label: <Link href="/">Home</Link>,
   },
   {
-    label: "Events",
+    key: "/events",
     icon: <TrophyOutlined />,
-    href: "/events",
+    label: <Link href="/events">Events</Link>,
   },
-  // {
-  //   label: "Gallery",
-  //   icon: <PictureOutlined />,
-  //   href: "/gallery",
-  // },
   {
-    label: "Our Team",
+    key: "/teams",
     icon: <TeamOutlined />,
-    href: "/teams",
+    label: <Link href="/teams">Our Team</Link>,
   },
   {
-    label: "Magazines",
+    key: "/magazines",
     icon: <BookOutlined />,
-    href: "/magazines",
-  },
-  {
-    label: "Dashboard",
-    icon: <IdcardOutlined />,
-    href: "/dashboard",
-    conditions: {
-      requireLoggedIn: true,
-    },
-    children: USER_DASHBOARD_MENU_ITEMS,
-  },
-  {
-    label: "Admin Panel",
-    icon: <IdcardOutlined />,
-    href: "/admin",
-    conditions: {
-      requireLoggedIn: true,
-      requiredRole: Object.values(ROLES),
-    },
-    children: ADMIN_DASHBOARD_MENU_ITEMS,
+    label: <Link href="/magazines">Magazines</Link>,
   },
 ];
 
-export const NAV_MOBILE_ITEMS = [
-  ...NAV_DESKTOP_ITEMS,
+export const NAVBAR_AUTH_LINKS = [
   {
-    label: "Logout",
-    icon: <LogoutOutlined />,
-    isButton: true,
-    conditions: {
-      requireLoggedIn: true,
-    },
-    onClick: () => CommonServices.logout(),
+    key: "/myaccount",
+    label: "My Account",
+    type: "group",
+    children: [
+      {
+        key: "/dashboard/profile",
+        icon: <ProfileOutlined />,
+        label: <Link href="/dashboard/profile">Update Profile</Link>,
+      },
+    ],
   },
+
   {
-    label: "Login",
-    icon: <LoginOutlined />,
-    href: "/login",
-    conditions: {
-      requireLoggedOut: true,
-    },
-  },
-  {
-    label: "Register",
-    icon: <ArrowRightOutlined />,
-    href: "/register",
-    isButton: true,
-    conditions: {
-      requireLoggedOut: true,
-    },
+    key: "/admin",
+    label: "Admin",
+    type: "group",
+    children: [
+      {
+        key: "/admin/events",
+        icon: <TrophyOutlined />,
+        label: <Link href="/admin/events">Events</Link>,
+        roles: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.MANAGE_EVENTS],
+      },
+      {
+        key: "/admin/teams",
+        icon: <TeamOutlined />,
+        label: <Link href="/admin/teams">Teams</Link>,
+        roles: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.MANAGE_TEAMS],
+      },
+      {
+        key: "/admin/users",
+        icon: <UserOutlined />,
+        label: <Link href="/admin/users">Users</Link>,
+        roles: [
+          ROLES.SUPER_ADMIN,
+          ROLES.ADMIN,
+          ROLES.MANAGE_USERS,
+          ROLES.USER_PROFILE,
+        ],
+      },
+    ],
   },
 ];

@@ -11,8 +11,8 @@ export const POST = async (req) => {
 
     await connectDB();
 
-    const user = await User.findOne({ email });
-    if (user) return errorResponse(403, "Already registered");
+    const user = await User.findOne({ email }).select("password");
+    if (user?.password) return errorResponse(403, "Already registered");
 
     const { name } = email.split(".")[0];
     const token = generateEmailToken(email);

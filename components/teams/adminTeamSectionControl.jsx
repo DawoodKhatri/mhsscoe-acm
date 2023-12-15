@@ -83,14 +83,14 @@ const AdminTeamSectionControl = ({
 
           <div className="w-full sm:w-fit flex gap-3 justify-between items-center">
             <Button
-            className="flex-1 sm:flex-auto"
+              className="flex-1 sm:flex-auto"
               disabled={isFirst}
               icon={<UpOutlined />}
               onClick={() => moveSection("UP")}
             />
 
             <Button
-            className="flex-1 sm:flex-auto"
+              className="flex-1 sm:flex-auto"
               disabled={isLast}
               icon={<DownOutlined />}
               onClick={() => moveSection("DOWN")}
@@ -111,6 +111,7 @@ const AdminTeamSectionControl = ({
             span={24}
             sm={{ span: 12 }}
             md={{ span: 8 }}
+            lg={{ span: 6 }}
             key={`admin_teams_sections_posts_${index}`}
           >
             <AdminTeamSectionPostControl

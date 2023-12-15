@@ -1,7 +1,7 @@
 "use client";
 import Glassmorphism from "@/components/common/glassmorphism";
 import { Button, Form, Input, message as showMessage } from "antd";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "antd/es/form/Form";
 import UserService from "@/services/user";
 import Link from "next/link";
@@ -11,12 +11,14 @@ import { LockOutlined } from "@ant-design/icons";
 const RegistrationFinishPage = ({ params: { token } }) => {
   const router = useRouter();
   const [form] = useForm();
-  const [details, setDetails] = useState({});
 
   const onFormSubmit = (fields) => {
     const { password } = fields;
     UserService.registerUser(password, token)
-      .then((message) => router.replace("/dashboard"))
+      .then((message) => {
+        showMessage.success(message);
+        router.replace("/dashboard");
+      })
       .catch((message) => showMessage.error(message));
   };
 

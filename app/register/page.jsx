@@ -3,18 +3,23 @@ import Glassmorphism from "@/components/common/glassmorphism";
 import { Button, Form, Input, message as showMessage } from "antd";
 import React from "react";
 import { useForm } from "antd/es/form/Form";
-import UserService from "@/services/user";
 import Link from "next/link";
 import { MailOutlined } from "@ant-design/icons";
+import { useRouter } from "next/navigation";
+import UserService from "@/services/user";
 
 const RegistrationPage = () => {
   const [form] = useForm();
+  const router = useRouter();
 
   const onFormSubmit = (fields) => {
     const { email } = fields;
 
     UserService.getVerificationMail(email)
-      .then((message) => showMessage.success(message))
+      .then((message) => {
+        showMessage.success(message);
+        router.replace("/login");
+      })
       .catch((message) => showMessage.error(message));
   };
 

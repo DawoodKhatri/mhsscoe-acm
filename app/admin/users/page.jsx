@@ -41,7 +41,9 @@ const AdminUsersPage = () => {
           </div>
           <div className="w-full sm:w-fit">
             <Link href="/admin/users/create">
-              <Button icon={<PlusOutlined />} type="primary" size="large" block>Create User</Button>
+              <Button icon={<PlusOutlined />} type="primary" size="large" block>
+                Create User
+              </Button>
             </Link>
           </div>
         </div>

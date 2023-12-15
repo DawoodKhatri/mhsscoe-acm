@@ -1,3 +1,4 @@
+"use server";
 import { connectDB } from "@/config/database";
 import Magazine from "@/models/magazine";
 

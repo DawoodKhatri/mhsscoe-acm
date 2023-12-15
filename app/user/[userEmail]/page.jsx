@@ -1,8 +1,7 @@
-import { connectDB } from "@/config/database";
+import { getUserDetailsByEmail } from "@/actions/user";
 import { BRANCHES } from "@/constants/branches";
 import { ROLES } from "@/constants/roles";
 import { YEARS } from "@/constants/years";
-import User from "@/models/user";
 import {
   GithubFilled,
   LinkOutlined,
@@ -10,98 +9,60 @@ import {
   MailOutlined,
   TwitterCircleFilled,
 } from "@ant-design/icons";
-
-const getData = async (email) => {
-  try {
-    await connectDB();
-
-    let user = await User.findOne({
-      email: email + "@mhssce.ac.in",
-    }).populate("teams.team teams.post");
-
-    if (!user) return errorResponse(404, "Account not found");
-
-    const teams = user.teams.map(({ team, section, post }) => ({
-      year: team.year,
-      section: team.sections.find(
-        ({ _id: sectionId }) => section.toString() === sectionId.toString()
-      ).title,
-      post: post.title,
-      level: post.level,
-    }));
-
-    const userDetails = { ...user._doc, teams };
-
-    return userDetails;
-  } catch (error) {
-    console.log(error);
-  }
-};
+import { redirect } from "next/navigation";
 
 const UserDetailsPage = async ({ params: { userEmail } }) => {
-  const data = await getData(userEmail);
+  let user;
+  try {
+    user = await getUserDetailsByEmail(userEmail + "@mhssce.ac.in");
+  } catch (error) {
+    redirect("/not-found");
+  }
 
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex flex-col sm:flex-row w-full">
         <div className="md:w-fit w-full">
           <img
-            src={`${process.env.CLIENT_URL}/api/file/${data.profilePicture}`}
+            src={`/api/file/${user.profilePicture}`}
             alt="Profile Photo"
             className="rounded-lg h-64 mx-auto md:my-6"
           />
           <ul className="mt-6 flex text-sm text-gray-600 w-fit flex-col gap-2 mx-auto md:m-0">
-            {data.links.map((link, index) => (
+            {user.links.map((link, index) => (
               <li key={index}>
                 <a href={link} target="_blank">
                   {link.includes("github.com") ? (
-                    <>
-                      <GithubFilled className="!text-lg !text-gray-500" />{" "}
-                      <span className="hover:underline">
-                        @{link.split("/").slice(-1)[0]}
-                      </span>
-                    </>
+                    <GithubFilled className="!text-lg !text-gray-500" />
                   ) : link.includes("linkedin.com") ? (
-                    <>
-                      <LinkedinFilled className="!text-lg !text-gray-500" />{" "}
-                      <span className="hover:underline">
-                        @{link.split("/").slice(-1)[0]}
-                      </span>
-                    </>
+                    <LinkedinFilled className="!text-lg !text-gray-500" />
                   ) : link.includes("twitter.com") ? (
-                    <>
-                      <TwitterCircleFilled className="!text-lg !text-gray-500" />{" "}
-                      <span className="hover:underline">
-                        @{link.split("/").slice(-1)[0]}
-                      </span>
-                    </>
+                    <TwitterCircleFilled className="!text-lg !text-gray-500" />
                   ) : (
-                    <>
-                      <LinkOutlined className="!text-lg !text-gray-500" />{" "}
-                      <span className="hover:underline"> {link}</span>
-                    </>
+                    <LinkOutlined className="!text-lg !text-gray-500" />
                   )}
+                  <span className="hover:underline"> {link}</span>
                 </a>
               </li>
             ))}
             <li>
               <a
-                href={`mailto:${data.email}`}
+                href={`mailto:${user.email}`}
                 className="mx-auto w-full md:m-0"
               >
                 <MailOutlined className="!text-lg !text-gray-500" />{" "}
-                <span className="hover:underline">{data.email}</span>
+                <span className="hover:underline">{user.email}</span>
               </a>
             </li>
           </ul>
         </div>
 
         <div className="ml-[10%] text-xl font-bold text-gray-600 mt-8 flex-1">
-          <span className="inline-block">{data.name}</span>
-          {data.role && (
+          <span className="inline-block">{user.name}</span>
+          {user.role && (
             <span className="text-xs text-white bg-red-400 ml-2 px-2 rounded-md py-[1px]">
               {Object.keys(ROLES)[
-                Object.values(ROLES).findIndex((value) => value === data.role)
+                Object.values(ROLES).findIndex((value) => value === user.role)
               ].replace("_", " ")}
             </span>
           )}
@@ -109,14 +70,14 @@ const UserDetailsPage = async ({ params: { userEmail } }) => {
           <div className="mt-5 text-lg text-gray-800 font-semibold">
             <span className="block">Teams Joined</span>
             <div className="flex flex-wrap">
-              {data.teams.length === 0 && (
+              {user.teams.length === 0 && (
                 <div className="text-gray-500 font-normal italic text-md rounded-lg px-2 py-[1px] mr-2 mt-2">
                   No teams joined
                 </div>
               )}
-              {/* {console.log(data.teams)} */}
+              {/* {console.log(user.teams)} */}
 
-              {data.teams.map((team, index) => (
+              {user.teams.map((team, index) => (
                 <div
                   key={index}
                   className="relative bg-blue-400 text-white text-md rounded-lg px-2 py-[1px] mr-2 mt-2"
@@ -130,7 +91,7 @@ const UserDetailsPage = async ({ params: { userEmail } }) => {
             </div>
             {/* 
             <div className="flex flex-wrap">
-              {data.teams.map((team, index) => (
+              {user.teams.map((team, index) => (
                 <div
                   key={index}
                   className="relative bg-blue-400 text-white text-md text-center rounded-lg px-2 py-[1px] mr-2 mt-2"
@@ -152,27 +113,27 @@ const UserDetailsPage = async ({ params: { userEmail } }) => {
             </div> */}
 
             <div>
-              {data.membershipId && (
+              {user.membershipId && (
                 <>
                   <span className="block mt-5">Membership Id</span>
                   <span className="text-sm text-gray-500">
-                    {data.membershipId}
+                    {user.membershipId}
                   </span>
                 </>
               )}
 
               <span className="block mt-5">Branch</span>
               <span className="text-sm text-gray-500">
-                {BRANCHES.find(({ value }) => value === data.branch).label}
+                {BRANCHES.find(({ value }) => value === user.branch).label}
               </span>
 
               <span className="block mt-5">Year</span>
               <span className="text-sm text-gray-500">
-                {YEARS.find(({ value }) => value === data.year).label}
+                {YEARS.find(({ value }) => value === user.year).label}
               </span>
 
               <span className="block mt-5">Roll No</span>
-              <span className="text-sm text-gray-500">{data.rollno}</span>
+              <span className="text-sm text-gray-500">{user.rollno}</span>
             </div>
           </div>
         </div>
@@ -183,7 +144,7 @@ const UserDetailsPage = async ({ params: { userEmail } }) => {
 
 export default UserDetailsPage;
 
-// const data = {
+// const user = {
 //   _id: {
 //     $oid: "654f80527386ceff3ccbc147",
 //   },

@@ -20,7 +20,11 @@ body {
 .ant-menu-submenu,
 .ant-menu-item::after,
 .ant-menu-submenu::after {
-  border-bottom: none !important;
+  border: none !important;
+}
+
+.ant-menu-horizontal > li:hover {
+  @apply !text-primary-light;
 }
 
 .ant-input-affix-wrapper,

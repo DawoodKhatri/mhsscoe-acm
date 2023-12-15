@@ -2,7 +2,7 @@ import { connectDB } from "@/config/database";
 import { ROLES } from "@/constants/roles";
 import Event from "@/models/event";
 import User from "@/models/user";
-import checkAuth from "@/utils/checkAuth";
+import { checkAuth } from "@/utils/auth";
 import { uploadFile, deleteFile } from "@/utils/cloudinaryStorage";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 

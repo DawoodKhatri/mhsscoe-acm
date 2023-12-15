@@ -1,5 +1,5 @@
 import User from "@/models/user";
-import checkAuth from "@/utils/checkAuth";
+import { checkAuth } from "@/utils/auth";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 
 export const GET = async (req) => {
@@ -11,7 +11,10 @@ export const GET = async (req) => {
     if (!user) return errorResponse(404, "Account not found");
 
     return successResponse(200, "Profile Status", {
-      isProfileIncomplete: user.profilePicture && user.rollno && user.branch && user.year ? false : true,
+      isProfileIncomplete:
+        user.profilePicture && user.rollno && user.branch && user.year
+          ? false
+          : true,
     });
   } catch (error) {
     return errorResponse(500, error.message);

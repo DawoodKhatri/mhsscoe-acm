@@ -103,7 +103,7 @@ const AdminEventsPageForm = ({ params: { eventId } }) => {
 
   return (
     <div className="pb-10">
-      <Glassmorphism className="mb-5">
+      <Glassmorphism className="mb-5 max-w-5xl w-full mx-auto">
         <h2 className="text-3xl font-bold text-center my-5">
           {eventId === "create" ? "Create New" : "Update"} Event
         </h2>
@@ -116,7 +116,7 @@ const AdminEventsPageForm = ({ params: { eventId } }) => {
         onFinish={handleSubmit}
         requiredMark={false}
       >
-        <Glassmorphism className="p-5">
+        <Glassmorphism className="p-5 max-w-5xl w-full mx-auto">
           <Row gutter={[32]}>
             <Col span={24} md={{ span: 12 }}>
               <Form.Item
@@ -210,7 +210,7 @@ const AdminEventsPageForm = ({ params: { eventId } }) => {
             </Col>
           </Row>
         </Glassmorphism>
-        <Glassmorphism className="p-5">
+        <Glassmorphism className="p-5 max-w-5xl w-full mx-auto">
           <Form.Item
             label="Event Duration"
             name="eventDuration"
@@ -267,7 +267,7 @@ const AdminEventsPageForm = ({ params: { eventId } }) => {
             </Col>
           </Row>
         </Glassmorphism>
-        <Glassmorphism className="p-5">
+        <Glassmorphism className="p-5 max-w-5xl w-full mx-auto">
           <Row gutter={[32]}>
             <Col span={24} md={{ span: 12 }}>
               <Form.Item
@@ -291,7 +291,7 @@ const AdminEventsPageForm = ({ params: { eventId } }) => {
             </Col>
           </Row>
         </Glassmorphism>
-        <Glassmorphism className="p-5 text-center">
+        <Glassmorphism className="p-5 text-center max-w-5xl w-full mx-auto">
           <Button type="primary" htmlType="submit" className="w-full md:w-56">
             {eventId === "create" ? "Create" : "Update"} Event
           </Button>

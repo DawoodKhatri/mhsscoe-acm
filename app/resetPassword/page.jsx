@@ -6,15 +6,20 @@ import { useForm } from "antd/es/form/Form";
 import UserService from "@/services/user";
 import Link from "next/link";
 import { MailOutlined } from "@ant-design/icons";
+import { useRouter } from "next/navigation";
 
 const ResetPasswordPage = () => {
   const [form] = useForm();
+  const router = useRouter();
 
   const onFormSubmit = (fields) => {
     const { email } = fields;
 
     UserService.getPasswordResetMail(email)
-      .then((message) => showMessage.success(message))
+      .then((message) => {
+        showMessage.success(message);
+        router.replace("/login");
+      })
       .catch((message) => showMessage.error(message));
   };
 

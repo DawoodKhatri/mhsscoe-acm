@@ -1,6 +1,6 @@
 import { connectDB } from "@/config/database";
 import User from "@/models/user";
-import checkAuth from "@/utils/checkAuth";
+import { checkAuth } from "@/utils/auth";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 import { ROLES } from "@/constants/roles";
 

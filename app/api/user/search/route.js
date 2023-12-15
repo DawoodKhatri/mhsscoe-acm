@@ -1,7 +1,7 @@
 import { connectDB } from "@/config/database";
 import { ROLES } from "@/constants/roles";
 import User from "@/models/user";
-import checkAuth from "@/utils/checkAuth";
+import { checkAuth } from "@/utils/auth";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 
 export const GET = async (req) => {
@@ -19,7 +19,7 @@ export const GET = async (req) => {
         ROLES.ADMIN,
         ROLES.MANAGE_TEAMS,
         ROLES.MANAGE_USERS,
-        ROLES.USER_PROFILE
+        ROLES.USER_PROFILE,
       ].includes(user.role)
     )
       return errorResponse(403, "Unauthorized Access");

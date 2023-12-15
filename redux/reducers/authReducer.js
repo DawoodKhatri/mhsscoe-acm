@@ -8,11 +8,15 @@ const authReducer = createSlice({
     login: (state, { payload }) => ({
       ...state,
       isLoggedIn: true,
+      profilePicture: payload?.profilePicture,
+      name: payload?.name,
       email: payload?.email,
       role: payload?.role ?? undefined,
     }),
     logout: () => ({
       isLoggedIn: false,
+      profilePicture: undefined,
+      name: undefined,
       email: undefined,
       role: undefined,
     }),
@@ -27,7 +31,11 @@ const authReducer = createSlice({
   },
 });
 
-export const { login, logout, profileIncomplete, profileComplete } =
-  authReducer.actions;
+export const {
+  login: loginState,
+  logout: logoutState,
+  profileIncomplete: profileIncompleteState,
+  profileComplete: profileCompleteState,
+} = authReducer.actions;
 
 export default authReducer.reducer;

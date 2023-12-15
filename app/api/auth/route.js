@@ -1,5 +1,5 @@
 import User from "@/models/user";
-import checkAuth from "@/utils/checkAuth";
+import { checkAuth } from "@/utils/auth";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
 
 export const GET = async (req) => {
@@ -16,6 +16,8 @@ export const GET = async (req) => {
 
     return successResponse(200, "Auth Check", {
       isLoggedIn: true,
+      profilePicture: user.profilePicture,
+      name: user.name,
       email: user.email,
       role: user.role,
     });

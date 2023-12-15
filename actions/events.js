@@ -1,3 +1,4 @@
+"use server";
 import { connectDB } from "@/config/database";
 import Event from "@/models/event";
 

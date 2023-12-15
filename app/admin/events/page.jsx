@@ -63,6 +63,7 @@ const AdminEventsPage = () => {
                 span={24}
                 sm={{ span: 12 }}
                 md={{ span: 8 }}
+                lg={{ span: 6 }}
               >
                 <EventCard
                   allowEditDelete
