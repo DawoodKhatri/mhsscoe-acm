@@ -79,6 +79,7 @@ const ImageEditor = ({ originalImageUrl, onSaveImage, closeEditor }) => {
         <input
           className="hidden w-0 h-0"
           type="file"
+          accept="image/png, image/jpeg"
           ref={imgPickerRef}
           onChange={change}
         />

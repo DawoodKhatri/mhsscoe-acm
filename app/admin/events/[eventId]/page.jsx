@@ -152,7 +152,7 @@ const AdminEventsPageForm = ({ params: { eventId } }) => {
               >
                 <Upload.Dragger
                   className="!bg-transparent"
-                  accept="image/png, image/jpeg, image/jpg"
+                  accept="image/png, image/jpeg"
                   customRequest={() => {}}
                   showUploadList={false}
                   multiple={false}
