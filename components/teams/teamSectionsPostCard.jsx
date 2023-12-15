@@ -6,7 +6,7 @@ const TeamSectionsPostCard = ({ title, level, user }) => {
     <Glassmorphism className="hover:scale-[1.03] transition-all duration-300">
       <img
         className="aspect-square object-cover"
-        src={`/api/file/${user.profilePicture}`}
+        src={`/api/file/${user.profilePicture ?? "Profile%20Pictures/default"}`}
       />
       <div className="p-5">
         <p className="font-semibold text-center text-gray-700">{user.name}</p>

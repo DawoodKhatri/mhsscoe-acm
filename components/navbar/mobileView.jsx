@@ -57,7 +57,9 @@ const NavbarMobileView = ({
                   <div className="h-10 aspect-square">
                     <img
                       className="rounded-full w-full h-full"
-                      src={`/api/file/${profilePicture}`}
+                      src={`/api/file/${
+                        profilePicture ?? "Profile%20Pictures/default"
+                      }`}
                     />
                   </div>
                 )}

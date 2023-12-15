@@ -56,7 +56,8 @@ const SearchUser = ({ selectedUser, onUserSearched }) => {
           <img
             className="rounded-full w-12 aspect-square object-cover"
             src={`/api/file/${
-              users.find(({ _id }) => _id === optionUserId)?.profilePicture
+              users.find(({ _id }) => _id === optionUserId)?.profilePicture ??
+              "Profile%20Pictures/default"
             }`}
           />
           <p className="flex-grow font-semibold text-sm px-1 overflow-hidden text-ellipsis">

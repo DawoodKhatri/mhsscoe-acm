@@ -20,6 +20,7 @@ const MyProfileUpdatePage = () => {
       .then((message) => {
         showMessage.success(message);
         getProfileDetails();
+        UserService.getAuthStatus();
       })
       .catch((message) => showMessage.error(message));
   };

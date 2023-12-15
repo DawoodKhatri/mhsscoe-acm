@@ -32,14 +32,14 @@ const NavbarDesktopAccount = ({ getFilteredLinksByRole, logoutUser }) => {
                       {email}
                     </p>
                   </div>
-                  {profilePicture && (
-                    <div className="h-10 aspect-square">
-                      <img
-                        className="rounded-full w-full h-full"
-                        src={`/api/file/${profilePicture}`}
-                      />
-                    </div>
-                  )}
+                  <div className="h-10 aspect-square">
+                    <img
+                      className="rounded-full w-full h-full"
+                      src={`/api/file/${
+                        profilePicture ?? "Profile%20Pictures/default"
+                      }`}
+                    />
+                  </div>
                 </div>
               </Link>
             )}
@@ -64,7 +64,7 @@ const NavbarDesktopAccount = ({ getFilteredLinksByRole, logoutUser }) => {
       >
         <img
           className="rounded-full h-10 aspect-square"
-          src={`/api/file/Profile%20Pictures/654f80527386ceff3ccbc147-1702539728523`}
+          src={`/api/file/${profilePicture ?? "Profile%20Pictures/default"}`}
         />
       </Popover>
     </div>

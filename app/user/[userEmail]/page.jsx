@@ -24,7 +24,9 @@ const UserDetailsPage = async ({ params: { userEmail } }) => {
       <div className="flex flex-col sm:flex-row w-full">
         <div className="md:w-fit w-full">
           <img
-            src={`/api/file/${user.profilePicture}`}
+            src={`/api/file/${
+              user.profilePicture ?? "Profile%20Pictures/default"
+            }`}
             alt="Profile Photo"
             className="rounded-lg h-64 mx-auto md:my-6"
           />

@@ -79,7 +79,9 @@ const AdminTeamSectionPostControl = ({
       {postDetails.user ? (
         <img
           className="rounded-full w-3/4 aspect-square object-cover mb-3"
-          src={`/api/file/${postDetails.user?.profilePicture}`}
+          src={`/api/file/${
+            postDetails.user?.profilePicture ?? "Profile%20Pictures/default"
+          }`}
         />
       ) : (
         <div className="rounded-full w-3/4 aspect-square mb-3 bg-gray-400 flex justify-center items-center text-white">

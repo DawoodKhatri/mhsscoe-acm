@@ -57,6 +57,7 @@ const AdminUsersPage = () => {
                 span={12}
                 sm={{ span: 8 }}
                 md={{ span: 6 }}
+                lg={{ span: 4 }}
               >
                 <Link href={`/admin/users/${_id}`}>
                   <UserRoleCard {...user} />

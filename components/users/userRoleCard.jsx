@@ -12,7 +12,7 @@ const UserRoleCard = ({ profilePicture, name, branch, year, role }) => {
         cover={
           <img
             className="aspect-square object-cover"
-            src={`/api/file/${profilePicture}`}
+            src={`/api/file/${profilePicture ?? "Profile%20Pictures/default"}`}
           />
         }
       >
