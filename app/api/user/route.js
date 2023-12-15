@@ -5,7 +5,9 @@ import User from "@/models/user";
 import { checkAuth } from "@/utils/auth";
 import { uploadFile } from "@/utils/cloudinaryStorage";
 import httpRequest from "@/utils/httpRequest";
+import { sendVerificationMail } from "@/utils/mail";
 import { errorResponse, successResponse } from "@/utils/sendResponse";
+import { generateEmailToken } from "@/utils/verification";
 
 export const POST = async (req) => {
   try {
@@ -54,9 +56,17 @@ export const POST = async (req) => {
 
     await targetUser.save();
 
-    return successResponse(200, "User Created successfully", {
-      newUserId: targetUser._id,
-    });
+    const token = generateEmailToken(email);
+    const confirmation_link = `${process.env.CLIENT_URL}/register/${token}`;
+    await sendVerificationMail(name, email, confirmation_link, "registration");
+
+    return successResponse(
+      200,
+      "User Created & Registration Link sent successfully",
+      {
+        newUserId: targetUser._id,
+      }
+    );
   } catch (error) {
     console.log(error);
     return errorResponse();

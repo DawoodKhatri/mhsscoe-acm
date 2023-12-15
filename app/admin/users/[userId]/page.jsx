@@ -52,7 +52,8 @@ const AdminUserDetailsPage = ({ params: { userId } }) => {
 
   const createUser = (details) => {
     UserService.createUser(details)
-      .then(({ newUserId }) => {
+      .then(({ message, data: { newUserId } }) => {
+        showMessage.success(message);
         router.replace(`/admin/users/${newUserId}`);
       })
       .catch((message) => showMessage.error(message));

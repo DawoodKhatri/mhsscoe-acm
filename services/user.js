@@ -181,7 +181,7 @@ const UserService = {
 
     const res = await httpRequest(`/api/user`, HTTP_METHODS.POST, form, true);
     if (res.success) {
-      return res.data;
+      return { message: res.message, data: res.data };
     } else {
       throw res.message;
     }
