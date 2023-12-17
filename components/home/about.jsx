@@ -32,16 +32,16 @@ const HomeAboutSection = () => {
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-primary">
           About ACM
         </h1>
-        <p className="max-w-2xl text-lg leading-8 text-white">
+        <p className="max-w-2xl text-base text-justify sm:text-lg sm:leading-8 text-white">
           MHSSCOE-ACM is a student chapter of ACM(Association for Computing
-          Machinery), the world’s largest educational and scientific computing
-          society. MHSSCOE-ACM was established in 2014 under the guidance of
-          teachers and with dedication of the students of IT department. Since
-          then, this committee aims to strengthen the students collective voice
-          through strong leadership, promotion of the highest standards, and
-          recognition of technical excellence. It is a team of students who
-          strive to organize and manage various technical and extra-curricular
-          events, workshops and competition.
+          Machinery), the world&apos;s largest educational and scientific
+          computing society. MHSSCOE-ACM was established in 2014 under the
+          guidance of teachers and with dedication of the students of IT
+          department. Since then, this committee aims to strengthen the students
+          collective voice through strong leadership, promotion of the highest
+          standards, and recognition of technical excellence. It is a team of
+          students who strive to organize and manage various technical and
+          extra-curricular events, workshops and competition.
         </p>
       </div>
     </div>

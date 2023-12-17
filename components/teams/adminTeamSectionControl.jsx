@@ -76,6 +76,7 @@ const AdminTeamSectionControl = ({
               icon={<CheckOutlined />}
               onClick={updateSectionTitle}
               type="primary"
+              disabled={!sectionTitle || title === sectionTitle}
             >
               Save
             </Button>

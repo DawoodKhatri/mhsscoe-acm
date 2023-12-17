@@ -10,7 +10,12 @@ import {
   Space,
   message as showMessage,
 } from "antd";
-import { CheckOutlined, DeleteOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  DeleteOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { POST_LEVELS } from "@/constants/postLevels";
 import TeamService from "@/services/team";
 import SearchUser from "../common/searchUser";
@@ -38,6 +43,14 @@ const AdminTeamSectionPostControl = ({
       user: user,
     });
   }, [postId]);
+
+  const resetDetails = () => {
+    setPostDetails({
+      title,
+      level,
+      user: user,
+    });
+  };
 
   const assignPost = () => {
     TeamService.assignPost(teamYear, sectionId, {
@@ -112,29 +125,35 @@ const AdminTeamSectionPostControl = ({
           }
         />
       </Space.Compact>
-      <Row className="w-full" justify={isNew ? "center" : "space-between"}>
+      <Row className="w-full" justify="space-between">
         <Col>
           <Button
             type="primary"
             icon={<CheckOutlined />}
             onClick={isNew ? assignPost : updatePostDetails}
+            disabled={
+              (user?._id === postDetails?.user?._id &&
+                level === postDetails.level &&
+                title === postDetails.title) ||
+              !postDetails?.user ||
+              !postDetails.level < 0 ||
+              !postDetails.title
+            }
           >
             Save
           </Button>
         </Col>
 
-        {!isNew && (
-          <Col>
-            <Button
-              className="!bg-red-500 hover:!bg-red-400"
-              type="primary"
-              icon={<DeleteOutlined />}
-              onClick={removePost}
-            >
-              Delete
-            </Button>
-          </Col>
-        )}
+        <Col>
+          <Button
+            className="!bg-red-500 hover:!bg-red-400"
+            type="primary"
+            icon={!isNew ? <DeleteOutlined /> : <CloseOutlined />}
+            onClick={!isNew ? removePost : resetDetails}
+          >
+            {!isNew ? "Delete" : "Clear"}
+          </Button>
+        </Col>
       </Row>
     </Glassmorphism>
   );
