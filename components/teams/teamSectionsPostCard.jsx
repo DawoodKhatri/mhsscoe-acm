@@ -5,24 +5,30 @@ import { POST_LEVELS } from "@/constants/postLevels";
 
 const TeamSectionsPostCard = ({ title, level, user }) => {
   return (
-    <Glassmorphism className="aspect-[6/8] hover:!scale-105 [&>img]:hover:h-[65%] [&>div]:hover:h-[35%] [&>div>p]:hover:text-lg transition-all duration-300">
-      <img
-        className="w-full h-[75%] object-cover rounded-lg transition-all duration-300"
-        src={`/api/file/${user.profilePicture ?? "Profile%20Pictures/default"}`}
-      />
-      <div className="h-[25%] w-full p-5 flex flex-col justify-center items-center transition-all duration-300">
-        <p
-          className="font-semibold text-center text-gray-700  text-ellipsis line-clamp-1 break-all transition-all duration-300"
-          title={user.name}
-        >
-          {user.name}
-        </p>
-        <div className="flex gap-3 justify-center items-center">
-          {POST_LEVELS.find(({ value }) => value === level).label}
-          <p className="md:text-base italic text-gray-500">{title}</p>
+    <>
+      <Glassmorphism className="flex flex-col aspect-[2/3] lg:aspect-[3/4] [&>div:first-child]:hover:flex-[4] hover:!scale-105 transition-all duration-300">
+        <div className="w-full flex-[5] overflow-hidden transition-all duration-300">
+          <img
+            className="w-full h-full object-cover rounded-lg"
+            src={`/api/file/${
+              user.profilePicture ?? "Profile%20Pictures/default"
+            }`}
+          />
         </div>
-      </div>
-    </Glassmorphism>
+        <div className="flex-[2] sm:flex-[1] p-3 flex flex-col justify-center items-center transition-all duration-300">
+          <p
+            className="font-semibold text-center text-gray-700 text-sm sm:text-base md:text-lg text-ellipsis line-clamp-1 break-all"
+            title={user.name}
+          >
+            {user.name}
+          </p>
+          <div className="flex gap-3 justify-center items-center">
+            {POST_LEVELS.find(({ value }) => value === level).label}
+            <p className="italic text-gray-500 text-sm sm:text-base">{title}</p>
+          </div>
+        </div>
+      </Glassmorphism>
+    </>
   );
 };
 
