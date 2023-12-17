@@ -46,7 +46,7 @@ const AdminTeamsPage = () => {
   };
 
   return (
-    <div className="mx-3 h-full flex flex-col">
+    <div className="mx-3 min-h-[calc(100vh-64px-40px)] flex flex-col">
       <AdminTeamControl
         allTeamsQuery={allTeamsQuery}
         currTeamYear={currTeamYear}
@@ -78,7 +78,7 @@ const AdminTeamsPage = () => {
               </Glassmorphism>
             </div>
           ) : (
-            <Glassmorphism className="flex-grow flex justify-center items-center">
+            <Glassmorphism className="h-full flex-grow flex justify-center items-center">
               <Empty description="No Sections Created Yet">
                 <Button type="primary" size="large" onClick={createNewSection}>
                   Create Section

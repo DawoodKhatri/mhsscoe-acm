@@ -29,7 +29,7 @@ const AdminEventsPage = () => {
   };
 
   return (
-    <div className="mx-3 h-full flex flex-col">
+    <div className="mx-3 min-h-[calc(100vh-64px-40px)] flex flex-col">
       <Glassmorphism className="mb-5 p-5">
         <div className="flex flex-col sm:flex-row gap-5 justify-end items-center">
           <Input.Search

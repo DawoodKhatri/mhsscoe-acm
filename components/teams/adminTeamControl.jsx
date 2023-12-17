@@ -50,7 +50,10 @@ const AdminTeamControl = ({ allTeamsQuery, currTeamYear, setCurrTeamYear }) => {
       {teams.length > 0 ? (
         <Glassmorphism className="mb-5">
           <div className="m-5 flex flex-col sm:flex-row gap-5 justify-between items-center">
-            <div className="w-full sm:w-64 flex gap-3 items-center" align="middle">
+            <div
+              className="w-full sm:w-64 flex gap-3 items-center"
+              align="middle"
+            >
               <span className="text-base">Select Team:</span>
               <Space.Compact className="flex-grow flex">
                 <Select
@@ -100,7 +103,7 @@ const AdminTeamControl = ({ allTeamsQuery, currTeamYear, setCurrTeamYear }) => {
           </div>
         </Glassmorphism>
       ) : (
-        <Glassmorphism className="h-[calc(100%+40px)] flex justify-center items-center">
+        <Glassmorphism className="flex-grow flex justify-center items-center">
           <Empty description="No Teams Created Yet">
             <Space.Compact className="mt-5">
               <DatePicker
