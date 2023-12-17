@@ -1,5 +1,7 @@
 import { getAllTeams } from "@/actions/teams";
-import { redirect, RedirectType } from "next/navigation";
+import { redirect } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 const TeamsPage = async () => {
   let teams;

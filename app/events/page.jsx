@@ -3,6 +3,8 @@ import EventCard from "@/components/events/eventCard";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 const EventsPage = async () => {
   let events = [];
   try {
