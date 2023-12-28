@@ -1,11 +1,12 @@
 "use client";
-// import { checkAuth } from "@/actions/user";
+import UserService from "@/services/user";
 import { useEffect } from "react";
 
 const AuthProvider = ({ children }) => {
   useEffect(() => {
-    // checkAuth();
+    UserService.getAuthStatus();
   }, []);
+
   return children;
 };
 

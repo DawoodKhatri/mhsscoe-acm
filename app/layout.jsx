@@ -1,8 +1,9 @@
 import "@/styles/globals.css";
 import AppProviders from "@/providers/providers";
-import AppNavbar from "@/components/common/Navbar";
+import AppNavbar from "@/components/navbar/navbar";
 import AppFooter from "@/components/common/Footer";
-import BackgroundAnimation from "@/components/common/animation";
+import AppBackground from "/components/common/appBackground";
+import AppLoading from "@/components/common/loading";
 
 export const metadata = {
   title: "MHSSCOE ACM CHAPTER",
@@ -15,12 +16,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <AppProviders>
-          <BackgroundAnimation />
+          <AppBackground />
           <div className="relative">
             <AppNavbar />
-            <div className="m-5">{children}</div>
-            {/* <AppFooter /> */}
+            <div className="m-5 min-h-[calc(100vh-64px-40px)]">{children}</div>
+            <AppFooter />
           </div>
+          <AppLoading />
         </AppProviders>
       </body>
     </html>

@@ -1,46 +1,34 @@
-import Glassmorphism from "@/components/common/glassmorphism";
+import { getAllEvents } from "@/actions/events";
 import EventCard from "@/components/events/eventCard";
-import { Col, Row } from "antd";
-// import { EVENTS } from "@/constants/data";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-// mdx imports here :)
-import { allEvents } from ".contentlayer/generated";
+export const dynamic = "force-dynamic";
 
-const EventsPage = () => {
-  // Sorting posts by date 😊
-  const events = allEvents.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+const EventsPage = async () => {
+  let events = [];
+  try {
+    events = await getAllEvents();
+  } catch (error) {
+    redirect("/not-found");
+  }
 
   return (
     <>
-      <Glassmorphism className="relative">
-        <img
-          className="w-full h-44 md:h-96 object-cover align-middle opacity-50"
-          src="/images/EventsBanner.jpg"
-        />
-        <div className="absolute bg-primary top-0 h-full w-full bg-opacity-40 flex justify-center items-center">
-          <h2 className="text-6xl md:text-7xl font-bold italic text-left text-white">
-            Our Events
-          </h2>
+      <div className="text-gray-700 py-10 text-center">
+        <h2 className="text-7xl font-bold">Our Events</h2>
+      </div>
+      <div className="m-5 pb-10">
+        <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+          {events.map((eventDetails, index) => (
+            <div key={`admin_events_page_event_item_${index}`}>
+              <Link href={`/events/${eventDetails._id}`}>
+                <EventCard {...eventDetails} left={index % 2 == 0} />
+              </Link>
+            </div>
+          ))}
         </div>
-      </Glassmorphism>
-
-      <Row className="max-w-screen-xl mx-auto my-6">
-        {events.map((event, index) => (
-          <Col
-            key={`events_page_event_${index}`}
-            span={24}
-            sm={{ span: 12 }}
-            md={{ span: 8 }}
-          >
-            <Link href={`/events/${event.title}`}>
-              <EventCard {...event} />
-            </Link>
-          </Col>
-        ))}
-      </Row>
+      </div>
     </>
   );
 };

@@ -1,7 +1,16 @@
 "use client";
 import { ConfigProvider } from "antd";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 
 const ThemeProvider = ({ children }) => {
+  useEffect(() => {
+    AOS.init({
+      duration: 2000,
+    }); // Initialize AOS
+  }, []);
+
   return (
     <ConfigProvider
       theme={{

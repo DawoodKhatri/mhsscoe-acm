@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("./animations.css");
 
 html,
 body {
@@ -8,4 +9,59 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
+}
+
+.ant-menu-item::before .ant-menu-item::after {
+  content: none;
+  display: none;
+}
+
+.ant-menu,
+.ant-menu-submenu,
+.ant-menu-item::after,
+.ant-menu-submenu::after {
+  border: none !important;
+}
+
+.ant-menu-horizontal > li:hover {
+  @apply !text-primary-light;
+}
+
+.ant-input-affix-wrapper,
+.ant-select-selector,
+.ant-picker,
+input,
+input *,
+textarea,
+textarea * {
+  background-color: transparent !important;
+}
+
+.ant-form-item-label > label {
+  height: auto !important;
+}
+
+.ant-form-item-label {
+  text-align: start !important;
+}
+
+.ant-upload {
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 !important;
+  border-style: solid !important;
+  overflow: hidden !important;
+  background-color: transparent !important;
+}
+
+@media only screen and (max-width: 640px) {
+  .ant-picker-datetime-panel {
+    flex-direction: column;
+  }
+
+  .ant-picker-time-panel-cell-inner {
+    width: 88px !important;
+    text-align: center;
+    padding: 0 14px !important;
+  }
 }
