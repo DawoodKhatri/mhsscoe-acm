@@ -6,9 +6,8 @@ export const GET = async (req, { params: { path } }) => {
   try {
     const filePath = path.join("/");
     const fileUrl = await getFileUrl(filePath);
-    return NextResponse.redirect(fileUrl)
+    return NextResponse.redirect(fileUrl);
   } catch (error) {
-    console.log(error);
     return errorResponse(404, "File not found");
   }
 };

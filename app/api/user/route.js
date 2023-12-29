@@ -68,7 +68,6 @@ export const POST = async (req) => {
       }
     );
   } catch (error) {
-    console.log(error);
     return errorResponse();
   }
 };

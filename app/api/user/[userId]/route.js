@@ -83,7 +83,6 @@ export const PUT = async (req, { params: { userId: targetUserId } }) => {
 
     return successResponse(200, "Profile updated successfully");
   } catch (error) {
-    console.log(error);
     return errorResponse(500, error.message);
   }
 };
