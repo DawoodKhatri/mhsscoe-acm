@@ -11,10 +11,11 @@ import {
 } from "@ant-design/icons";
 import { redirect } from "next/navigation";
 
-const UserDetailsPage = async ({ params: { userEmail } }) => {
+const UserDetailsPage = async ({ searchParams: { email: userEmail } }) => {
   let user;
   try {
-    user = await getUserDetailsByEmail(userEmail + "@mhssce.ac.in");
+    if (!userEmail) throw "Email Required";
+    user = await getUserDetailsByEmail(userEmail);
   } catch (error) {
     redirect("/not-found");
   }

@@ -21,7 +21,7 @@ const NavbarDesktopAccount = ({ getFilteredLinksByRole, logoutUser }) => {
             {name && email && (
               <>
                 <Link
-                  href={`/user/${email.split("@")[0]}`}
+                  href={`/user?email=${email}`}
                   className="text-black hover:text-gray-500"
                 >
                   <div className="px-2 w-full flex gap-2 items-center">

@@ -26,7 +26,7 @@ const TeamSectionCard = async ({ teamYear, sectionId }) => {
         {sectionDetails?.posts?.map((post, index) => (
           <Link
             key={`teams_page_section_post_${index}`}
-            href={`/user/${post.user.email.split("@")[0]}`}
+            href={`/user?email=${post.user.email}`}
           >
             <TeamSectionsPostCard {...post} />
           </Link>
